@@ -2,22 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum IngredientType
-{
-    Lavender,
-    Honeycomb,
-    BellFlower,
-    Toadstool,
-    MossyGem,
-    Glowstone,
-    FlowerOfDeath,
-    Ectoplasm,
-    AgedBlood,
-    WaterLily,
-    ReptileScale,
-    LivingClay,
-    Ingredient_Max
-}
+
 
 public class OverworldIngredient : Interactable
 {
