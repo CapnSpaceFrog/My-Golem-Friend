@@ -12,9 +12,10 @@ public class Player : MonoBehaviour
 
     public static Transform Hand;
 
-    public static Inventory<Ingredients> PlayerInventory;
+    public static Inventory PlayerInventory;
 
-    public int InventorySize;
+    //12 in this case represents the number of ingredients we have in our game
+    private int InventorySize = 12;
 
     public void Awake()
     {
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
 
         Hand = CharacterBody.Find("Hand").transform;
 
-        PlayerInventory = new Inventory<Ingredients>(InventorySize);
+        PlayerInventory = new Inventory(InventorySize);
     }
 
     public void Update()

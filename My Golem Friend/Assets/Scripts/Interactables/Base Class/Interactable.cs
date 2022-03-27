@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum InteractableType
 {
-    Ingredient,
+    OverworldIngredient,
     Holdable
 }
 

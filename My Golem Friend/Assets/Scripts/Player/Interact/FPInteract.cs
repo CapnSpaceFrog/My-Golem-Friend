@@ -57,9 +57,6 @@ public class FPInteract : MonoBehaviour
     {
         if (HeldObject != null && CheckInputTimer())
         {
-            //Are we looking at an object's place space?
-
-            //Aren't looking at an object's place space, so drop it
             HeldObject.Drop();
         }
     }
@@ -84,21 +81,42 @@ public class FPInteract : MonoBehaviour
         }
     }
 
-    //Invokes the proper event according to the objects type.
-    //Event is received by a particular handler to handle the object's behavior accordingly
+    //Checks what type of object the player touched and passes execution to the correct function
     private void InvokeHandler(Interactable hitObj)
     {
         switch (hitObj.InterObjType)
         {
+            case InteractableType.OverworldIngredient:
+                OverworldIngredient ing = hitObj.gameObject.GetComponent<OverworldIngredient>();
+
+                Debug.Log("Overworld Ingredient Tocuhed: " + ing.IngType);
+                OnIngredientInteract(ing);
+                break;
+
             case InteractableType.Holdable:
                 Holdable heldObj = hitObj.gameObject.GetComponent<Holdable>();
 
+                Debug.Log("Holdable Object Tocuhed: " + heldObj);
                 OnHoldableInteract(heldObj);
+                //This will handle the golem part thats made
                 break;
 
             default:
                 print("ERROR: Didn't get an object type in the switch statement in FPInteract.");
                 break;
+        }
+    }
+
+    private void OnIngredientInteract(OverworldIngredient ing)
+    {
+        if (ing.Harvested)
+        {
+            //Display something that this ingredient has already been harvested, or disable the object
+            print(ing.IngType + " has already been harvested");
+        }
+        else
+        {
+            ing.Harvest();
         }
     }
 
@@ -111,9 +129,9 @@ public class FPInteract : MonoBehaviour
         }
         else
         {
-            
+            obj.PickedUp();
 
-            
+
         }
     }
 
