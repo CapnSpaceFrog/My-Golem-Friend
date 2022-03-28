@@ -1573,6 +1573,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6c16949a46172f846945b6aef84012be, type: 3}
   - {fileID: 21300000, guid: ddc7d03bbea9ad5478a80337bc026b0c, type: 3}
   - {fileID: 21300000, guid: e4c3ebcbed06e08478476dc86e773853, type: 3}
+  Rows: 3
+  Colums: 5
+  InvSpriteSize: {x: 160, y: 160}
+  xPadding: 32
+  yPadding: 32
 --- !u!4 &1338395907
 Transform:
   m_ObjectHideFlags: 0

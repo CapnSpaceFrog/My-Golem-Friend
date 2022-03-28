@@ -40,6 +40,13 @@ public class UIHandler : MonoBehaviour
 
     public Sprite[] InvImgSprites;
 
+    [Header("Inv Display Variables")]
+    public int Rows;
+    public int Colums;
+    public Vector2 InvSpriteSize;
+    public int xPadding;
+    public int yPadding;
+
     private void Awake()
     {
         Instance = this;
@@ -59,6 +66,17 @@ public class UIHandler : MonoBehaviour
         int xPositionOffset = 0;
         int yPositionOffset = 0;
 
+        int xSpritePadding = (int)InvSpriteSize.x + xPadding;
+        int ySpritePadding = (int)InvSpriteSize.y + yPadding;
+
+        //Display is 0 cenetered, so we divide by 2
+        int xStartingPos = ((Colums * xSpritePadding) - xSpritePadding) / -2;
+
+        int yStartingPos = ((Rows * ySpritePadding) - ySpritePadding) / -2;
+
+        int xLimit = Colums * xSpritePadding;
+        int yLimit = Rows * ySpritePadding;
+
         for (int i = 0; i < InvUISlots.Length; i++)
         {
             InvUISlots[i].Object = new GameObject($"Inv Slot #{i}");
@@ -71,16 +89,16 @@ public class UIHandler : MonoBehaviour
 
             InvUISlots[i].Transform.position = InvPanelRef.transform.position;
 
-            InvUISlots[i].Transform.sizeDelta = new Vector2(160, 160);
+            InvUISlots[i].Transform.sizeDelta = new Vector2((int)InvSpriteSize.x, (int)InvSpriteSize.y);
 
             InvUISlots[i].Transform.localScale = Vector3.one;
 
-            InvUISlots[i].Transform.localPosition = new Vector2(-384 + xPositionOffset, -288 + yPositionOffset);
-            xPositionOffset = (xPositionOffset + 192) % 960;
+            InvUISlots[i].Transform.localPosition = new Vector2(xStartingPos + xPositionOffset, yStartingPos + yPositionOffset);
+            xPositionOffset = (xPositionOffset + xSpritePadding) % xLimit;
 
             if (xPositionOffset == 0)
             {
-                yPositionOffset = (yPositionOffset + 192) % 768;
+                yPositionOffset = (yPositionOffset + ySpritePadding) % yLimit;
             }
         }
     }
