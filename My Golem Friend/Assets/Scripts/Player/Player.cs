@@ -14,8 +14,8 @@ public class Player : MonoBehaviour
 
     public static Inventory PlayerInventory;
 
-    //12 in this case represents the number of ingredients we have in our game
-    public readonly static int InventorySize = 12;
+    //20 slots of Player inventory available
+    public readonly static int InventorySize = 15;
 
     public void Awake()
     {

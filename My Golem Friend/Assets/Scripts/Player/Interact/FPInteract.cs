@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class FPInteract : MonoBehaviour
 {
-    public LayerMask interactMask;
+    public LayerMask InteractablesMask;
 
-    //Remember to private this when done debugging
+    //This should be removed and the global static reference to the main camera from FPCameraController should be used instead
     public Camera m_Cam;
 
-    public float interRayDistance;
+    public float InteractRayDistance;
 
     private float inputCooldownTimer;
-    public float inputCooldown;
+    public float InputInteractCooldown;
 
-    public static event Action<string[]> OnHoldableHit;
+    public static event Action OnStorageTableInteract;
 
     public static Holdable HeldObject = null;
 
@@ -36,7 +36,7 @@ public class FPInteract : MonoBehaviour
 
     private bool CheckInputTimer()
     {
-        if (inputCooldownTimer > inputCooldown)
+        if (inputCooldownTimer > InputInteractCooldown)
         {
             inputCooldownTimer = 0;
             return true;
@@ -73,7 +73,7 @@ public class FPInteract : MonoBehaviour
     {
         Vector2 midPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-        bool hitObj = Physics.Raycast(m_Cam.ScreenToWorldPoint(midPoint), m_Cam.transform.forward, out RaycastHit hit, interRayDistance, interactMask);
+        bool hitObj = Physics.Raycast(m_Cam.ScreenToWorldPoint(midPoint), m_Cam.transform.forward, out RaycastHit hit, InteractRayDistance, InteractablesMask);
 
         if (hitObj)
         {
@@ -86,11 +86,24 @@ public class FPInteract : MonoBehaviour
     {
         switch (hitObj.InterObjType)
         {
-            case InteractableType.OverworldIngredient:
+            case InteractableType.OverworldIng:
                 OverworldIngredient ing = hitObj.gameObject.GetComponent<OverworldIngredient>();
 
                 Debug.Log("Overworld Ingredient Tocuhed: " + ing.IngType);
-                OnIngredientInteract(ing);
+                OnOverworldIngInteract(ing);
+                break;
+
+            case InteractableType.IngStorage:
+                IngStorage storedIng = hitObj.gameObject.GetComponent<IngStorage>();
+
+                Debug.Log("Stored Ingredient Tocuhed: " + storedIng);
+                OnStoredIngInteract(storedIng);
+                break;
+
+            case InteractableType.StorageTable:
+                OnStorageTableInteract?.Invoke();
+
+                Debug.Log("Storage Table Tocuhed.");
                 break;
 
             case InteractableType.Holdable:
@@ -98,45 +111,35 @@ public class FPInteract : MonoBehaviour
 
                 Debug.Log("Holdable Object Tocuhed: " + heldObj);
                 OnHoldableInteract(heldObj);
-                //This will handle the golem part thats made
-                break;
-
-            default:
-                print("ERROR: Didn't get an object type in the switch statement in FPInteract.");
                 break;
         }
     }
 
-    private void OnIngredientInteract(OverworldIngredient ing)
+    private void OnOverworldIngInteract(OverworldIngredient overworldIng)
     {
-        if (ing.Harvested)
+        if (overworldIng.Harvested)
         {
             //Display something that this ingredient has already been harvested, or disable the object
-            print(ing.IngType + " has already been harvested");
+            print(overworldIng.IngType + " has already been harvested");
         }
         else
         {
-            ing.Harvest();
+            overworldIng.Harvest();
         }
     }
 
-    private void OnHoldableInteract(Holdable obj)
+    private void OnStoredIngInteract(IngStorage storedIng)
     {
-        if (obj.Exhausted)
-        {
-            //No need to display dialogue again, just pick up the object
-            obj.PickedUp();
-        }
-        else
-        {
-            obj.PickedUp();
+        
+    }
 
+    private void OnHoldableInteract(Holdable storageIngTable)
+    {
 
-        }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawRay(m_Cam.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2)), m_Cam.transform.forward * interRayDistance);
+        Gizmos.DrawRay(m_Cam.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2)), m_Cam.transform.forward * InteractRayDistance);
     }
 }

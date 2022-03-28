@@ -2,7 +2,7 @@
     "name": "InputControls",
     "maps": [
         {
-            "name": "Gameplay3D",
+            "name": "Gameplay",
             "id": "0f4c16d9-05a0-4cf7-a73f-70887ee819da",
             "actions": [
                 {
@@ -42,18 +42,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Place",
+                    "name": "Drop",
                     "type": "Button",
                     "id": "141553ba-4d37-4218-bb2a-429d9e3f84d5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Inventory",
-                    "type": "Button",
-                    "id": "a602e15c-bc20-471b-a9a6-bcf9ea88f380",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -145,7 +136,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Place",
+                    "action": "Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -159,28 +150,17 @@
                     "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7abdd10d-7f09-43b9-8b1e-bce6c9c74a90",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "Gameplay2D",
-            "id": "6dc58961-2121-4ec0-b1eb-8d48931d178e",
+            "name": "UI",
+            "id": "448ff389-0729-4512-8fc1-479b12a978b4",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Menu",
                     "type": "Button",
-                    "id": "cf00c8e1-c83a-4db3-b45a-274128715a85",
+                    "id": "2e9c8ad6-7d87-44cd-a156-9b5ef40119a3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -190,12 +170,12 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "07fe7161-042b-4aaf-af8b-3831ed412660",
-                    "path": "",
+                    "id": "0df69ade-8fbb-43e9-b64d-4584050d35c4",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

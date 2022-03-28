@@ -24,7 +24,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     ""name"": ""InputControls"",
     ""maps"": [
         {
-            ""name"": ""Gameplay3D"",
+            ""name"": ""Gameplay"",
             ""id"": ""0f4c16d9-05a0-4cf7-a73f-70887ee819da"",
             ""actions"": [
                 {
@@ -64,18 +64,9 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Place"",
+                    ""name"": ""Drop"",
                     ""type"": ""Button"",
                     ""id"": ""141553ba-4d37-4218-bb2a-429d9e3f84d5"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Inventory"",
-                    ""type"": ""Button"",
-                    ""id"": ""a602e15c-bc20-471b-a9a6-bcf9ea88f380"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -167,7 +158,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Place"",
+                    ""action"": ""Drop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -181,28 +172,17 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7abdd10d-7f09-43b9-8b1e-bce6c9c74a90"",
-                    ""path"": ""<Keyboard>/i"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Inventory"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
         {
-            ""name"": ""Gameplay2D"",
-            ""id"": ""6dc58961-2121-4ec0-b1eb-8d48931d178e"",
+            ""name"": ""UI"",
+            ""id"": ""448ff389-0729-4512-8fc1-479b12a978b4"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Menu"",
                     ""type"": ""Button"",
-                    ""id"": ""cf00c8e1-c83a-4db3-b45a-274128715a85"",
+                    ""id"": ""2e9c8ad6-7d87-44cd-a156-9b5ef40119a3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -212,12 +192,12 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""07fe7161-042b-4aaf-af8b-3831ed412660"",
-                    ""path"": """",
+                    ""id"": ""0df69ade-8fbb-43e9-b64d-4584050d35c4"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -243,17 +223,16 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // Gameplay3D
-        m_Gameplay3D = asset.FindActionMap("Gameplay3D", throwIfNotFound: true);
-        m_Gameplay3D_Movement = m_Gameplay3D.FindAction("Movement", throwIfNotFound: true);
-        m_Gameplay3D_Interact = m_Gameplay3D.FindAction("Interact", throwIfNotFound: true);
-        m_Gameplay3D_MouseLook = m_Gameplay3D.FindAction("Mouse Look", throwIfNotFound: true);
-        m_Gameplay3D_Throw = m_Gameplay3D.FindAction("Throw", throwIfNotFound: true);
-        m_Gameplay3D_Place = m_Gameplay3D.FindAction("Place", throwIfNotFound: true);
-        m_Gameplay3D_Inventory = m_Gameplay3D.FindAction("Inventory", throwIfNotFound: true);
-        // Gameplay2D
-        m_Gameplay2D = asset.FindActionMap("Gameplay2D", throwIfNotFound: true);
-        m_Gameplay2D_Newaction = m_Gameplay2D.FindAction("New action", throwIfNotFound: true);
+        // Gameplay
+        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
+        m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
+        m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
+        m_Gameplay_MouseLook = m_Gameplay.FindAction("Mouse Look", throwIfNotFound: true);
+        m_Gameplay_Throw = m_Gameplay.FindAction("Throw", throwIfNotFound: true);
+        m_Gameplay_Drop = m_Gameplay.FindAction("Drop", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_Menu = m_UI.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -310,54 +289,49 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Gameplay3D
-    private readonly InputActionMap m_Gameplay3D;
-    private IGameplay3DActions m_Gameplay3DActionsCallbackInterface;
-    private readonly InputAction m_Gameplay3D_Movement;
-    private readonly InputAction m_Gameplay3D_Interact;
-    private readonly InputAction m_Gameplay3D_MouseLook;
-    private readonly InputAction m_Gameplay3D_Throw;
-    private readonly InputAction m_Gameplay3D_Place;
-    private readonly InputAction m_Gameplay3D_Inventory;
-    public struct Gameplay3DActions
+    // Gameplay
+    private readonly InputActionMap m_Gameplay;
+    private IGameplayActions m_GameplayActionsCallbackInterface;
+    private readonly InputAction m_Gameplay_Movement;
+    private readonly InputAction m_Gameplay_Interact;
+    private readonly InputAction m_Gameplay_MouseLook;
+    private readonly InputAction m_Gameplay_Throw;
+    private readonly InputAction m_Gameplay_Drop;
+    public struct GameplayActions
     {
         private @InputControls m_Wrapper;
-        public Gameplay3DActions(@InputControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_Gameplay3D_Movement;
-        public InputAction @Interact => m_Wrapper.m_Gameplay3D_Interact;
-        public InputAction @MouseLook => m_Wrapper.m_Gameplay3D_MouseLook;
-        public InputAction @Throw => m_Wrapper.m_Gameplay3D_Throw;
-        public InputAction @Place => m_Wrapper.m_Gameplay3D_Place;
-        public InputAction @Inventory => m_Wrapper.m_Gameplay3D_Inventory;
-        public InputActionMap Get() { return m_Wrapper.m_Gameplay3D; }
+        public GameplayActions(@InputControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
+        public InputAction @Interact => m_Wrapper.m_Gameplay_Interact;
+        public InputAction @MouseLook => m_Wrapper.m_Gameplay_MouseLook;
+        public InputAction @Throw => m_Wrapper.m_Gameplay_Throw;
+        public InputAction @Drop => m_Wrapper.m_Gameplay_Drop;
+        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(Gameplay3DActions set) { return set.Get(); }
-        public void SetCallbacks(IGameplay3DActions instance)
+        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
+        public void SetCallbacks(IGameplayActions instance)
         {
-            if (m_Wrapper.m_Gameplay3DActionsCallbackInterface != null)
+            if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
             {
-                @Movement.started -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnMovement;
-                @Interact.started -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnInteract;
-                @MouseLook.started -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnMouseLook;
-                @MouseLook.performed -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnMouseLook;
-                @MouseLook.canceled -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnMouseLook;
-                @Throw.started -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnThrow;
-                @Throw.performed -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnThrow;
-                @Throw.canceled -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnThrow;
-                @Place.started -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnPlace;
-                @Place.performed -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnPlace;
-                @Place.canceled -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnPlace;
-                @Inventory.started -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnInventory;
-                @Inventory.performed -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnInventory;
-                @Inventory.canceled -= m_Wrapper.m_Gameplay3DActionsCallbackInterface.OnInventory;
+                @Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
+                @Interact.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteract;
+                @MouseLook.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseLook;
+                @MouseLook.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseLook;
+                @MouseLook.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseLook;
+                @Throw.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
+                @Throw.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
+                @Throw.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
+                @Drop.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
+                @Drop.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
+                @Drop.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
             }
-            m_Wrapper.m_Gameplay3DActionsCallbackInterface = instance;
+            m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Movement.started += instance.OnMovement;
@@ -372,49 +346,46 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @Throw.started += instance.OnThrow;
                 @Throw.performed += instance.OnThrow;
                 @Throw.canceled += instance.OnThrow;
-                @Place.started += instance.OnPlace;
-                @Place.performed += instance.OnPlace;
-                @Place.canceled += instance.OnPlace;
-                @Inventory.started += instance.OnInventory;
-                @Inventory.performed += instance.OnInventory;
-                @Inventory.canceled += instance.OnInventory;
+                @Drop.started += instance.OnDrop;
+                @Drop.performed += instance.OnDrop;
+                @Drop.canceled += instance.OnDrop;
             }
         }
     }
-    public Gameplay3DActions @Gameplay3D => new Gameplay3DActions(this);
+    public GameplayActions @Gameplay => new GameplayActions(this);
 
-    // Gameplay2D
-    private readonly InputActionMap m_Gameplay2D;
-    private IGameplay2DActions m_Gameplay2DActionsCallbackInterface;
-    private readonly InputAction m_Gameplay2D_Newaction;
-    public struct Gameplay2DActions
+    // UI
+    private readonly InputActionMap m_UI;
+    private IUIActions m_UIActionsCallbackInterface;
+    private readonly InputAction m_UI_Menu;
+    public struct UIActions
     {
         private @InputControls m_Wrapper;
-        public Gameplay2DActions(@InputControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Gameplay2D_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_Gameplay2D; }
+        public UIActions(@InputControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Menu => m_Wrapper.m_UI_Menu;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(Gameplay2DActions set) { return set.Get(); }
-        public void SetCallbacks(IGameplay2DActions instance)
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void SetCallbacks(IUIActions instance)
         {
-            if (m_Wrapper.m_Gameplay2DActionsCallbackInterface != null)
+            if (m_Wrapper.m_UIActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_Gameplay2DActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_Gameplay2DActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_Gameplay2DActionsCallbackInterface.OnNewaction;
+                @Menu.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMenu;
             }
-            m_Wrapper.m_Gameplay2DActionsCallbackInterface = instance;
+            m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
             }
         }
     }
-    public Gameplay2DActions @Gameplay2D => new Gameplay2DActions(this);
+    public UIActions @UI => new UIActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -424,17 +395,16 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
         }
     }
-    public interface IGameplay3DActions
+    public interface IGameplayActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnMouseLook(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
-        void OnPlace(InputAction.CallbackContext context);
-        void OnInventory(InputAction.CallbackContext context);
+        void OnDrop(InputAction.CallbackContext context);
     }
-    public interface IGameplay2DActions
+    public interface IUIActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

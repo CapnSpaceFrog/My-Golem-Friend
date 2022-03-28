@@ -3,114 +3,241 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
+public struct InvUISlot
+{
+    public GameObject Object;
+    public RectTransform Transform;
+    public Image Image;
+    public bool Filled;
+}
+
+public enum PanelType
+{
+    Player,
+    System
+}
+
 public class UIHandler : MonoBehaviour
 {
-    enum Panels
+    public static UIHandler Instance { get; private set; }
+
+    public GameObject MainPanel;
+
+    [System.Serializable]
+    public struct PanelCollection
     {
-        Inventory,
-        Map,
-        Recipe,
-        Max_Panels
+        public GameObject[] Panels;
+        [HideInInspector]
+        public int CurrentIndex;
+        //Counts from 0, not 1
+        public int MaxPanels;
     }
 
-    public Transform MainPanelTransform;
+    private GameObject CurrentPanel;
 
-    public GameObject[] PlayerUIPanels;
+    [Header("General Panel Variables")]
+    public PanelCollection PlayerPanels;
+    public PanelCollection SystemPanels;
+    private bool InSystemPanel;
 
-    struct CurrentPanel
-    {
-        public GameObject Obj;
-        public Panels Type;
-    }
-
-    CurrentPanel ActivePanel;
-
+    [Header("Inventory Panel Variables")]
+    public Sprite[] InvImgSprites;
     InvUISlot[] InvUISlots;
-
-    struct InvUISlot
-    {
-        public GameObject Object;
-        public RectTransform Transform;
-        public Image Image;
-    }
+    
+    [Header("Inventory Display Variables")]
+    public int Rows;
+    public int Colums;
+    public Vector2 InvSpriteSize;
+    public int xPadding;
+    public int yPadding;
 
     private void Awake()
     {
-        ActivePanel.Obj = PlayerUIPanels[(int)Panels.Inventory];
-        ActivePanel.Type = Panels.Inventory;
+        Instance = this;
 
+        //When we call this function will need to change when we start swapping scenes
         CreateInventoryUISlots();
     }
 
     private void CreateInventoryUISlots()
     {
-        //20 is a magic number that represents a grid of 5 colums with 4 rows
-        InvUISlots = new InvUISlot[20];
+        InvUISlots = new InvUISlot[Player.InventorySize];
 
-        GameObject InvPanelRef = PlayerUIPanels[(int)Panels.Inventory];
+        GameObject InvPanelRef = PlayerPanels.Panels[0];
 
         int xPositionOffset = 0;
         int yPositionOffset = 0;
+
+        int xSpritePadding = (int)InvSpriteSize.x + xPadding;
+        int ySpritePadding = (int)InvSpriteSize.y + yPadding;
+
+        //Display is 0 cenetered, so we divide by 2
+        int xStartingPos = ((Colums * xSpritePadding) - xSpritePadding) / -2;
+
+        int yStartingPos = ((Rows * ySpritePadding) - ySpritePadding) / -2;
+
+        int xLimit = Colums * xSpritePadding;
+        int yLimit = Rows * ySpritePadding;
 
         for (int i = 0; i < InvUISlots.Length; i++)
         {
             InvUISlots[i].Object = new GameObject($"Inv Slot #{i}");
 
-            InvUISlots[i].Transform = InvUISlots[i].Object.GetComponent<RectTransform>();
+            InvUISlots[i].Transform = InvUISlots[i].Object.AddComponent<RectTransform>();
             InvUISlots[i].Image = InvUISlots[i].Object.AddComponent<Image>();
+            InvUISlots[i].Image.sprite = null;
 
             InvUISlots[i].Transform.parent = InvPanelRef.transform;
 
             InvUISlots[i].Transform.position = InvPanelRef.transform.position;
 
-            InvUISlots[i].Transform.sizeDelta = new Vector2(160, 160);
+            InvUISlots[i].Transform.sizeDelta = new Vector2((int)InvSpriteSize.x, (int)InvSpriteSize.y);
 
             InvUISlots[i].Transform.localScale = Vector3.one;
 
-            InvUISlots[i].Transform.localPosition = new Vector2(-384 + xPositionOffset, -288 + yPositionOffset);
-            xPositionOffset = (xPositionOffset + 192) % 960;
+            InvUISlots[i].Transform.localPosition = new Vector2(xStartingPos + xPositionOffset, yStartingPos + yPositionOffset);
+            xPositionOffset = (xPositionOffset + xSpritePadding) % xLimit;
 
             if (xPositionOffset == 0)
             {
-                yPositionOffset = (yPositionOffset + 192) % 768;
-            }
-
-            if ((i+1) % 2 == 0)
-            {
-                InvUISlots[i].Image.color = Color.black;
+                yPositionOffset = (yPositionOffset + ySpritePadding) % yLimit;
             }
         }
     }
 
+    private void OnEnable()
+    {
+        InputHandler.OnMenuInput += OnMenuInput;
+        FPInteract.OnStorageTableInteract += HandleStorageTableInteract;
+    }
+
+    private void OnMenuInput()
+    {
+        //If we received input and are in the system panel, back out of it
+        if (InSystemPanel)
+        {
+            InSystemPanel = false;
+            MainPanel.SetActive(false);
+            CurrentPanel.SetActive(false);
+
+            InputHandler.ExitUIMode();
+        }
+        //If we aren't in the system panel, back out of it
+        else if (MainPanel.activeInHierarchy == true)
+        {
+            MainPanel.SetActive(false);
+            CurrentPanel.SetActive(false);
+
+            InputHandler.ExitUIMode();
+        }
+        //We aren't in any menu screen, and we didnt interact with the table,
+        //So enable the player inv panel
+        else
+        {
+            CurrentPanel = PlayerPanels.Panels[0];
+            PlayerPanels.CurrentIndex = 0;
+
+            MainPanel.SetActive(true);
+            CurrentPanel.SetActive(true);
+
+            InputHandler.EnterUIMode();
+        }
+    }
+
+    public InvUISlot GetOpenInvUISlot()
+    {
+        InvUISlot InvSlot = new InvUISlot();
+
+        for (int i = 0; i < InvUISlots.Length; i++)
+        {
+            if (InvUISlots[i].Filled == false)
+            {
+                InvSlot = InvUISlots[i];
+                InvUISlots[i].Filled = true;
+                break;
+            }
+        }
+
+        return InvSlot;
+    }
+
+    public Sprite GetInvUISprite(IngredientType IngType)
+    {
+        Sprite InvSprite = InvImgSprites[(int)IngType];
+
+        return InvSprite;
+    }
+
+    void HandleStorageTableInteract()
+    {
+        //Default to the first System UI Panel
+        CurrentPanel = SystemPanels.Panels[0];
+        SystemPanels.CurrentIndex = 0;
+
+        //Lock the Player controls
+        InputHandler.EnterUIMode();
+
+        //Display the UI Panels
+        CurrentPanel.SetActive(true);
+        MainPanel.SetActive(true);
+
+        InSystemPanel = true;
+    }
+
+    //Seperate these functions into sub functions depending on which menu the Player is in
     public void RightUIShift()
     {
-        ActivePanel.Obj.SetActive(false);
+        if (InSystemPanel)
+        {
+            CurrentPanel.SetActive(false);
 
-        ActivePanel.Type = (Panels) ( ( (int)ActivePanel.Type + 1) %  ( (int)Panels.Max_Panels) );
-        ActivePanel.Obj = PlayerUIPanels[(int)ActivePanel.Type];
+            CurrentPanel = SystemPanels.Panels[(++SystemPanels.CurrentIndex) % SystemPanels.MaxPanels];
 
-        ActivePanel.Obj.SetActive(true);
+            CurrentPanel.SetActive(true);
+        }
+        else
+        {
+            CurrentPanel.SetActive(false);
+
+            CurrentPanel = PlayerPanels.Panels[(++PlayerPanels.CurrentIndex) % PlayerPanels.MaxPanels];
+
+            CurrentPanel.SetActive(true);
+        }
     }
 
     public void LeftUIClick()
     {
-        ActivePanel.Obj.SetActive(false);
-
-        //Can't use modulus for below zero, so check we're
-        //Not about to go negative
-        if ( ((int)ActivePanel.Type - 1) < 0 )
+        if (InSystemPanel)
         {
-            //Artifically overflow the active panel type
-            ActivePanel.Type = Panels.Recipe;
+            CurrentPanel.SetActive(false);
+
+            if (SystemPanels.CurrentIndex - 1 < 0)
+            {
+                SystemPanels.CurrentIndex = SystemPanels.MaxPanels;
+            }
+
+            CurrentPanel = SystemPanels.Panels[--SystemPanels.CurrentIndex];
+
+            CurrentPanel.SetActive(true);
         }
         else
         {
-            ActivePanel.Type = (Panels) ((int)ActivePanel.Type - 1);
+            CurrentPanel.SetActive(false);
+
+            if (PlayerPanels.CurrentIndex - 1 < 0)
+            {
+                PlayerPanels.CurrentIndex = PlayerPanels.MaxPanels;
+            }
+
+            CurrentPanel = PlayerPanels.Panels[--PlayerPanels.CurrentIndex];
+
+            CurrentPanel.SetActive(true);
         }
-
-        ActivePanel.Obj = PlayerUIPanels[(int)ActivePanel.Type];
-
-        ActivePanel.Obj.SetActive(true);
     }
 
+    private void OnDisable()
+    {
+        InputHandler.OnMenuInput -= OnMenuInput;
+        FPInteract.OnStorageTableInteract -= HandleStorageTableInteract;
+    }
 }

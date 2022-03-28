@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-    private InputControls inputControls;
+    InputControls inputControls;
 
-    private static InputControls.Gameplay3DActions Gameplay3D;
-
-    private static InputControls.Gameplay2DActions Gameplay2D;
+    static InputControls.GameplayActions Gameplay;
+    static InputControls.UIActions UI;
 
     public static Vector2 MouseDelta;
     public static Vector2 MovementInput;
 
     public static event Action OnInteractInput;
+    public static event Action OnMenuInput;
     public static event Action OnPlaceInput;
     public static event Action OnThrowInput;
 
@@ -21,23 +21,27 @@ public class InputHandler : MonoBehaviour
     {
         inputControls = new InputControls();
 
-        Gameplay3D = inputControls.Gameplay3D;
+        Gameplay = inputControls.Gameplay;
+        UI = inputControls.UI;
     }
 
     public void OnEnable()
     {
-        Gameplay3D.Enable();
+        Gameplay.Enable();
+        UI.Enable();
 
-        Gameplay3D.MouseLook.performed += CacheMouseDelta;
+        Gameplay.MouseLook.performed += CacheMouseDelta;
 
-        Gameplay3D.Movement.performed += CacheMovementVector;
-        Gameplay3D.Movement.canceled += ClearMovementVector;
+        Gameplay.Movement.performed += CacheMovementVector;
+        Gameplay.Movement.canceled += ClearMovementVector;
 
-        Gameplay3D.Interact.performed += CacheInteractInput;
+        Gameplay.Interact.performed += CacheInteractInput;
 
-        Gameplay3D.Place.performed += CachePlaceInput;
+        Gameplay.Drop.performed += CacheDropInput;
 
-        Gameplay3D.Throw.performed += CacheThrowInput;
+        Gameplay.Throw.performed += CacheThrowInput;
+
+        UI.Menu.performed += CacheMenuInput;
     }
 
     private void CacheMouseDelta(InputAction.CallbackContext ctx)
@@ -60,7 +64,7 @@ public class InputHandler : MonoBehaviour
         OnInteractInput?.Invoke();
     }
 
-    private void CachePlaceInput(InputAction.CallbackContext ctx)
+    private void CacheDropInput(InputAction.CallbackContext ctx)
     {
         OnPlaceInput?.Invoke();
     }
@@ -70,17 +74,35 @@ public class InputHandler : MonoBehaviour
         OnThrowInput?.Invoke();
     }
 
-    public static void Enable3DGameplayControls()
+    private void CacheMenuInput(InputAction.CallbackContext ctx)
     {
-        Gameplay3D.Enable();
+        OnMenuInput?.Invoke();
     }
 
-    public static void Disable3DGameplayControls()
+    public static void EnterUIMode()
     {
-        Gameplay3D.Disable();
+        Gameplay.Disable();
+        Cursor.lockState = CursorLockMode.None;
+    }
 
-        MouseDelta = Vector2.zero;
-        MovementInput = Vector2.zero;
+    public static void ExitUIMode()
+    {
+        Gameplay.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public static void EnterDialogueMode()
+    {
+        Gameplay.Disable();
+        UI.Disable();
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public static void ExitDialogueMode()
+    {
+        Gameplay.Enable();
+        UI.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public static void LockCursor()
@@ -95,13 +117,20 @@ public class InputHandler : MonoBehaviour
 
     public void OnDisable()
     {
-        Gameplay3D.MouseLook.performed -= CacheMouseDelta;
+        Gameplay.MouseLook.performed -= CacheMouseDelta;
 
-        Gameplay3D.Movement.performed -= CacheMovementVector;
-        Gameplay3D.Movement.canceled -= ClearMovementVector;
+        Gameplay.Movement.performed -= CacheMovementVector;
+        Gameplay.Movement.canceled -= ClearMovementVector;
 
-        Gameplay3D.Interact.performed -= CacheInteractInput;
+        Gameplay.Interact.performed -= CacheInteractInput;
 
-        inputControls.Gameplay3D.Disable();
+        Gameplay.Drop.performed -= CacheDropInput;
+
+        Gameplay.Throw.performed -= CacheThrowInput;
+
+        UI.Menu.performed -= CacheMenuInput;
+
+        UI.Disable();
+        Gameplay.Disable();
     }
 }

@@ -2,42 +2,46 @@ using System.Collections.Generic;
 
 public class Inventory
 {
-    public static int[] PlayerInv;
-
-    private int maxIngCapacity = 5;
+    public static OverworldIngredient[] Inv;
 
     public Inventory(int invSize)
     {
-        PlayerInv = new int[invSize];
+        Inv = new OverworldIngredient[invSize];
     }
     
     public bool AddIngredient(OverworldIngredient ingredientToAdd)
     {
-        if (PlayerInv[(int)ingredientToAdd.IngType] < maxIngCapacity)
+        for (int i = 0; i < Inv.Length; i++)
         {
-            PlayerInv[(int)ingredientToAdd.IngType] += ingredientToAdd.AddedToInv();
-            //Added item successfully to the inventory
-            return true;
+            if (Inv[i] == null)
+            {
+                Inv[i] = ingredientToAdd;
+
+                InvUISlot UISlot = UIHandler.Instance.GetOpenInvUISlot();
+
+                //This should always be something but incase I somehow fuck up my code i prevent an error from happening
+                UISlot.Image.sprite = UIHandler.Instance.GetInvUISprite(ingredientToAdd.IngType);
+
+                return true;
+            }
         }
-        else
-        {
-            //Inv is full, doesn't add item
-            return false;
-        }
+
+        return false;
     }
 
+    //This is going to get changed as the way we keep manage the player inventory is gonna change
     public bool RemoveItem(OverworldIngredient ingredientToRemove)
     {
-        if (PlayerInv[(int)ingredientToRemove.IngType] > 0)
+        for (int i = 0; i < Inv.Length; i++)
         {
-            PlayerInv[(int)ingredientToRemove.IngType] -= ingredientToRemove.AddedToInv();
-            //Play had enough ingredients in their inventory
-            return true;
+            if (Inv[i] == null)
+            {
+                //Added item successfully to the inventory
+                Inv[i] = ingredientToRemove;
+                return true;
+            }
         }
-        else
-        {
-            //No ingredients of the type in the Players inventory
-            return false;
-        }
+
+        return false;
     }
 }
