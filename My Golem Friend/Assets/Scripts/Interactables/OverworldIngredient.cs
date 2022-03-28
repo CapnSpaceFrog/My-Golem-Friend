@@ -21,16 +21,6 @@ public class OverworldIngredient : Interactable
         meshFilter = GetComponent<MeshFilter>();
     }
 
-    public int AddedToInv()
-    {
-        return 1;
-    }
-
-    public int RemovedFromInv()
-    {
-        return 1;
-    }
-
     public void Harvest()
     {
         Harvested = true;
@@ -44,7 +34,8 @@ public class OverworldIngredient : Interactable
         }
         else
         {
-            //Display something about the Player's inventory being empty
+            //Display something about the Player's inventory being full
+            Debug.Log("Player Inventory is full!");
         }
     }
 }

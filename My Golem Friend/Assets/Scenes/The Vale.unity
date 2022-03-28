@@ -288,7 +288,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140441246}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f941ee857aa54045aa586f12b131f71, type: 3}
   m_Name: 
@@ -311,7 +311,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140441246}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76014b000452c2548a72016341733413, type: 3}
   m_Name: 
@@ -404,7 +404,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140441246}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64d9f6ef426b1dc40839688b85899978, type: 3}
   m_Name: 
@@ -418,7 +418,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140441246}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22229afe2fbae12449ef4c4836297883, type: 3}
   m_Name: 
@@ -446,7 +446,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140441246}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaa6f2663a8588a4f976f4fc430bb8ce, type: 3}
   m_Name: 
@@ -1560,6 +1560,19 @@ MonoBehaviour:
   - {fileID: 1886643741}
   - {fileID: 1464807419}
   - {fileID: 1360593250}
+  InvImgSprites:
+  - {fileID: 21300000, guid: 3fbdc57514bbc6e4aa2539635ad4d435, type: 3}
+  - {fileID: 21300000, guid: 9e344dc22c2d11c4595b13d89f684fca, type: 3}
+  - {fileID: 21300000, guid: 019d1b0d8606337439e57c3ca3b41cd8, type: 3}
+  - {fileID: 21300000, guid: bc03c717e53ed6a4f89e5f11b79ab333, type: 3}
+  - {fileID: 21300000, guid: 988ef8bea753d68408c3d9aa0be0033a, type: 3}
+  - {fileID: 21300000, guid: 57b5c1fcc7b210d4383af69e510df53b, type: 3}
+  - {fileID: 21300000, guid: 96b17180206310847b1fad18f645f629, type: 3}
+  - {fileID: 21300000, guid: b291e9700dfbe6444a63ecec54a093f8, type: 3}
+  - {fileID: 21300000, guid: e5b751116d9dcee44bd351885fb740e6, type: 3}
+  - {fileID: 21300000, guid: 6c16949a46172f846945b6aef84012be, type: 3}
+  - {fileID: 21300000, guid: ddc7d03bbea9ad5478a80337bc026b0c, type: 3}
+  - {fileID: 21300000, guid: e4c3ebcbed06e08478476dc86e773853, type: 3}
 --- !u!4 &1338395907
 Transform:
   m_ObjectHideFlags: 0

@@ -3,8 +3,19 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
+public struct InvUISlot
+{
+    public GameObject Object;
+    public RectTransform Transform;
+    public Image Image;
+    public bool Filled;
+}
+
 public class UIHandler : MonoBehaviour
 {
+    public static UIHandler Instance { get; private set; }
+
+    //Organize these god forsaken fucking variables later
     enum Panels
     {
         Inventory,
@@ -27,15 +38,12 @@ public class UIHandler : MonoBehaviour
 
     InvUISlot[] InvUISlots;
 
-    struct InvUISlot
-    {
-        public GameObject Object;
-        public RectTransform Transform;
-        public Image Image;
-    }
+    public Sprite[] InvImgSprites;
 
     private void Awake()
     {
+        Instance = this;
+
         ActivePanel.Obj = PlayerUIPanels[(int)Panels.Inventory];
         ActivePanel.Type = Panels.Inventory;
 
@@ -44,8 +52,7 @@ public class UIHandler : MonoBehaviour
 
     private void CreateInventoryUISlots()
     {
-        //20 is a magic number that represents a grid of 5 colums with 4 rows
-        InvUISlots = new InvUISlot[20];
+        InvUISlots = new InvUISlot[Player.InventorySize];
 
         GameObject InvPanelRef = PlayerUIPanels[(int)Panels.Inventory];
 
@@ -56,8 +63,9 @@ public class UIHandler : MonoBehaviour
         {
             InvUISlots[i].Object = new GameObject($"Inv Slot #{i}");
 
-            InvUISlots[i].Transform = InvUISlots[i].Object.GetComponent<RectTransform>();
+            InvUISlots[i].Transform = InvUISlots[i].Object.AddComponent<RectTransform>();
             InvUISlots[i].Image = InvUISlots[i].Object.AddComponent<Image>();
+            InvUISlots[i].Image.sprite = null;
 
             InvUISlots[i].Transform.parent = InvPanelRef.transform;
 
@@ -74,12 +82,31 @@ public class UIHandler : MonoBehaviour
             {
                 yPositionOffset = (yPositionOffset + 192) % 768;
             }
+        }
+    }
 
-            if ((i+1) % 2 == 0)
+    public InvUISlot GetOpenInvUISlot()
+    {
+        InvUISlot InvSlot = new InvUISlot();
+
+        for (int i = 0; i < InvUISlots.Length; i++)
+        {
+            if (InvUISlots[i].Filled == false)
             {
-                InvUISlots[i].Image.color = Color.black;
+                InvSlot = InvUISlots[i];
+                InvUISlots[i].Filled = true;
+                break;
             }
         }
+
+        return InvSlot;
+    }
+
+    public Sprite GetInvSprite(IngredientType IngType)
+    {
+        Sprite InvSprite = InvImgSprites[(int)IngType];
+
+        return InvSprite;
     }
 
     public void RightUIShift()
