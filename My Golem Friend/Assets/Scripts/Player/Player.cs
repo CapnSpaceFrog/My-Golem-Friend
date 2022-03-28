@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     public static Transform Hand;
 
-    public static Inventory PlayerInventory;
+    public static Inventory Inv;
 
     //20 slots of Player inventory available
     public readonly static int InventorySize = 15;
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 
         Hand = CharacterBody.Find("Hand").transform;
 
-        PlayerInventory = new Inventory(InventorySize);
+        Inv = new Inventory(InventorySize);
     }
 
     public void Update()

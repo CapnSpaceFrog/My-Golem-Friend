@@ -24,7 +24,7 @@ public class OverworldIngredient : Interactable
         meshFilter.mesh = HarvestedMesh;
         Collider.enabled = false;
 
-        if (Player.PlayerInventory.AddIngredient(this))
+        if (Player.Inv.AddIngredient(this))
         {
             return;
         }

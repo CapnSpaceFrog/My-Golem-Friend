@@ -7,7 +7,7 @@ public class FPCameraController : MonoBehaviour
     [SerializeField]
     private float vertClamp;
 
-    private Transform m_CamTransform;
+    public static Camera MainCamera { get; private set; }
 
     public Transform characterBody;
 
@@ -18,7 +18,7 @@ public class FPCameraController : MonoBehaviour
 
     public void Awake()
     {
-        m_CamTransform = Camera.main.transform;
+        MainCamera = Camera.main;
 
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -37,9 +37,9 @@ public class FPCameraController : MonoBehaviour
 
         vertRotation = Mathf.Clamp(vertRotation, -vertClamp, vertClamp);
 
-        m_CamTransform.rotation = Quaternion.Euler(vertRotation, horRotation, 0);
+        MainCamera.transform.rotation = Quaternion.Euler(vertRotation, horRotation, 0);
 
-        Vector3 bodyRotation = new Vector3(0, m_CamTransform.transform.localEulerAngles.y, 0);
+        Vector3 bodyRotation = new Vector3(0, MainCamera.transform.localEulerAngles.y, 0);
 
         characterBody.localEulerAngles = bodyRotation;
     }

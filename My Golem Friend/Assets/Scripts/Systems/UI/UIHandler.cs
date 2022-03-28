@@ -9,6 +9,7 @@ public struct InvUISlot
     public RectTransform Transform;
     public Image Image;
     public bool Filled;
+    public IngredientType FilledType;
 }
 
 public enum PanelType
@@ -21,7 +22,12 @@ public class UIHandler : MonoBehaviour
 {
     public static UIHandler Instance { get; private set; }
 
+    [Header("General Panel Variables")]
     public GameObject MainPanel;
+    public PanelCollection PlayerPanels;
+    public PanelCollection SystemPanels;
+    private bool InSystemPanel;
+    private GameObject CurrentPanel;
 
     [System.Serializable]
     public struct PanelCollection
@@ -29,16 +35,8 @@ public class UIHandler : MonoBehaviour
         public GameObject[] Panels;
         [HideInInspector]
         public int CurrentIndex;
-        //Counts from 0, not 1
         public int MaxPanels;
     }
-
-    private GameObject CurrentPanel;
-
-    [Header("General Panel Variables")]
-    public PanelCollection PlayerPanels;
-    public PanelCollection SystemPanels;
-    private bool InSystemPanel;
 
     [Header("Inventory Panel Variables")]
     public Sprite[] InvImgSprites;
@@ -63,7 +61,8 @@ public class UIHandler : MonoBehaviour
     {
         InvUISlots = new InvUISlot[Player.InventorySize];
 
-        GameObject InvPanelRef = PlayerPanels.Panels[0];
+        Transform InvPanelTransform = PlayerPanels.Panels[0].transform;
+        Sprite emptyInv = Resources.Load<Sprite>("InvImg/Empty");
 
         int xPositionOffset = 0;
         int yPositionOffset = 0;
@@ -85,11 +84,11 @@ public class UIHandler : MonoBehaviour
 
             InvUISlots[i].Transform = InvUISlots[i].Object.AddComponent<RectTransform>();
             InvUISlots[i].Image = InvUISlots[i].Object.AddComponent<Image>();
-            InvUISlots[i].Image.sprite = null;
+            InvUISlots[i].Image.sprite = emptyInv;
 
-            InvUISlots[i].Transform.parent = InvPanelRef.transform;
+            InvUISlots[i].Transform.parent = InvPanelTransform;
 
-            InvUISlots[i].Transform.position = InvPanelRef.transform.position;
+            InvUISlots[i].Transform.position = InvPanelTransform.position;
 
             InvUISlots[i].Transform.sizeDelta = new Vector2((int)InvSpriteSize.x, (int)InvSpriteSize.y);
 
@@ -144,28 +143,32 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public InvUISlot GetOpenInvUISlot()
+    public void FillInvUISlot(IngredientType type)
     {
-        InvUISlot InvSlot = new InvUISlot();
-
         for (int i = 0; i < InvUISlots.Length; i++)
         {
             if (InvUISlots[i].Filled == false)
             {
-                InvSlot = InvUISlots[i];
                 InvUISlots[i].Filled = true;
+                InvUISlots[i].FilledType = type;
+                InvUISlots[i].Image.sprite = InvImgSprites[(int)type];
                 break;
             }
         }
-
-        return InvSlot;
     }
 
-    public Sprite GetInvUISprite(IngredientType IngType)
+    public void EmptyInvUISlot(IngredientType type)
     {
-        Sprite InvSprite = InvImgSprites[(int)IngType];
-
-        return InvSprite;
+        for (int i = 0; i < InvUISlots.Length; i++)
+        {
+            if (InvUISlots[i].FilledType == type)
+            {
+                Debug.Log("UIHandler: Found matching emptyUIslot");
+                InvUISlots[i].Filled = false;
+                InvUISlots[i].Image.sprite = Resources.Load<Sprite>("InvImg/Empty");
+                break;
+            }
+        }
     }
 
     void HandleStorageTableInteract()
@@ -185,7 +188,7 @@ public class UIHandler : MonoBehaviour
     }
 
     //Seperate these functions into sub functions depending on which menu the Player is in
-    public void RightUIShift()
+    public void RightUIPanelClick()
     {
         if (InSystemPanel)
         {
@@ -205,7 +208,7 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void LeftUIClick()
+    public void LeftUIPanelClick()
     {
         if (InSystemPanel)
         {
@@ -232,6 +235,14 @@ public class UIHandler : MonoBehaviour
             CurrentPanel = PlayerPanels.Panels[--PlayerPanels.CurrentIndex];
 
             CurrentPanel.SetActive(true);
+        }
+    }
+
+    public void StoreAllButtonPress()
+    {
+        if(!Player.Inv.CheckIfEmpty())
+        {
+            Player.Inv.StoreAllIngredients();
         }
     }
 

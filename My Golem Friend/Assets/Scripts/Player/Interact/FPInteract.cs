@@ -3,24 +3,15 @@ using UnityEngine;
 
 public class FPInteract : MonoBehaviour
 {
-    public LayerMask InteractablesMask;
-
-    //This should be removed and the global static reference to the main camera from FPCameraController should be used instead
-    public Camera m_Cam;
-
-    public float InteractRayDistance;
-
-    private float inputCooldownTimer;
-    public float InputInteractCooldown;
-
-    public static event Action OnStorageTableInteract;
-
     public static Holdable HeldObject = null;
 
-    public void Awake()
-    {
-        m_Cam = Camera.main;
-    }
+    [Header("Interaction Variables")]
+    public LayerMask InteractablesMask;
+    public float InteractRayDistance;
+    public float InputInteractCooldown;
+    private float inputCooldownTimer;
+
+    public static event Action OnStorageTableInteract;
 
     public void OnEnable()
     {
@@ -73,7 +64,8 @@ public class FPInteract : MonoBehaviour
     {
         Vector2 midPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-        bool hitObj = Physics.Raycast(m_Cam.ScreenToWorldPoint(midPoint), m_Cam.transform.forward, out RaycastHit hit, InteractRayDistance, InteractablesMask);
+        bool hitObj = Physics.Raycast(FPCameraController.MainCamera.ScreenToWorldPoint(midPoint), 
+            FPCameraController.MainCamera.transform.forward, out RaycastHit hit, InteractRayDistance, InteractablesMask);
 
         if (hitObj)
         {
@@ -86,6 +78,7 @@ public class FPInteract : MonoBehaviour
     {
         switch (hitObj.InterObjType)
         {
+            //Functionality is completed, just need to set Meshes for harvested versions
             case InteractableType.OverworldIng:
                 OverworldIngredient ing = hitObj.gameObject.GetComponent<OverworldIngredient>();
 
@@ -94,12 +87,13 @@ public class FPInteract : MonoBehaviour
                 break;
 
             case InteractableType.IngStorage:
-                IngStorage storedIng = hitObj.gameObject.GetComponent<IngStorage>();
+                StoredIngredient storedIng = hitObj.gameObject.GetComponent<StoredIngredient>();
 
                 Debug.Log("Stored Ingredient Tocuhed: " + storedIng);
                 OnStoredIngInteract(storedIng);
                 break;
 
+                //Functionality is completed
             case InteractableType.StorageTable:
                 OnStorageTableInteract?.Invoke();
 
@@ -115,11 +109,12 @@ public class FPInteract : MonoBehaviour
         }
     }
 
+    //TODO: OnOverworldIngInteract Update
     private void OnOverworldIngInteract(OverworldIngredient overworldIng)
     {
         if (overworldIng.Harvested)
         {
-            //Display something that this ingredient has already been harvested, or disable the object
+            //This part needs to be removed and when the obj is harvested it is disabled automatically
             print(overworldIng.IngType + " has already been harvested");
         }
         else
@@ -128,7 +123,7 @@ public class FPInteract : MonoBehaviour
         }
     }
 
-    private void OnStoredIngInteract(IngStorage storedIng)
+    private void OnStoredIngInteract(StoredIngredient storedIng)
     {
         
     }
@@ -140,6 +135,7 @@ public class FPInteract : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawRay(m_Cam.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2)), m_Cam.transform.forward * InteractRayDistance);
+        Gizmos.DrawRay(FPCameraController.MainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2)), 
+            FPCameraController.MainCamera.transform.forward * InteractRayDistance);
     }
 }
