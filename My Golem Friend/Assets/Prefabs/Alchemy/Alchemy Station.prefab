@@ -19,7 +19,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &955629728378944782
 Transform:
@@ -135,14 +135,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342976287345212}
   - component: {fileID: 146671042}
-  - component: {fileID: 146671043}
+  - component: {fileID: 493945925}
   m_Layer: 6
   m_Name: Glowstone Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342976287345212
 Transform:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &146671043
+--- !u!114 &493945925
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342976287345213}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -202,7 +202,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342976354095864
 Transform:
@@ -285,7 +285,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342976391426815
 Transform:
@@ -369,7 +369,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342976841577165
 Transform:
@@ -431,14 +431,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342976853064806}
   - component: {fileID: 688272284}
-  - component: {fileID: 688272285}
+  - component: {fileID: 1869761162}
   m_Layer: 6
   m_Name: Flower of Death Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342976853064806
 Transform:
   m_ObjectHideFlags: 0
@@ -468,7 +468,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &688272285
+--- !u!114 &1869761162
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -477,7 +477,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342976853064807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -492,14 +492,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342976853720191}
   - component: {fileID: 788280195}
-  - component: {fileID: 788280196}
+  - component: {fileID: 378239754}
   m_Layer: 6
   m_Name: Bell Flower Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342976853720191
 Transform:
   m_ObjectHideFlags: 0
@@ -529,7 +529,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &788280196
+--- !u!114 &378239754
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -538,7 +538,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342976853720188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -559,7 +559,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342976928588311
 Transform:
@@ -642,7 +642,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342977046257120
 Transform:
@@ -725,7 +725,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342977056136023
 Transform:
@@ -808,7 +808,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342977133565868
 Transform:
@@ -885,14 +885,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342977157189547}
   - component: {fileID: 1021821015}
-  - component: {fileID: 1021821016}
+  - component: {fileID: 2016701368}
   m_Layer: 6
   m_Name: Living Clay Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342977157189547
 Transform:
   m_ObjectHideFlags: 0
@@ -922,7 +922,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &1021821016
+--- !u!114 &2016701368
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342977157189544}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -952,7 +952,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342977226986148
 Transform:
@@ -1029,14 +1029,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342977256248277}
   - component: {fileID: 922639401}
-  - component: {fileID: 922639402}
+  - component: {fileID: 836107379}
   m_Layer: 6
   m_Name: Toadstool Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342977256248277
 Transform:
   m_ObjectHideFlags: 0
@@ -1066,7 +1066,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &922639402
+--- !u!114 &836107379
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1075,7 +1075,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342977256248282}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -1095,7 +1095,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342977264701997
 Transform:
@@ -1126,25 +1126,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc277d59c9fb10247a60c9f32de9966e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IngredientLocations:
-  - {fileID: 777342977313196932}
-  - {fileID: 777342977808411745}
-  - {fileID: 777342976853720191}
-  - {fileID: 777342977256248277}
-  - {fileID: 777342977954483804}
-  - {fileID: 777342976287345212}
-  - {fileID: 777342976853064806}
-  - {fileID: 777342978267799955}
-  - {fileID: 777342978307682982}
-  - {fileID: 777342977704015164}
-  - {fileID: 777342977705932022}
-  - {fileID: 777342977157189547}
-  Recipes:
-  - {fileID: 11400000, guid: c1a80c7afe480124686225c13c597ec0, type: 2}
-  - {fileID: 11400000, guid: 21c6ab81cd107d3439587d8da7cbac5b, type: 2}
-  - {fileID: 11400000, guid: 9216dfbe1c73c124fab276a1b57fbe0e, type: 2}
-  - {fileID: 11400000, guid: 66ec78f01e71b63448af77b6e0120e10, type: 2}
-  - {fileID: 11400000, guid: bd3d207141ec8b6478cf3a4a63e55f7f, type: 2}
+  IngredientStorageDisplays:
+  - {fileID: 777342977313196933}
+  - {fileID: 777342977808411750}
+  - {fileID: 777342976853720188}
+  - {fileID: 777342977256248282}
+  - {fileID: 777342977954483805}
+  - {fileID: 777342976287345213}
+  - {fileID: 777342976853064807}
+  - {fileID: 777342978267799952}
+  - {fileID: 777342978307682983}
+  - {fileID: 777342977704015165}
+  - {fileID: 777342977705932023}
+  - {fileID: 777342977157189544}
+  CraftableRecipes: []
 --- !u!1 &777342977313196933
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,14 +1150,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342977313196932}
   - component: {fileID: 899368058}
-  - component: {fileID: 899368059}
+  - component: {fileID: 1593928019}
   m_Layer: 6
   m_Name: Lavender Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342977313196932
 Transform:
   m_ObjectHideFlags: 0
@@ -1192,7 +1187,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.19016649, z: 0}
---- !u!114 &899368059
+--- !u!114 &1593928019
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1201,7 +1196,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342977313196933}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -1223,7 +1218,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342977500024942
 Transform:
@@ -1332,7 +1327,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342977507544688
 Transform:
@@ -1415,7 +1410,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342977702085017
 Transform:
@@ -1492,14 +1487,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342977704015164}
   - component: {fileID: 1548729026}
-  - component: {fileID: 1548729027}
+  - component: {fileID: 1649152542}
   m_Layer: 6
   m_Name: Water Lily Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342977704015164
 Transform:
   m_ObjectHideFlags: 0
@@ -1529,7 +1524,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &1548729027
+--- !u!114 &1649152542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1538,7 +1533,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342977704015165}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -1553,14 +1548,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342977705932022}
   - component: {fileID: 1546713868}
-  - component: {fileID: 1546713869}
+  - component: {fileID: 1366572939}
   m_Layer: 6
   m_Name: Reptile Scale Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342977705932022
 Transform:
   m_ObjectHideFlags: 0
@@ -1590,7 +1585,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &1546713869
+--- !u!114 &1366572939
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1599,7 +1594,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342977705932023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -1614,14 +1609,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342977808411745}
   - component: {fileID: 1444193181}
-  - component: {fileID: 1444193182}
+  - component: {fileID: 825513948}
   m_Layer: 6
   m_Name: Honeycomb Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342977808411745
 Transform:
   m_ObjectHideFlags: 0
@@ -1651,7 +1646,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &1444193182
+--- !u!114 &825513948
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1660,7 +1655,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342977808411750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -1675,14 +1670,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342977954483804}
   - component: {fileID: 1868661154}
-  - component: {fileID: 1868661155}
+  - component: {fileID: 949567355}
   m_Layer: 6
   m_Name: Mossy Gem Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342977954483804
 Transform:
   m_ObjectHideFlags: 0
@@ -1712,7 +1707,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &1868661155
+--- !u!114 &949567355
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1721,11 +1716,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342977954483805}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
-  IngType: 4
+  IngType: 5
 --- !u!1 &777342977962088268
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,7 +1737,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342977962088271
 Transform:
@@ -1819,14 +1814,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342978267799955}
   - component: {fileID: 1924492911}
-  - component: {fileID: 1924492912}
+  - component: {fileID: 1537680670}
   m_Layer: 6
   m_Name: Jar of Ectoplasm Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342978267799955
 Transform:
   m_ObjectHideFlags: 0
@@ -1856,7 +1851,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &1924492912
+--- !u!114 &1537680670
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1865,7 +1860,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342978267799952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -1880,14 +1875,14 @@ GameObject:
   m_Component:
   - component: {fileID: 777342978307682982}
   - component: {fileID: 1884487004}
-  - component: {fileID: 1884487005}
+  - component: {fileID: 359727474}
   m_Layer: 6
   m_Name: Jar of Aged Blood Storage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &777342978307682982
 Transform:
   m_ObjectHideFlags: 0
@@ -1917,7 +1912,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.17411017, y: 0.33521986, z: 0.06997847}
   m_Center: {x: 0, y: 0.01, z: 0}
---- !u!114 &1884487005
+--- !u!114 &359727474
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1926,7 +1921,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 777342978307682983}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6177813ffb765c84a86caf2bdea9e40c, type: 3}
+  m_Script: {fileID: 11500000, guid: aac55c58b3bb25441aba93b04e4115a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 1
@@ -1947,7 +1942,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342978335032322
 Transform:
@@ -2030,7 +2025,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &777342978336617072
 Transform:

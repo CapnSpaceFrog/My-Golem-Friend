@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
 
     public static Inventory Inv;
 
-    //20 slots of Player inventory available
+    //15 slots of Player inventory available
     public readonly static int InventorySize = 15;
 
     public void Awake()

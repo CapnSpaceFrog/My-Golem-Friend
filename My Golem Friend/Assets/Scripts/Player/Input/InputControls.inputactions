@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Throw",
+                    "name": "LftClick",
                     "type": "Button",
                     "id": "b1864566-87f8-404d-b5de-18920093b691",
                     "expectedControlType": "Button",
@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Drop",
+                    "name": "RghClick",
                     "type": "Button",
                     "id": "141553ba-4d37-4218-bb2a-429d9e3f84d5",
                     "expectedControlType": "Button",
@@ -136,7 +136,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Drop",
+                    "action": "RghClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -147,7 +147,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Throw",
+                    "action": "LftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

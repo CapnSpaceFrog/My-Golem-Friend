@@ -1,14 +1,12 @@
 using UnityEngine;
 
-public class OverworldIngredient : Interactable
+public class OverworldIngredient : Ingredient
 {
     MeshFilter meshFilter;
     public Mesh HarvestedMesh;
 
     [HideInInspector]
     public bool Harvested;
-
-    public IngredientType IngType;
 
     public override void Awake()
     {
@@ -19,13 +17,12 @@ public class OverworldIngredient : Interactable
 
     public void Harvest()
     {
-        Harvested = true;
-        //Update the mesh filter to the correct mesh for the obj
-        meshFilter.mesh = HarvestedMesh;
-        Collider.enabled = false;
-
         if (Player.Inv.AddIngredient(this))
         {
+            UIHandler.Instance.FillInvUISlot(this);
+            Harvested = true;
+            meshFilter.mesh = HarvestedMesh;
+            Collider.enabled = false;
             return;
         }
         else

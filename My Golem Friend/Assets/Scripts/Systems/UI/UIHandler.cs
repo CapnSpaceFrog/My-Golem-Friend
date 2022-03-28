@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -8,8 +7,9 @@ public struct InvUISlot
     public GameObject Object;
     public RectTransform Transform;
     public Image Image;
+    public Button Btn;
     public bool Filled;
-    public IngredientType FilledType;
+    public Ingredient Ing;
 }
 
 public enum PanelType
@@ -26,8 +26,8 @@ public class UIHandler : MonoBehaviour
     public GameObject MainPanel;
     public PanelCollection PlayerPanels;
     public PanelCollection SystemPanels;
-    private bool InSystemPanel;
-    private GameObject CurrentPanel;
+    bool InSystemPanel;
+    GameObject CurrentPanel;
 
     [System.Serializable]
     public struct PanelCollection
@@ -40,14 +40,16 @@ public class UIHandler : MonoBehaviour
 
     [Header("Inventory Panel Variables")]
     public Sprite[] InvImgSprites;
-    InvUISlot[] InvUISlots;
-    
-    [Header("Inventory Display Variables")]
     public int Rows;
     public int Colums;
     public Vector2 InvSpriteSize;
     public int xPadding;
     public int yPadding;
+    InvUISlot[] InvUISlots;
+
+    [Header("Ingredient Storage Table Variables")]
+    public TextMeshProUGUI[] StorageCounters; 
+    
 
     private void Awake()
     {
@@ -86,6 +88,10 @@ public class UIHandler : MonoBehaviour
             InvUISlots[i].Image = InvUISlots[i].Object.AddComponent<Image>();
             InvUISlots[i].Image.sprite = emptyInv;
 
+            InvUISlots[i].Btn = InvUISlots[i].Object.AddComponent<Button>();
+            InvUISlots[i].Btn.transition = Selectable.Transition.None;
+            InvUISlots[i].Btn.interactable = false;
+
             InvUISlots[i].Transform.parent = InvPanelTransform;
 
             InvUISlots[i].Transform.position = InvPanelTransform.position;
@@ -110,6 +116,8 @@ public class UIHandler : MonoBehaviour
         FPInteract.OnStorageTableInteract += HandleStorageTableInteract;
     }
 
+    //TODO: Break this out to more digesitble methods that have
+    //more direct control over what behavior to do
     private void OnMenuInput()
     {
         //If we received input and are in the system panel, back out of it
@@ -143,35 +151,38 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void FillInvUISlot(IngredientType type)
+    public void FillInvUISlot(Ingredient ingredient)
     {
         for (int i = 0; i < InvUISlots.Length; i++)
         {
             if (InvUISlots[i].Filled == false)
             {
                 InvUISlots[i].Filled = true;
-                InvUISlots[i].FilledType = type;
-                InvUISlots[i].Image.sprite = InvImgSprites[(int)type];
+                InvUISlots[i].Ing = ingredient;
+                InvUISlots[i].Image.sprite = InvImgSprites[(int)ingredient.IngType];
+                InvUISlots[i].Btn.onClick.AddListener(delegate { OnInvUISlotClick(InvUISlots[i]); });
+                InvUISlots[i].Btn.interactable = true;
                 break;
             }
         }
     }
 
-    public void EmptyInvUISlot(IngredientType type)
+    public void EmptyInvUISlot(Ingredient ingredient)
     {
         for (int i = 0; i < InvUISlots.Length; i++)
         {
-            if (InvUISlots[i].FilledType == type)
+            if (InvUISlots[i].Ing == ingredient)
             {
-                Debug.Log("UIHandler: Found matching emptyUIslot");
                 InvUISlots[i].Filled = false;
                 InvUISlots[i].Image.sprite = Resources.Load<Sprite>("InvImg/Empty");
+                InvUISlots[i].Btn.onClick.RemoveListener(delegate { OnInvUISlotClick(InvUISlots[i]); });
+                InvUISlots[i].Btn.interactable = false;
                 break;
             }
         }
     }
 
-    void HandleStorageTableInteract()
+    private void HandleStorageTableInteract()
     {
         //Default to the first System UI Panel
         CurrentPanel = SystemPanels.Panels[0];
@@ -240,10 +251,23 @@ public class UIHandler : MonoBehaviour
 
     public void StoreAllButtonPress()
     {
-        if(!Player.Inv.CheckIfEmpty())
+        Player.Inv.StoreIngredientsToTable();
+    }
+
+    public void UpdateStoredIngCounters()
+    {
+        for (int i = 0; i < StorageCounters.Length; i++)
         {
-            Player.Inv.StoreAllIngredients();
+            StorageCounters[i].text = $"{(IngredientType)i} x{AlchemyHandler.StoredIngredients[i]}";
         }
+    }
+
+    private void OnInvUISlotClick(InvUISlot UISlot)
+    {
+        EmptyInvUISlot(UISlot.Ing);
+        Player.Inv.RemoveIngredient(UISlot.Ing);
+        OnMenuInput();
+        WorldObjectManager.InsantiateObject(UISlot.Ing.IngType);
     }
 
     private void OnDisable()

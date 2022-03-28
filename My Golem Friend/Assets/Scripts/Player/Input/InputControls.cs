@@ -55,7 +55,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Throw"",
+                    ""name"": ""LftClick"",
                     ""type"": ""Button"",
                     ""id"": ""b1864566-87f8-404d-b5de-18920093b691"",
                     ""expectedControlType"": ""Button"",
@@ -64,7 +64,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Drop"",
+                    ""name"": ""RghClick"",
                     ""type"": ""Button"",
                     ""id"": ""141553ba-4d37-4218-bb2a-429d9e3f84d5"",
                     ""expectedControlType"": ""Button"",
@@ -158,7 +158,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Drop"",
+                    ""action"": ""RghClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -169,7 +169,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Throw"",
+                    ""action"": ""LftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -228,8 +228,8 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
         m_Gameplay_MouseLook = m_Gameplay.FindAction("Mouse Look", throwIfNotFound: true);
-        m_Gameplay_Throw = m_Gameplay.FindAction("Throw", throwIfNotFound: true);
-        m_Gameplay_Drop = m_Gameplay.FindAction("Drop", throwIfNotFound: true);
+        m_Gameplay_LftClick = m_Gameplay.FindAction("LftClick", throwIfNotFound: true);
+        m_Gameplay_RghClick = m_Gameplay.FindAction("RghClick", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Menu = m_UI.FindAction("Menu", throwIfNotFound: true);
@@ -295,8 +295,8 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Interact;
     private readonly InputAction m_Gameplay_MouseLook;
-    private readonly InputAction m_Gameplay_Throw;
-    private readonly InputAction m_Gameplay_Drop;
+    private readonly InputAction m_Gameplay_LftClick;
+    private readonly InputAction m_Gameplay_RghClick;
     public struct GameplayActions
     {
         private @InputControls m_Wrapper;
@@ -304,8 +304,8 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Interact => m_Wrapper.m_Gameplay_Interact;
         public InputAction @MouseLook => m_Wrapper.m_Gameplay_MouseLook;
-        public InputAction @Throw => m_Wrapper.m_Gameplay_Throw;
-        public InputAction @Drop => m_Wrapper.m_Gameplay_Drop;
+        public InputAction @LftClick => m_Wrapper.m_Gameplay_LftClick;
+        public InputAction @RghClick => m_Wrapper.m_Gameplay_RghClick;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -324,12 +324,12 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @MouseLook.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseLook;
                 @MouseLook.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseLook;
                 @MouseLook.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMouseLook;
-                @Throw.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
-                @Throw.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
-                @Throw.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
-                @Drop.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
-                @Drop.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
-                @Drop.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
+                @LftClick.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLftClick;
+                @LftClick.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLftClick;
+                @LftClick.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLftClick;
+                @RghClick.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRghClick;
+                @RghClick.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRghClick;
+                @RghClick.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRghClick;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -343,12 +343,12 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @MouseLook.started += instance.OnMouseLook;
                 @MouseLook.performed += instance.OnMouseLook;
                 @MouseLook.canceled += instance.OnMouseLook;
-                @Throw.started += instance.OnThrow;
-                @Throw.performed += instance.OnThrow;
-                @Throw.canceled += instance.OnThrow;
-                @Drop.started += instance.OnDrop;
-                @Drop.performed += instance.OnDrop;
-                @Drop.canceled += instance.OnDrop;
+                @LftClick.started += instance.OnLftClick;
+                @LftClick.performed += instance.OnLftClick;
+                @LftClick.canceled += instance.OnLftClick;
+                @RghClick.started += instance.OnRghClick;
+                @RghClick.performed += instance.OnRghClick;
+                @RghClick.canceled += instance.OnRghClick;
             }
         }
     }
@@ -400,8 +400,8 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnMouseLook(InputAction.CallbackContext context);
-        void OnThrow(InputAction.CallbackContext context);
-        void OnDrop(InputAction.CallbackContext context);
+        void OnLftClick(InputAction.CallbackContext context);
+        void OnRghClick(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

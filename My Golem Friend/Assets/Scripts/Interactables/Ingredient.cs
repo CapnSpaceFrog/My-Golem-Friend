@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoredIngredient : Interactable
+public class Ingredient : Interactable
 {
     public IngredientType IngType;
 }

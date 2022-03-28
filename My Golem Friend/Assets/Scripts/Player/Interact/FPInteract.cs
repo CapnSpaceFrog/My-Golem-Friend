@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class FPInteract : MonoBehaviour
 {
-    public static Holdable HeldObject = null;
-
     [Header("Interaction Variables")]
     public LayerMask InteractablesMask;
     public float InteractRayDistance;
@@ -13,11 +11,12 @@ public class FPInteract : MonoBehaviour
 
     public static event Action OnStorageTableInteract;
 
+    [Header("Holdable Variables")]
+    public static Holdable HeldObject = null;
+
     public void OnEnable()
     {
         InputHandler.OnInteractInput += InteractInputCheck;
-        InputHandler.OnPlaceInput += OnPlaceInputCheck;
-        InputHandler.OnThrowInput += OnThrowInputCheck;
     }
 
     public void Update()
@@ -36,75 +35,115 @@ public class FPInteract : MonoBehaviour
         return false;
     }
 
-    private void InteractInputCheck()
+    private void InteractInputCheck(InteractInput inputType)
     {
         if (CheckInputTimer())
         {
-            CastInteractRay();
+            switch (inputType)
+            {
+                case InteractInput.E:
+                    InteractButtonInput(CastInteractRay());
+                    break;
+
+                case InteractInput.LeftClick:
+                    if (HeldObject != null)
+                    {
+                        HeldObject.Throw();
+                    }
+                    else
+                    {
+                        LeftClickInput(CastInteractRay());
+                    }
+                    break;
+
+                case InteractInput.RightClick:
+                    if (HeldObject != null)
+                    {
+                        HeldObject.Drop();
+                    }
+                    break;
+            }
         }
     }
 
-    private void OnPlaceInputCheck()
-    {
-        if (HeldObject != null && CheckInputTimer())
-        {
-            HeldObject.Drop();
-        }
-    }
-
-    private void OnThrowInputCheck()
-    {
-        if (HeldObject != null && CheckInputTimer())
-        {
-            HeldObject.Throw();
-        }
-    }
-
-    private void CastInteractRay()
+    private Interactable CastInteractRay()
     {
         Vector2 midPoint = new Vector2(Screen.width / 2, Screen.height / 2);
 
-        bool hitObj = Physics.Raycast(FPCameraController.MainCamera.ScreenToWorldPoint(midPoint), 
+        bool hitObj = Physics.Raycast(FPCameraController.MainCamera.ScreenToWorldPoint(midPoint),
             FPCameraController.MainCamera.transform.forward, out RaycastHit hit, InteractRayDistance, InteractablesMask);
 
         if (hitObj)
         {
-            InvokeHandler(hit.transform.gameObject.GetComponent<Interactable>());
+            return hit.transform.gameObject.GetComponent<Interactable>();
+        }
+        else
+        {
+            return null;
         }
     }
 
-    //Checks what type of object the player touched and passes execution to the correct function
-    private void InvokeHandler(Interactable hitObj)
+    private void InteractButtonInput(Interactable hitObj)
     {
+        if (hitObj == null)
+        {
+            return;
+        }
+
         switch (hitObj.InterObjType)
         {
-            //Functionality is completed, just need to set Meshes for harvested versions
-            case InteractableType.OverworldIng:
+            case InteractableType.OverworldIngredient:
                 OverworldIngredient ing = hitObj.gameObject.GetComponent<OverworldIngredient>();
-
-                Debug.Log("Overworld Ingredient Tocuhed: " + ing.IngType);
                 OnOverworldIngInteract(ing);
                 break;
 
-            case InteractableType.IngStorage:
-                StoredIngredient storedIng = hitObj.gameObject.GetComponent<StoredIngredient>();
+            case InteractableType.StoredIngredient:
+                //Add the Item to the Player's inventory, but not their hand
+                Ingredient storedIng = hitObj.gameObject.GetComponent<Ingredient>();
 
-                Debug.Log("Stored Ingredient Tocuhed: " + storedIng);
-                OnStoredIngInteract(storedIng);
+                AlchemyHandler.Instance.RemoveIngFromStorage(storedIng.IngType);
+                Player.Inv.AddIngredient(storedIng);
+                UIHandler.Instance.FillInvUISlot(storedIng);
                 break;
 
-                //Functionality is completed
-            case InteractableType.StorageTable:
+            case InteractableType.IngredientStorageTable:
                 OnStorageTableInteract?.Invoke();
-
-                Debug.Log("Storage Table Tocuhed.");
                 break;
 
             case InteractableType.Holdable:
+                //Pressing E on a holdable object adds it to the Player's inventory
                 Holdable heldObj = hitObj.gameObject.GetComponent<Holdable>();
 
                 Debug.Log("Holdable Object Tocuhed: " + heldObj);
-                OnHoldableInteract(heldObj);
+                heldObj.PickedUp();
+                break;
+        }
+    }
+
+    private void LeftClickInput(Interactable hitObj)
+    {
+        if (hitObj == null)
+        {
+            return;
+        }
+
+        switch (hitObj.InterObjType)
+        {
+            case InteractableType.StoredIngredient:
+                //Left clicking the Ing Storage adds the item to the players hand
+                Ingredient storedIng = hitObj.gameObject.GetComponent<Ingredient>();
+
+                Debug.Log("Left Click Input-Stored Ingredient: " + storedIng);
+                AlchemyHandler.Instance.RemoveIngFromStorage(storedIng.IngType);
+                WorldObjectManager.InsantiateObject(storedIng.IngType);
+                break;
+
+            case InteractableType.Holdable:
+                //Left clicking a holdable object that's on the ground puts it in the Player's hand
+                Holdable heldObj = hitObj.gameObject.GetComponent<Holdable>();
+
+                Debug.Log("Holdable Object Tocuhed: " + heldObj);
+                heldObj.PickedUp();
                 break;
         }
     }
@@ -115,7 +154,6 @@ public class FPInteract : MonoBehaviour
         if (overworldIng.Harvested)
         {
             //This part needs to be removed and when the obj is harvested it is disabled automatically
-            print(overworldIng.IngType + " has already been harvested");
         }
         else
         {
@@ -123,19 +161,9 @@ public class FPInteract : MonoBehaviour
         }
     }
 
-    private void OnStoredIngInteract(StoredIngredient storedIng)
-    {
-        
-    }
-
-    private void OnHoldableInteract(Holdable storageIngTable)
-    {
-
-    }
-
     private void OnDrawGizmos()
     {
-        Gizmos.DrawRay(FPCameraController.MainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2)), 
+        Gizmos.DrawRay(FPCameraController.MainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2)),
             FPCameraController.MainCamera.transform.forward * InteractRayDistance);
     }
 }

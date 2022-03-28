@@ -2,22 +2,20 @@ using System.Collections.Generic;
 
 public class Inventory
 {
-    public static OverworldIngredient[] Ingredients;
+    public static Ingredient[] Ingredients;
 
     public Inventory(int invSize)
     {
-        Ingredients = new OverworldIngredient[invSize];
+        Ingredients = new Ingredient[invSize];
     }
     
-    public bool AddIngredient(OverworldIngredient ingredientToAdd)
+    public bool AddIngredient(Ingredient ingredient)
     {
         for (int i = 0; i < Ingredients.Length; i++)
         {
             if (Ingredients[i] == null)
             {
-                Ingredients[i] = ingredientToAdd;
-                UIHandler.Instance.FillInvUISlot(ingredientToAdd.IngType);
-
+                Ingredients[i] = ingredient;
                 return true;
             }
         }
@@ -25,14 +23,12 @@ public class Inventory
         return false;
     }
 
-    //This is going to get changed as the way we keep manage the player inventory is gonna change
-    public bool RemoveItem(OverworldIngredient ingredientToRemove)
+    public bool RemoveIngredient(Ingredient ingredient)
     {
         for (int i = 0; i < Ingredients.Length; i++)
         {
-            if (Ingredients[i] == ingredientToRemove)
+            if (Ingredients[i] == ingredient)
             {
-                UIHandler.Instance.EmptyInvUISlot(ingredientToRemove.IngType);
                 Ingredients[i] = null;
                 return true;
             }
@@ -41,29 +37,18 @@ public class Inventory
         return false;
     }
 
-    public void StoreAllIngredients()
-    {
-        //Store all of the ingredients
-        for (int i = 0; i < Ingredients.Length; i++)
-        {
-            if (Ingredients[i] != null)
-            {
-                AlchemyHandler.StoredIngredients[(int)Ingredients[i].IngType] += 1;
-                RemoveItem(Ingredients[i]);
-            }
-        }
-    }
-
-    public bool CheckIfEmpty()
+    public void StoreIngredientsToTable()
     {
         for (int i = 0; i < Ingredients.Length; i++)
         {
             if (Ingredients[i] != null)
             {
-                return false;
+                AlchemyHandler.Instance.AddIngToStorage(Ingredients[i].IngType);
+                UIHandler.Instance.EmptyInvUISlot(Ingredients[i]);
+                RemoveIngredient(Ingredients[i]);
             }
         }
 
-        return true;
+        UIHandler.Instance.UpdateStoredIngCounters();
     }
 }

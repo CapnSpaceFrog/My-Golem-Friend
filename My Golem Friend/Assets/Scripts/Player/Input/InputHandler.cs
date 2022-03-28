@@ -2,6 +2,13 @@ using System;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
+public enum InteractInput
+{
+    E,
+    RightClick,
+    LeftClick
+}
+
 public class InputHandler : MonoBehaviour
 {
     InputControls inputControls;
@@ -11,11 +18,10 @@ public class InputHandler : MonoBehaviour
 
     public static Vector2 MouseDelta;
     public static Vector2 MovementInput;
+    private InteractInput InputType;
 
-    public static event Action OnInteractInput;
+    public static event Action<InteractInput> OnInteractInput;
     public static event Action OnMenuInput;
-    public static event Action OnPlaceInput;
-    public static event Action OnThrowInput;
 
     public void Awake()
     {
@@ -35,11 +41,11 @@ public class InputHandler : MonoBehaviour
         Gameplay.Movement.performed += CacheMovementVector;
         Gameplay.Movement.canceled += ClearMovementVector;
 
-        Gameplay.Interact.performed += CacheInteractInput;
+        Gameplay.Interact.performed += EButtonInput;
 
-        Gameplay.Drop.performed += CacheDropInput;
+        Gameplay.LftClick.performed += LeftClickInput;
 
-        Gameplay.Throw.performed += CacheThrowInput;
+        Gameplay.RghClick.performed += RightClickInput;
 
         UI.Menu.performed += CacheMenuInput;
     }
@@ -59,19 +65,22 @@ public class InputHandler : MonoBehaviour
         MovementInput = Vector2.zero;
     }
 
-    private void CacheInteractInput(InputAction.CallbackContext ctx)
+    private void EButtonInput(InputAction.CallbackContext ctx)
     {
-        OnInteractInput?.Invoke();
+        InputType = InteractInput.E;
+        OnInteractInput?.Invoke(InputType);
     }
 
-    private void CacheDropInput(InputAction.CallbackContext ctx)
+    private void LeftClickInput(InputAction.CallbackContext ctx)
     {
-        OnPlaceInput?.Invoke();
+        InputType = InteractInput.LeftClick;
+        OnInteractInput?.Invoke(InputType);
     }
 
-    private void CacheThrowInput(InputAction.CallbackContext ctx)
+    private void RightClickInput(InputAction.CallbackContext ctx)
     {
-        OnThrowInput?.Invoke();
+        InputType = InteractInput.RightClick;
+        OnInteractInput?.Invoke(InputType);
     }
 
     private void CacheMenuInput(InputAction.CallbackContext ctx)
@@ -81,6 +90,9 @@ public class InputHandler : MonoBehaviour
 
     public static void EnterUIMode()
     {
+        MouseDelta = Vector2.zero;
+        MovementInput = Vector2.zero;
+
         Gameplay.Disable();
         Cursor.lockState = CursorLockMode.None;
     }
@@ -93,6 +105,9 @@ public class InputHandler : MonoBehaviour
 
     public static void EnterDialogueMode()
     {
+        MouseDelta = Vector2.zero;
+        MovementInput = Vector2.zero;
+
         Gameplay.Disable();
         UI.Disable();
         Cursor.lockState = CursorLockMode.None;
@@ -122,11 +137,11 @@ public class InputHandler : MonoBehaviour
         Gameplay.Movement.performed -= CacheMovementVector;
         Gameplay.Movement.canceled -= ClearMovementVector;
 
-        Gameplay.Interact.performed -= CacheInteractInput;
+        Gameplay.Interact.performed -= EButtonInput;
 
-        Gameplay.Drop.performed -= CacheDropInput;
+        Gameplay.LftClick.performed -= LeftClickInput;
 
-        Gameplay.Throw.performed -= CacheThrowInput;
+        Gameplay.RghClick.performed -= RightClickInput;
 
         UI.Menu.performed -= CacheMenuInput;
 
