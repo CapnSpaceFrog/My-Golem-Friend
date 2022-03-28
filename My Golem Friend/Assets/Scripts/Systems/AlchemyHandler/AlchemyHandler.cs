@@ -27,7 +27,14 @@ public class AlchemyHandler : MonoBehaviour
 
     public RecipeData[] Recipes;
 
+    private IngStorage[] StoredIngredients;
+
     private void Awake()
+    {
+
+    }
+
+    private void OnEnable()
     {
 
     }

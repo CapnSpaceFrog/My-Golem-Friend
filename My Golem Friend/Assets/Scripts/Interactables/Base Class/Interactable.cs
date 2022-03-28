@@ -4,7 +4,9 @@ using UnityEngine;
 
 public enum InteractableType
 {
-    OverworldIngredient,
+    OverworldIng,
+    IngStorage,
+    StorageTable,
     Holdable
 }
 
