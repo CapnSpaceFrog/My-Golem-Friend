@@ -43,6 +43,18 @@ public class AlchemyHandler : MonoBehaviour
 
     }
 
+    public void AddIngToStorage(IngredientType type)
+    {
+        if (AlchemyHandler.StoredIngredients[(int)type] == 0)
+        {
+            IngredientStorageDisplays[(int)type].SetActive(true);
+        }
+
+        AlchemyHandler.StoredIngredients[(int)type] += 1;
+
+        UIHandler.Instance.UpdateStoredIngCounters();
+    }
+
     public void RemoveIngFromStorage(IngredientType type)
     {
         if (StoredIngredients[(int)type] - 1 == 0)
@@ -57,15 +69,5 @@ public class AlchemyHandler : MonoBehaviour
         }
 
         UIHandler.Instance.UpdateStoredIngCounters();
-    }
-
-    public void AddIngToStorage(IngredientType type)
-    {
-        if (AlchemyHandler.StoredIngredients[(int)type] == 0)
-        {
-            IngredientStorageDisplays[(int)type].SetActive(true);
-        }
-
-        AlchemyHandler.StoredIngredients[(int)type] += 1;
     }
 }

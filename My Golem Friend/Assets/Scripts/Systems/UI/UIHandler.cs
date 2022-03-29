@@ -9,7 +9,7 @@ public struct InvUISlot
     public Image Image;
     public Button Btn;
     public bool Filled;
-    public Ingredient Ing;
+    public StorableIngredient Ing;
 }
 
 public enum PanelType
@@ -151,7 +151,7 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void FillInvUISlot(Ingredient ingredient)
+    public void FillInvUISlot(StorableIngredient ingredient)
     {
         for (int i = 0; i < InvUISlots.Length; i++)
         {
@@ -159,7 +159,8 @@ public class UIHandler : MonoBehaviour
             {
                 InvUISlots[i].Filled = true;
                 InvUISlots[i].Ing = ingredient;
-                InvUISlots[i].Image.sprite = InvImgSprites[(int)ingredient.IngType];
+                Debug.Log("FillInvUISlot Ing: " + ingredient);
+                InvUISlots[i].Image.sprite = InvImgSprites[(int)ingredient.Type];
                 InvUISlots[i].Btn.onClick.AddListener(delegate { OnInvUISlotClick(InvUISlots[i]); });
                 InvUISlots[i].Btn.interactable = true;
                 break;
@@ -167,15 +168,16 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void EmptyInvUISlot(Ingredient ingredient)
+    public void EmptyInvUISlot(StorableIngredient ingredient)
     {
         for (int i = 0; i < InvUISlots.Length; i++)
         {
             if (InvUISlots[i].Ing == ingredient)
             {
+                InvUISlots[i].Ing = null;
                 InvUISlots[i].Filled = false;
                 InvUISlots[i].Image.sprite = Resources.Load<Sprite>("InvImg/Empty");
-                InvUISlots[i].Btn.onClick.RemoveListener(delegate { OnInvUISlotClick(InvUISlots[i]); });
+                InvUISlots[i].Btn.onClick.RemoveAllListeners();
                 InvUISlots[i].Btn.interactable = false;
                 break;
             }
@@ -254,20 +256,20 @@ public class UIHandler : MonoBehaviour
         Player.Inv.StoreIngredientsToTable();
     }
 
+    private void OnInvUISlotClick(InvUISlot UISlot)
+    {
+        WorldObjectManager.Instance.InstantiateHoldableIngredient(UISlot.Ing);
+        Player.Inv.RemoveIngredient(UISlot.Ing);
+
+        OnMenuInput();
+    }
+
     public void UpdateStoredIngCounters()
     {
         for (int i = 0; i < StorageCounters.Length; i++)
         {
             StorageCounters[i].text = $"{(IngredientType)i} x{AlchemyHandler.StoredIngredients[i]}";
         }
-    }
-
-    private void OnInvUISlotClick(InvUISlot UISlot)
-    {
-        EmptyInvUISlot(UISlot.Ing);
-        Player.Inv.RemoveIngredient(UISlot.Ing);
-        OnMenuInput();
-        WorldObjectManager.InsantiateObject(UISlot.Ing.IngType);
     }
 
     private void OnDisable()

@@ -94,16 +94,23 @@ public class FPInteract : MonoBehaviour
         {
             case InteractableType.OverworldIngredient:
                 OverworldIngredient ing = hitObj.gameObject.GetComponent<OverworldIngredient>();
-                OnOverworldIngInteract(ing);
+
+                if (!ing.Harvested)
+                {
+                    ing.Harvest();
+                }
+
                 break;
 
             case InteractableType.StoredIngredient:
                 //Add the Item to the Player's inventory, but not their hand
-                Ingredient storedIng = hitObj.gameObject.GetComponent<Ingredient>();
+                IngredientType ingType = hitObj.gameObject.GetComponent<Ingredient>().IngType;
 
-                AlchemyHandler.Instance.RemoveIngFromStorage(storedIng.IngType);
-                Player.Inv.AddIngredient(storedIng);
-                UIHandler.Instance.FillInvUISlot(storedIng);
+                AlchemyHandler.Instance.RemoveIngFromStorage(ingType);
+
+                StorableIngredient newIng = Inventory.CreateStorableIng(ingType);
+
+                Player.Inv.AddIngredient(newIng);
                 break;
 
             case InteractableType.IngredientStorageTable:
@@ -114,8 +121,15 @@ public class FPInteract : MonoBehaviour
                 //Pressing E on a holdable object adds it to the Player's inventory
                 Holdable heldObj = hitObj.gameObject.GetComponent<Holdable>();
 
-                Debug.Log("Holdable Object Tocuhed: " + heldObj);
-                heldObj.PickedUp();
+                if (heldObj.HoldableType == HoldableType.Ingredient)
+                {
+                    HoldableIngredient heldIng = hitObj.gameObject.GetComponent<HoldableIngredient>();
+
+                    Player.Inv.AddIngredient(heldIng.StoredIng); 
+                    WorldObjectManager.FlagObjectForDestruction(hitObj.gameObject);
+                    hitObj.gameObject.SetActive(false);
+                }
+                
                 break;
         }
     }
@@ -131,33 +145,19 @@ public class FPInteract : MonoBehaviour
         {
             case InteractableType.StoredIngredient:
                 //Left clicking the Ing Storage adds the item to the players hand
-                Ingredient storedIng = hitObj.gameObject.GetComponent<Ingredient>();
+                IngredientType ingType = hitObj.gameObject.GetComponent<Ingredient>().IngType;
 
-                Debug.Log("Left Click Input-Stored Ingredient: " + storedIng);
-                AlchemyHandler.Instance.RemoveIngFromStorage(storedIng.IngType);
-                WorldObjectManager.InsantiateObject(storedIng.IngType);
+                AlchemyHandler.Instance.RemoveIngFromStorage(ingType);
+
+                WorldObjectManager.Instance.InstantiateHoldableIngredient(Inventory.CreateStorableIng(ingType));
                 break;
 
             case InteractableType.Holdable:
                 //Left clicking a holdable object that's on the ground puts it in the Player's hand
                 Holdable heldObj = hitObj.gameObject.GetComponent<Holdable>();
 
-                Debug.Log("Holdable Object Tocuhed: " + heldObj);
                 heldObj.PickedUp();
                 break;
-        }
-    }
-
-    //TODO: OnOverworldIngInteract Update
-    private void OnOverworldIngInteract(OverworldIngredient overworldIng)
-    {
-        if (overworldIng.Harvested)
-        {
-            //This part needs to be removed and when the obj is harvested it is disabled automatically
-        }
-        else
-        {
-            overworldIng.Harvest();
         }
     }
 

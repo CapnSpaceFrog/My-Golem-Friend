@@ -1,21 +1,40 @@
-using System.Collections.Generic;
+[System.Serializable]
+public class StorableIngredient
+{
+    public IngredientType Type;
+}
 
 public class Inventory
 {
-    public static Ingredient[] Ingredients;
+    public static StorableIngredient[] Ingredients;
 
     public Inventory(int invSize)
     {
-        Ingredients = new Ingredient[invSize];
+        Ingredients = new StorableIngredient[invSize];
     }
-    
-    public bool AddIngredient(Ingredient ingredient)
+
+    public static StorableIngredient CreateStorableIng(Ingredient ingBase)
+    {
+        StorableIngredient newIng = new StorableIngredient();
+        newIng.Type = ingBase.IngType;
+        return newIng;
+    }
+
+    public static StorableIngredient CreateStorableIng(IngredientType type)
+    {
+        StorableIngredient newIng = new StorableIngredient();
+        newIng.Type = type;
+        return newIng;
+    }
+
+    public bool AddIngredient(StorableIngredient ing)
     {
         for (int i = 0; i < Ingredients.Length; i++)
         {
             if (Ingredients[i] == null)
             {
-                Ingredients[i] = ingredient;
+                Ingredients[i] = ing;
+                UIHandler.Instance.FillInvUISlot(Ingredients[i]);
                 return true;
             }
         }
@@ -23,13 +42,14 @@ public class Inventory
         return false;
     }
 
-    public bool RemoveIngredient(Ingredient ingredient)
+    public bool RemoveIngredient(StorableIngredient ing)
     {
         for (int i = 0; i < Ingredients.Length; i++)
         {
-            if (Ingredients[i] == ingredient)
+            if (Ingredients[i] == ing)
             {
                 Ingredients[i] = null;
+                UIHandler.Instance.EmptyInvUISlot(ing);
                 return true;
             }
         }
@@ -43,12 +63,11 @@ public class Inventory
         {
             if (Ingredients[i] != null)
             {
-                AlchemyHandler.Instance.AddIngToStorage(Ingredients[i].IngType);
-                UIHandler.Instance.EmptyInvUISlot(Ingredients[i]);
+                AlchemyHandler.Instance.AddIngToStorage(Ingredients[i].Type);
                 RemoveIngredient(Ingredients[i]);
             }
         }
 
-        UIHandler.Instance.UpdateStoredIngCounters();
+        WorldObjectManager.PurgeFlaggedObjects();
     }
 }
