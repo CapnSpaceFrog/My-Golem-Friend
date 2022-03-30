@@ -7,6 +7,7 @@ public enum InteractableType
     OverworldIngredient,
     StoredIngredient,
     IngredientStorageTable,
+    CraftingStation,
     Holdable
 }
 

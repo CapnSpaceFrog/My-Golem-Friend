@@ -42,10 +42,11 @@ GameObject:
   - component: {fileID: 2341616605144514853}
   - component: {fileID: 1716096239902428800}
   - component: {fileID: 3473466332665903690}
+  - component: {fileID: 8768990999350533372}
   - component: {fileID: 6821878865243413629}
   - component: {fileID: 1795113375016373300}
   - component: {fileID: 3316222411037876092}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cauldron
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,6 +119,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8768990999350533372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3113332362113178527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1b29bcf47e70648adad200282fe993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InterObjType: 3
 --- !u!114 &6821878865243413629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Recipes:
-  - RecipeRequirements:
+  - RecipeName: 
+    RecipeRequirements:
     - ReqIng: 0
       ReqIngAmount: 3
       IngReqMet: 0
@@ -146,7 +161,8 @@ MonoBehaviour:
       IngReqMet: 0
     numberOfReqMet: 0
     SearchPriority: 0
-  - RecipeRequirements:
+  - RecipeName: 
+    RecipeRequirements:
     - ReqIng: 3
       ReqIngAmount: 3
       IngReqMet: 0
@@ -161,7 +177,8 @@ MonoBehaviour:
       IngReqMet: 0
     numberOfReqMet: 0
     SearchPriority: 0
-  - RecipeRequirements:
+  - RecipeName: 
+    RecipeRequirements:
     - ReqIng: 4
       ReqIngAmount: 3
       IngReqMet: 0
@@ -179,7 +196,8 @@ MonoBehaviour:
       IngReqMet: 0
     numberOfReqMet: 0
     SearchPriority: 0
-  - RecipeRequirements:
+  - RecipeName: 
+    RecipeRequirements:
     - ReqIng: 2
       ReqIngAmount: 3
       IngReqMet: 0
@@ -197,7 +215,8 @@ MonoBehaviour:
       IngReqMet: 0
     numberOfReqMet: 0
     SearchPriority: 0
-  - RecipeRequirements:
+  - RecipeName: 
+    RecipeRequirements:
     - ReqIng: 8
       ReqIngAmount: 3
       IngReqMet: 0

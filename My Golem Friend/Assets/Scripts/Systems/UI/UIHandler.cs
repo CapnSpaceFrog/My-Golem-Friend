@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 
-public struct InvUISlot
+public struct UISlot
 {
     public GameObject Object;
     public RectTransform Transform;
@@ -15,7 +15,8 @@ public struct InvUISlot
 public enum PanelType
 {
     Player,
-    System
+    IngStorageTable,
+    CraftingStation
 }
 
 public class UIHandler : MonoBehaviour
@@ -24,10 +25,19 @@ public class UIHandler : MonoBehaviour
 
     [Header("General Panel Variables")]
     public GameObject MainPanel;
-    public PanelCollection PlayerPanels;
-    public PanelCollection SystemPanels;
+    public PanelCollection[] UIPanelCollection;
+    public Vector2 InvSpriteSize;
+    public int xPadding;
+    public int yPadding;
     bool InSystemPanel;
-    GameObject CurrentPanel;
+    ActivePanel CurrentPanel;
+    bool InMenu;
+
+    private struct ActivePanel
+    {
+        public GameObject Obj;
+        public PanelType Type;
+    }
 
     [System.Serializable]
     public struct PanelCollection
@@ -38,32 +48,36 @@ public class UIHandler : MonoBehaviour
         public int MaxPanels;
     }
 
-    [Header("Inventory Panel Variables")]
+    [Header("Player Inventory Panel Variables")]
     public Sprite[] InvImgSprites;
-    public int Rows;
-    public int Colums;
-    public Vector2 InvSpriteSize;
-    public int xPadding;
-    public int yPadding;
-    InvUISlot[] InvUISlots;
+    public int InvUIRows;
+    public int InvUIColumns;
+    UISlot[] InvUISlots;
 
-    [Header("Ingredient Storage Table Variables")]
-    public TextMeshProUGUI[] StorageCounters; 
-    
+    [Header("Ing Storage Table Panel Variables")]
+    public TextMeshProUGUI[] StorageCounters;
+
+    [Header("Crafting Station Panel Variables")]
+    public int CauldronInventorySlots;
+    public int CauldronUIRows;
+    public int CauldronUIColumns;
+    UISlot[] CauldronUISlots;
 
     private void Awake()
     {
         Instance = this;
 
         //When we call this function will need to change when we start swapping scenes
-        CreateInventoryUISlots();
+        InvUISlots = CreateUISlots(UIPanelCollection[(int)PanelType.Player].Panels[0].transform,
+            Player.InventorySize, InvUIRows, InvUIColumns);
+        CauldronUISlots = CreateUISlots(UIPanelCollection[(int)PanelType.CraftingStation].Panels[0].transform,
+            CauldronInventorySlots, CauldronUIRows, CauldronUIColumns);
     }
 
-    private void CreateInventoryUISlots()
+    private UISlot[] CreateUISlots(Transform parentPanel, int numberOfSlots, int rows, int columns)
     {
-        InvUISlots = new InvUISlot[Player.InventorySize];
+        UISlot[] newSlots = new UISlot[numberOfSlots];
 
-        Transform InvPanelTransform = PlayerPanels.Panels[0].transform;
         Sprite emptyInv = Resources.Load<Sprite>("InvImg/Empty");
 
         int xPositionOffset = 0;
@@ -73,34 +87,34 @@ public class UIHandler : MonoBehaviour
         int ySpritePadding = (int)InvSpriteSize.y + yPadding;
 
         //Display is 0 cenetered, so we divide by 2
-        int xStartingPos = ((Colums * xSpritePadding) - xSpritePadding) / -2;
+        int xStartingPos = ((columns * xSpritePadding) - xSpritePadding) / -2;
 
-        int yStartingPos = ((Rows * ySpritePadding) - ySpritePadding) / -2;
+        int yStartingPos = ((rows * ySpritePadding) - ySpritePadding) / -2;
 
-        int xLimit = Colums * xSpritePadding;
-        int yLimit = Rows * ySpritePadding;
+        int xLimit = columns * xSpritePadding;
+        int yLimit = rows * ySpritePadding;
 
-        for (int i = 0; i < InvUISlots.Length; i++)
+        for (int i = 0; i < newSlots.Length; i++)
         {
-            InvUISlots[i].Object = new GameObject($"Inv Slot #{i}");
+            newSlots[i].Object = new GameObject($"UI Inv Slot #{i}");
 
-            InvUISlots[i].Transform = InvUISlots[i].Object.AddComponent<RectTransform>();
-            InvUISlots[i].Image = InvUISlots[i].Object.AddComponent<Image>();
-            InvUISlots[i].Image.sprite = emptyInv;
+            newSlots[i].Transform = newSlots[i].Object.AddComponent<RectTransform>();
+            newSlots[i].Image = newSlots[i].Object.AddComponent<Image>();
+            newSlots[i].Image.sprite = emptyInv;
 
-            InvUISlots[i].Btn = InvUISlots[i].Object.AddComponent<Button>();
-            InvUISlots[i].Btn.transition = Selectable.Transition.None;
-            InvUISlots[i].Btn.interactable = false;
+            newSlots[i].Btn = newSlots[i].Object.AddComponent<Button>();
+            newSlots[i].Btn.transition = Selectable.Transition.None;
+            newSlots[i].Btn.interactable = false;
 
-            InvUISlots[i].Transform.parent = InvPanelTransform;
+            newSlots[i].Transform.parent = parentPanel;
 
-            InvUISlots[i].Transform.position = InvPanelTransform.position;
+            newSlots[i].Transform.position = parentPanel.position;
 
-            InvUISlots[i].Transform.sizeDelta = new Vector2((int)InvSpriteSize.x, (int)InvSpriteSize.y);
+            newSlots[i].Transform.sizeDelta = new Vector2((int)InvSpriteSize.x, (int)InvSpriteSize.y);
 
-            InvUISlots[i].Transform.localScale = Vector3.one;
+            newSlots[i].Transform.localScale = Vector3.one;
 
-            InvUISlots[i].Transform.localPosition = new Vector2(xStartingPos + xPositionOffset, yStartingPos + yPositionOffset);
+            newSlots[i].Transform.localPosition = new Vector2(xStartingPos + xPositionOffset, yStartingPos + yPositionOffset);
             xPositionOffset = (xPositionOffset + xSpritePadding) % xLimit;
 
             if (xPositionOffset == 0)
@@ -108,47 +122,87 @@ public class UIHandler : MonoBehaviour
                 yPositionOffset = (yPositionOffset + ySpritePadding) % yLimit;
             }
         }
+
+        return newSlots;
     }
 
     private void OnEnable()
     {
         InputHandler.OnMenuInput += OnMenuInput;
-        FPInteract.OnStorageTableInteract += HandleStorageTableInteract;
+        FPInteract.OnIngStorageTableInteract += HandleIngStorageTableInteract;
+        FPInteract.OnCraftingStationInteract += HandleCraftingStationInteract;
     }
 
-    //TODO: Break this out to more digesitble methods that have
-    //more direct control over what behavior to do
     private void OnMenuInput()
     {
-        //If we received input and are in the system panel, back out of it
-        if (InSystemPanel)
-        {
-            InSystemPanel = false;
-            MainPanel.SetActive(false);
-            CurrentPanel.SetActive(false);
+        CurrentPanel.Type = PanelType.Player;
 
-            InputHandler.ExitUIMode();
-        }
-        //If we aren't in the system panel, back out of it
-        else if (MainPanel.activeInHierarchy == true)
+        ToggleUIPanel();
+    }
+
+    private void ToggleUIPanel()
+    {
+        if (InMenu)
         {
             MainPanel.SetActive(false);
-            CurrentPanel.SetActive(false);
+            CurrentPanel.Obj.SetActive(false);
 
+            InMenu = false;
             InputHandler.ExitUIMode();
         }
-        //We aren't in any menu screen, and we didnt interact with the table,
-        //So enable the player inv panel
         else
         {
-            CurrentPanel = PlayerPanels.Panels[0];
-            PlayerPanels.CurrentIndex = 0;
+            CurrentPanel.Obj = UIPanelCollection[(int)CurrentPanel.Type].Panels[0];
+            UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex = 0;
 
+            CurrentPanel.Obj.SetActive(true);
             MainPanel.SetActive(true);
-            CurrentPanel.SetActive(true);
 
+            InMenu = true;
             InputHandler.EnterUIMode();
         }
+    }
+
+    private void HandleIngStorageTableInteract()
+    {
+        //Default to the first System UI Panel
+        CurrentPanel.Type = PanelType.IngStorageTable;
+
+        ToggleUIPanel();
+    }
+
+    private void HandleCraftingStationInteract()
+    {
+        CurrentPanel.Type = PanelType.CraftingStation;
+
+        ToggleUIPanel();
+    }
+
+    //TODO: Put all the panels into one group and use the index of the panel type to find our panels
+    public void RightUIPanelClick()
+    {
+        CurrentPanel.Obj.SetActive(false);
+
+        UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex = ++UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex 
+            % UIPanelCollection[(int)CurrentPanel.Type].MaxPanels;
+
+        CurrentPanel.Obj = UIPanelCollection[(int)CurrentPanel.Type].Panels[UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex];
+
+        CurrentPanel.Obj.SetActive(true);
+    }
+
+    public void LeftUIPanelClick()
+    {
+        CurrentPanel.Obj.SetActive(false);
+
+        if (UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex - 1 < 0)
+        {
+            UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex = UIPanelCollection[(int)CurrentPanel.Type].MaxPanels;
+        }
+
+        CurrentPanel.Obj = UIPanelCollection[(int)CurrentPanel.Type].Panels[--UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex];
+
+        CurrentPanel.Obj.SetActive(true);
     }
 
     public void FillInvUISlot(StorableIngredient ingredient)
@@ -160,8 +214,9 @@ public class UIHandler : MonoBehaviour
                 InvUISlots[i].Filled = true;
                 InvUISlots[i].Ing = ingredient;
                 InvUISlots[i].Image.sprite = InvImgSprites[(int)ingredient.Type];
-                InvUISlots[i].Btn.onClick.AddListener(delegate { OnInvUISlotClick(InvUISlots[i]); });
+                InvUISlots[i].Btn.onClick.AddListener(delegate { PlayerInvUISlotClick(InvUISlots[i]); });
                 InvUISlots[i].Btn.interactable = true;
+                Debug.Log("Added InvUISlot");
                 break;
             }
         }
@@ -178,92 +233,26 @@ public class UIHandler : MonoBehaviour
                 InvUISlots[i].Image.sprite = Resources.Load<Sprite>("InvImg/Empty");
                 InvUISlots[i].Btn.onClick.RemoveAllListeners();
                 InvUISlots[i].Btn.interactable = false;
+                Debug.Log("Emptied InvUISlot");
                 break;
             }
         }
     }
 
-    private void HandleStorageTableInteract()
-    {
-        //Default to the first System UI Panel
-        CurrentPanel = SystemPanels.Panels[0];
-        SystemPanels.CurrentIndex = 0;
-
-        //Lock the Player controls
-        InputHandler.EnterUIMode();
-
-        //Display the UI Panels
-        CurrentPanel.SetActive(true);
-        MainPanel.SetActive(true);
-
-        InSystemPanel = true;
-    }
-
-    //Seperate these functions into sub functions depending on which menu the Player is in
-    public void RightUIPanelClick()
-    {
-        if (InSystemPanel)
-        {
-            CurrentPanel.SetActive(false);
-
-            CurrentPanel = SystemPanels.Panels[(++SystemPanels.CurrentIndex) % SystemPanels.MaxPanels];
-
-            CurrentPanel.SetActive(true);
-        }
-        else
-        {
-            CurrentPanel.SetActive(false);
-
-            CurrentPanel = PlayerPanels.Panels[(++PlayerPanels.CurrentIndex) % PlayerPanels.MaxPanels];
-
-            CurrentPanel.SetActive(true);
-        }
-    }
-
-    public void LeftUIPanelClick()
-    {
-        if (InSystemPanel)
-        {
-            CurrentPanel.SetActive(false);
-
-            if (SystemPanels.CurrentIndex - 1 < 0)
-            {
-                SystemPanels.CurrentIndex = SystemPanels.MaxPanels;
-            }
-
-            CurrentPanel = SystemPanels.Panels[--SystemPanels.CurrentIndex];
-
-            CurrentPanel.SetActive(true);
-        }
-        else
-        {
-            CurrentPanel.SetActive(false);
-
-            if (PlayerPanels.CurrentIndex - 1 < 0)
-            {
-                PlayerPanels.CurrentIndex = PlayerPanels.MaxPanels;
-            }
-
-            CurrentPanel = PlayerPanels.Panels[--PlayerPanels.CurrentIndex];
-
-            CurrentPanel.SetActive(true);
-        }
-    }
-
-    public void StoreAllButtonPress()
+    public void IngTableStoreAllBtnPress()
     {
         Player.Inv.StoreIngredientsToTable();
     }
 
-    private void OnInvUISlotClick(InvUISlot UISlot)
+    private void PlayerInvUISlotClick(UISlot UISlot)
     {
         WorldObjectManager.Instance.InstantiateHoldableIngredient(UISlot.Ing);
         Player.Inv.RemoveIngredient(UISlot.Ing);
 
-        OnMenuInput();
+        ToggleUIPanel();
     }
 
-    public void UpdateStoredIngCounters()
+    public void UpdateIngStorageTableCounters()
     {
         for (int i = 0; i < StorageCounters.Length; i++)
         {
@@ -274,6 +263,7 @@ public class UIHandler : MonoBehaviour
     private void OnDisable()
     {
         InputHandler.OnMenuInput -= OnMenuInput;
-        FPInteract.OnStorageTableInteract -= HandleStorageTableInteract;
+        FPInteract.OnIngStorageTableInteract -= HandleIngStorageTableInteract;
+        FPInteract.OnCraftingStationInteract -= HandleCraftingStationInteract;
     }
 }

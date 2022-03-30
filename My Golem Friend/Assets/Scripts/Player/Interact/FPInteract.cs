@@ -9,7 +9,8 @@ public class FPInteract : MonoBehaviour
     public float InputInteractCooldown;
     private float inputCooldownTimer;
 
-    public static event Action OnStorageTableInteract;
+    public static event Action OnIngStorageTableInteract;
+    public static event Action OnCraftingStationInteract;
 
     [Header("Holdable Variables")]
     public static Holdable HeldObject = null;
@@ -114,7 +115,11 @@ public class FPInteract : MonoBehaviour
                 break;
 
             case InteractableType.IngredientStorageTable:
-                OnStorageTableInteract?.Invoke();
+                OnIngStorageTableInteract?.Invoke();
+                break;
+
+            case InteractableType.CraftingStation:
+                OnCraftingStationInteract?.Invoke();
                 break;
 
             case InteractableType.Holdable:
