@@ -59,7 +59,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3113332362113178527}
-  m_LocalRotation: {x: -0, y: -0, z: 0.41287586, w: 0.91078734}
+  m_LocalRotation: {x: 0, y: 0, z: 0.41287392, w: 0.91078824}
   m_LocalPosition: {x: 6.776, y: -0.293, z: 0.015}
   m_LocalScale: {x: 2.37, y: 2.37, z: 2.37}
   m_ConstrainProportionsScale: 1
@@ -131,11 +131,93 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Recipes:
-  - {fileID: 11400000, guid: c1a80c7afe480124686225c13c597ec0, type: 2}
-  - {fileID: 11400000, guid: 66ec78f01e71b63448af77b6e0120e10, type: 2}
-  - {fileID: 11400000, guid: 21c6ab81cd107d3439587d8da7cbac5b, type: 2}
-  - {fileID: 11400000, guid: 9216dfbe1c73c124fab276a1b57fbe0e, type: 2}
-  - {fileID: 11400000, guid: bd3d207141ec8b6478cf3a4a63e55f7f, type: 2}
+  - RecipeRequirements:
+    - ReqIng: 0
+      ReqIngAmount: 3
+      IngReqMet: 0
+    - ReqIng: 11
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 1
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 5
+      ReqIngAmount: 1
+      IngReqMet: 0
+    numberOfReqMet: 0
+    SearchPriority: 0
+  - RecipeRequirements:
+    - ReqIng: 3
+      ReqIngAmount: 3
+      IngReqMet: 0
+    - ReqIng: 9
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 6
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 8
+      ReqIngAmount: 1
+      IngReqMet: 0
+    numberOfReqMet: 0
+    SearchPriority: 0
+  - RecipeRequirements:
+    - ReqIng: 4
+      ReqIngAmount: 3
+      IngReqMet: 0
+    - ReqIng: 7
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 6
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 0
+      ReqIngAmount: 1
+      IngReqMet: 0
+    - ReqIng: 2
+      ReqIngAmount: 1
+      IngReqMet: 0
+    numberOfReqMet: 0
+    SearchPriority: 0
+  - RecipeRequirements:
+    - ReqIng: 2
+      ReqIngAmount: 3
+      IngReqMet: 0
+    - ReqIng: 9
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 5
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 11
+      ReqIngAmount: 1
+      IngReqMet: 0
+    - ReqIng: 10
+      ReqIngAmount: 1
+      IngReqMet: 0
+    numberOfReqMet: 0
+    SearchPriority: 0
+  - RecipeRequirements:
+    - ReqIng: 8
+      ReqIngAmount: 3
+      IngReqMet: 0
+    - ReqIng: 10
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 7
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 1
+      ReqIngAmount: 2
+      IngReqMet: 0
+    - ReqIng: 3
+      ReqIngAmount: 1
+      IngReqMet: 0
+    - ReqIng: 4
+      ReqIngAmount: 1
+      IngReqMet: 0
+    numberOfReqMet: 0
+    SearchPriority: 0
   MaxIngCapacity: 15
   SpitOutPoint: {fileID: 2879399505852539999}
 --- !u!64 &1795113375016373300

@@ -9569,6 +9569,136 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cauldron
       objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[2].RecipeRequirements.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[3].RecipeRequirements.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[4].RecipeRequirements.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[1].RecipeRequirements.Array.data[0].ReqIng
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[1].RecipeRequirements.Array.data[1].ReqIng
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[1].RecipeRequirements.Array.data[2].ReqIng
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[1].RecipeRequirements.Array.data[3].ReqIng
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[2].RecipeRequirements.Array.data[0].ReqIng
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[2].RecipeRequirements.Array.data[1].ReqIng
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[2].RecipeRequirements.Array.data[2].ReqIng
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[2].RecipeRequirements.Array.data[3].ReqIng
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[2].RecipeRequirements.Array.data[4].ReqIng
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[3].RecipeRequirements.Array.data[0].ReqIng
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[3].RecipeRequirements.Array.data[1].ReqIng
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[3].RecipeRequirements.Array.data[2].ReqIng
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[3].RecipeRequirements.Array.data[3].ReqIng
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[3].RecipeRequirements.Array.data[4].ReqIng
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[4].RecipeRequirements.Array.data[0].ReqIng
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[4].RecipeRequirements.Array.data[1].ReqIng
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[4].RecipeRequirements.Array.data[2].ReqIng
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[4].RecipeRequirements.Array.data[3].ReqIng
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[4].RecipeRequirements.Array.data[4].ReqIng
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[4].RecipeRequirements.Array.data[5].ReqIng
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[4].RecipeRequirements.Array.data[1].ReqIngAmount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6821878865243413629, guid: 6d54a3092d842a4498c63b1d098b01b4,
+        type: 3}
+      propertyPath: Recipes.Array.data[4].RecipeRequirements.Array.data[3].ReqIngAmount
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d54a3092d842a4498c63b1d098b01b4, type: 3}
 --- !u!1001 &3095539357784124269

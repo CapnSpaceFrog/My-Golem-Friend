@@ -102,7 +102,7 @@ MonoBehaviour:
   HoldableProperties:
     HeldRotation: {x: 0, y: 0, z: 0}
     HeldPositionOffset: {x: 0, y: 0, z: 0}
-    ThrowForce: 0
+    ThrowForce: 5
     DropForce: 0
   HoldableType: 0
   StoredIng:

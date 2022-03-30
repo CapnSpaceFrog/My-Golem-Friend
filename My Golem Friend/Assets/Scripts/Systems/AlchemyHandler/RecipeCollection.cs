@@ -2,33 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RecipeSearchPriority
+{
+    None,
+    Low,
+    Medium,
+    High,
+    maxPriorities
+}
+
 public class RecipeCollection
 {
-    public static List<RecipeData> UnlockedRecipes;
+    public static List<Recipe> UnlockedRecipes;
 
-    private static Queue<RecipeData> PriorityRecipes;
+    private static Queue<Recipe> PriorityRecipes;
 
-    private static List<RecipeData> RemainingRecipes;
+    private static List<Recipe> RemainingRecipes;
 
     public RecipeCollection()
     {
-        UnlockedRecipes = new List<RecipeData>(2);
+        UnlockedRecipes = new List<Recipe>(2);
 
-        RemainingRecipes = new List<RecipeData>(2);
+        RemainingRecipes = new List<Recipe>(2);
 
-        PriorityRecipes = new Queue<RecipeData>(2);
+        PriorityRecipes = new Queue<Recipe>(2);
     }
     
-    public void RecipeUnlocked(RecipeData recipeUnlocked)
+    public void RecipeUnlocked(Recipe recipeUnlocked)
     {
         UnlockedRecipes.Add(recipeUnlocked);
+
+        //Add the newly unlocked recipe to the pool of recipes
+        RemainingRecipes.Add(recipeUnlocked);
     }
 
     //TODO: Included Incrementation and decrementation in the same function for sake of time
     //This may result in performance loss, but lets find out
     public void SearchPriorityRecipes(Dictionary<IngredientType, int> MixedIngredients)
     {
-        RecipeData[] PriorityQueue = PriorityRecipes.ToArray();
+        Recipe[] PriorityQueue = PriorityRecipes.ToArray();
 
         for (int i = 0; i < PriorityQueue.Length; i++)
         {
@@ -36,7 +48,9 @@ public class RecipeCollection
             if (PriorityQueue[i] == null)
                 continue;
 
-            RecipeData recipe = PriorityQueue[i];
+            Debug.Log("Priority Queue Triggered");
+
+            Recipe recipe = PriorityQueue[i];
 
             for (int index = 0; index < recipe.RecipeRequirements.Length; index++)
             {
@@ -108,7 +122,7 @@ public class RecipeCollection
         SearchRemainingRecipes(MixedIngredients);
     }
 
-    public bool IsRecipeCompleted(RecipeData recipe)
+    public bool IsRecipeCompleted(Recipe recipe)
     {
         for (int i = 0; i < recipe.RecipeRequirements.Length; i++)
         {
@@ -121,7 +135,7 @@ public class RecipeCollection
 
     public void SearchRemainingRecipes(Dictionary<IngredientType, int> MixedIngredients)
     {
-        foreach (RecipeData recipe in RemainingRecipes)
+        foreach (Recipe recipe in RemainingRecipes)
         {
             //Is there a recipe in this slot? Or is it empty?
             if (recipe == null)
@@ -146,7 +160,6 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
-                            break;
                         }
                         break;
 
@@ -156,14 +169,13 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
-                            break;
                         }
                         break;
 
                     //Case 3 & up is all the same
                     case 3:
                     default:
-                        if (recipe.RecipeRequirements[index].ReqIngAmount == 3)
+                        if (recipe.RecipeRequirements[index].ReqIngAmount >= 3)
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
@@ -184,7 +196,7 @@ public class RecipeCollection
         Debug.Log("Remaining Queue has count of: " + RemainingRecipes.Count);
     }
 
-    private void UpdateRecipePriority(RecipeData recipe)
+    private void UpdateRecipePriority(Recipe recipe)
     {
         switch (recipe.numberOfReqMet)
         {
@@ -195,10 +207,12 @@ public class RecipeCollection
             case 1:
                 recipe.SearchPriority = RecipeSearchPriority.Low;
                 break;
+
             case 2:
             case 3:
                 recipe.SearchPriority = RecipeSearchPriority.Medium;
                 break;
+
             case 4:
             default:
                 recipe.SearchPriority = RecipeSearchPriority.High;
@@ -211,33 +225,40 @@ public class RecipeCollection
         PriorityRecipes.Clear();
         RemainingRecipes.Clear();
 
-        for (int i = 0; i < UnlockedRecipes.Count; i++)
+        foreach (Recipe toSortRecipe in UnlockedRecipes)
         {
-            if (UnlockedRecipes[i].SearchPriority == (RecipeSearchPriority)i)
+            for (int i = 0; i < (int)RecipeSearchPriority.maxPriorities; i++)
             {
-                switch (UnlockedRecipes[i].SearchPriority)
+                if (toSortRecipe.SearchPriority == (RecipeSearchPriority)i)
                 {
-                    case RecipeSearchPriority.None:
-                        RemainingRecipes.Add(UnlockedRecipes[i]);
-                        break;
+                    switch (toSortRecipe.SearchPriority)
+                    {
+                        case RecipeSearchPriority.None:
+                            Debug.Log($"Set {toSortRecipe} to None Search Priority");
+                            RemainingRecipes.Add(toSortRecipe);
+                            break;
 
-                    case RecipeSearchPriority.Low:
-                        PriorityRecipes.Enqueue(UnlockedRecipes[i]);
-                        break;
+                        case RecipeSearchPriority.Low:
+                            PriorityRecipes.Enqueue(toSortRecipe);
+                            Debug.Log($"Set {toSortRecipe} to Low Search Priority");
+                            break;
 
-                    case RecipeSearchPriority.Medium:
-                        PriorityRecipes.Enqueue(UnlockedRecipes[i]);
-                        break;
+                        case RecipeSearchPriority.Medium:
+                            PriorityRecipes.Enqueue(toSortRecipe);
+                            Debug.Log($"Set {toSortRecipe} to Medium Search Priority");
+                            break;
 
-                    case RecipeSearchPriority.High:
-                        PriorityRecipes.Enqueue(UnlockedRecipes[i]);
-                        break;
+                        case RecipeSearchPriority.High:
+                            PriorityRecipes.Enqueue(toSortRecipe);
+                            Debug.Log($"Set {toSortRecipe} to High Search Priority");
+                            break;
+                    }
                 }
             }
         }
     }
 
-    private void CraftRecipe(RecipeData recipe)
+    private void CraftRecipe(Recipe recipe)
     {
         Debug.Log("Recipe Crafted: " + recipe);
     }

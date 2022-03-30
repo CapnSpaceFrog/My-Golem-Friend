@@ -2,12 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Recipe
+{
+    [System.Serializable]
+    public class RecipeIngredient
+    {
+        public IngredientType ReqIng;
+        public int ReqIngAmount;
+        [HideInInspector]
+        public bool IngReqMet;
+    }
+    //TODO: Remove once debugging is done
+    public string RecipeName;
+    public RecipeIngredient[] RecipeRequirements;
+
+    [HideInInspector]
+    public int numberOfReqMet;
+
+    [HideInInspector]
+    public RecipeSearchPriority SearchPriority;
+}
+
 //TODO: Allow user to take ingredients out of the pot/transfer all to inv/trasnfer all to bench
 public class CraftingHandler : MonoBehaviour
 {
     [Header("Crafting Variables")]
     //TODO: figure out how we unlock the recipes to the player
-    public RecipeData[] Recipes;
+    public Recipe[] Recipes;
     public int MaxIngCapacity;
     public Transform SpitOutPoint;
 
@@ -25,6 +47,11 @@ public class CraftingHandler : MonoBehaviour
         for (int i = 0; i < Recipes.Length; i++)
         {
             RecipeManager.RecipeUnlocked(Recipes[i]);
+        }
+
+        for (int i = 0; i < ((int) IngredientType.None); i++)
+        {
+            MixedIngredients.Add((IngredientType)i, 0);
         }
     }
 
@@ -54,14 +81,7 @@ public class CraftingHandler : MonoBehaviour
 
     private void AddIngToMix(IngredientType typeToAdd)
     {
-        if (MixedIngredients.ContainsKey(typeToAdd))
-        {
-            MixedIngredients[typeToAdd] += 1;
-        }
-        else
-        {
-            MixedIngredients.Add(typeToAdd, 1);
-        }
+        MixedIngredients[typeToAdd] += 1;
 
         RecipeManager.SearchPriorityRecipes(MixedIngredients);
     }
@@ -90,7 +110,7 @@ public class CraftingHandler : MonoBehaviour
     {
         for (int i = 0; i < MixedIngredients.Count; i++)
         {
-            MixedIngredients.Clear();
+            MixedIngredients[(IngredientType)i] = 0;
         }
     }
 }
