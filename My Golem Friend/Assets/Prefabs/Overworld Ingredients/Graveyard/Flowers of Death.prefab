@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8242256300663418285}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.608156, y: -1.3703185, z: 15.013962}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InterObjType: 0
   IngType: 6
-  HarvestedMesh: {fileID: 7935851640043966126, guid: aba46ff742fbbfc408306f0bea899409,
+  HarvestedMesh: {fileID: 7935851640043966126, guid: a7226dfff3fc79f4aa6acb5d83023e88,
     type: 3}
   Harvested: 0
 --- !u!65 &5658328000970356917

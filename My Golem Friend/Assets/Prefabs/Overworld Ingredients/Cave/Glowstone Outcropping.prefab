@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InterObjType: 0
   IngType: 5
-  HarvestedMesh: {fileID: -5597002278806442958, guid: 83f700aacc1a6a94f96c9c6bcb915404,
+  HarvestedMesh: {fileID: 9222067580770668815, guid: 772ed68a3c7468c4a9ee2416248673f9,
     type: 3}
   Harvested: 0
 --- !u!65 &7745910443044543329

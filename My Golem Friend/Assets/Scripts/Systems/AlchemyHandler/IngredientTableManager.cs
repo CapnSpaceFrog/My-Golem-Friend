@@ -16,17 +16,15 @@ public enum IngredientType
     WaterLily,
     ReptileScale,
     LivingClay,
-    Ingredient_Max
+    None
 }
 
-public class AlchemyHandler : MonoBehaviour
+public class IngredientTableManager : MonoBehaviour
 {
-    public static AlchemyHandler Instance;
+    public static IngredientTableManager Instance;
     //Holds all the special transform positions for the different ingredients.
     //Can be indexed using the IngredientsType enum
     public GameObject[] IngredientStorageDisplays;
-
-    public RecipeData[] CraftableRecipes;
 
     public static int[] StoredIngredients;
 
@@ -45,12 +43,12 @@ public class AlchemyHandler : MonoBehaviour
 
     public void AddIngToStorage(IngredientType type)
     {
-        if (AlchemyHandler.StoredIngredients[(int)type] == 0)
+        if (IngredientTableManager.StoredIngredients[(int)type] == 0)
         {
             IngredientStorageDisplays[(int)type].SetActive(true);
         }
 
-        AlchemyHandler.StoredIngredients[(int)type] += 1;
+        IngredientTableManager.StoredIngredients[(int)type] += 1;
 
         UIHandler.Instance.UpdateStoredIngCounters();
     }

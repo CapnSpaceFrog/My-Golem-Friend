@@ -106,7 +106,7 @@ public class FPInteract : MonoBehaviour
                 //Add the Item to the Player's inventory, but not their hand
                 IngredientType ingType = hitObj.gameObject.GetComponent<Ingredient>().IngType;
 
-                AlchemyHandler.Instance.RemoveIngFromStorage(ingType);
+                IngredientTableManager.Instance.RemoveIngFromStorage(ingType);
 
                 StorableIngredient newIng = Inventory.CreateStorableIng(ingType);
 
@@ -147,7 +147,7 @@ public class FPInteract : MonoBehaviour
                 //Left clicking the Ing Storage adds the item to the players hand
                 IngredientType ingType = hitObj.gameObject.GetComponent<Ingredient>().IngType;
 
-                AlchemyHandler.Instance.RemoveIngFromStorage(ingType);
+                IngredientTableManager.Instance.RemoveIngFromStorage(ingType);
 
                 WorldObjectManager.Instance.InstantiateHoldableIngredient(Inventory.CreateStorableIng(ingType));
                 break;

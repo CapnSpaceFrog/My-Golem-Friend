@@ -63,7 +63,7 @@ public class Inventory
         {
             if (Ingredients[i] != null)
             {
-                AlchemyHandler.Instance.AddIngToStorage(Ingredients[i].Type);
+                IngredientTableManager.Instance.AddIngToStorage(Ingredients[i].Type);
                 RemoveIngredient(Ingredients[i]);
             }
         }

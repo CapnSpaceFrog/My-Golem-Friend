@@ -159,7 +159,6 @@ public class UIHandler : MonoBehaviour
             {
                 InvUISlots[i].Filled = true;
                 InvUISlots[i].Ing = ingredient;
-                Debug.Log("FillInvUISlot Ing: " + ingredient);
                 InvUISlots[i].Image.sprite = InvImgSprites[(int)ingredient.Type];
                 InvUISlots[i].Btn.onClick.AddListener(delegate { OnInvUISlotClick(InvUISlots[i]); });
                 InvUISlots[i].Btn.interactable = true;
@@ -268,7 +267,7 @@ public class UIHandler : MonoBehaviour
     {
         for (int i = 0; i < StorageCounters.Length; i++)
         {
-            StorageCounters[i].text = $"{(IngredientType)i} x{AlchemyHandler.StoredIngredients[i]}";
+            StorageCounters[i].text = $"{(IngredientType)i} x{IngredientTableManager.StoredIngredients[i]}";
         }
     }
 

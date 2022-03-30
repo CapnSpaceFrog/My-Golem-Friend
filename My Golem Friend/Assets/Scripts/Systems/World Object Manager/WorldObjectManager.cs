@@ -25,9 +25,8 @@ public class WorldObjectManager : MonoBehaviour
     public void InstantiateHoldableIngredient(StorableIngredient storedIng)
     {
         //Are we trying to instantiate an object that already exists?
-        if (!CheckForExistingObject(storedIng))
+        if (!CheckForExistingIngObject(storedIng))
         {
-            Debug.Log(storedIng);
             GameObject Obj = Instantiate(HoldableIngPrefab[(int)storedIng.Type]);
 
             HoldableIngredient heldIng = Obj.GetComponent<HoldableIngredient>();
@@ -47,7 +46,7 @@ public class WorldObjectManager : MonoBehaviour
         }
     }
 
-    public bool CheckForExistingObject(StorableIngredient storedIng)
+    public bool CheckForExistingIngObject(StorableIngredient storedIng)
     {
         foreach (HoldableIngredient ing in InstantiatedIngredients)
         {
@@ -79,7 +78,6 @@ public class WorldObjectManager : MonoBehaviour
         
     }
 
-    //TODO: fix this lmao
     public static void FlagObjectForDestruction(GameObject objToDestroy)
     {
         for (int i = 0; i < FlaggedForDestruction.Count; i++)
@@ -111,6 +109,17 @@ public class WorldObjectManager : MonoBehaviour
             Destroy(FlaggedForDestruction[i]);
 
             FlaggedForDestruction.Remove(FlaggedForDestruction[i]);
+        }
+    }
+
+    public static void IngThrownInCauldron(HoldableIngredient heldIng)
+    {
+        foreach (HoldableIngredient ing in InstantiatedIngredients)
+        {
+            if (ing.StoredIng == heldIng.StoredIng)
+            {
+                Destroy(heldIng.gameObject);
+            }
         }
     }
 }
