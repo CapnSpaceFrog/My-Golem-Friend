@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2879399505852539998}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.372, y: 1.128, z: -0.062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -145,7 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Recipes:
-  - RecipeName: 
+  - CraftedObject: {fileID: 6764564905790521501, guid: fd8a17ced719da64195102a6796d372f,
+      type: 3}
     RecipeRequirements:
     - ReqIng: 0
       ReqIngAmount: 3
@@ -161,7 +162,8 @@ MonoBehaviour:
       IngReqMet: 0
     numberOfReqMet: 0
     SearchPriority: 0
-  - RecipeName: 
+  - CraftedObject: {fileID: 3413801150054894653, guid: 9944135deba2ddf4a993ca48ff823cdf,
+      type: 3}
     RecipeRequirements:
     - ReqIng: 3
       ReqIngAmount: 3
@@ -177,7 +179,8 @@ MonoBehaviour:
       IngReqMet: 0
     numberOfReqMet: 0
     SearchPriority: 0
-  - RecipeName: 
+  - CraftedObject: {fileID: 3561464772899744830, guid: cdaeaf5581a172b4fb1c79e9068a887c,
+      type: 3}
     RecipeRequirements:
     - ReqIng: 4
       ReqIngAmount: 3
@@ -196,7 +199,8 @@ MonoBehaviour:
       IngReqMet: 0
     numberOfReqMet: 0
     SearchPriority: 0
-  - RecipeName: 
+  - CraftedObject: {fileID: 6185724784399664521, guid: f015edbe140a5f14f96be9149069e6b5,
+      type: 3}
     RecipeRequirements:
     - ReqIng: 2
       ReqIngAmount: 3
@@ -215,7 +219,8 @@ MonoBehaviour:
       IngReqMet: 0
     numberOfReqMet: 0
     SearchPriority: 0
-  - RecipeName: 
+  - CraftedObject: {fileID: 942392018298323741, guid: 7111c84a841d5764b9633de03967da51,
+      type: 3}
     RecipeRequirements:
     - ReqIng: 8
       ReqIngAmount: 3
@@ -237,7 +242,7 @@ MonoBehaviour:
       IngReqMet: 0
     numberOfReqMet: 0
     SearchPriority: 0
-  MaxIngCapacity: 15
+  MaxCauldronCapacity: 12
   SpitOutPoint: {fileID: 2879399505852539999}
 --- !u!64 &1795113375016373300
 MeshCollider:

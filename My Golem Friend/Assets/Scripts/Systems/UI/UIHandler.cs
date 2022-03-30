@@ -1,4 +1,5 @@
 using TMPro;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -10,6 +11,13 @@ public struct UISlot
     public Button Btn;
     public bool Filled;
     public StorableIngredient Ing;
+    public UISlotType UIType;
+}
+
+public enum UISlotType
+{
+    PlayerInv,
+    Cauldron
 }
 
 public enum PanelType
@@ -29,7 +37,6 @@ public class UIHandler : MonoBehaviour
     public Vector2 InvSpriteSize;
     public int xPadding;
     public int yPadding;
-    bool InSystemPanel;
     ActivePanel CurrentPanel;
     bool InMenu;
 
@@ -63,15 +70,19 @@ public class UIHandler : MonoBehaviour
     public int CauldronUIColumns;
     UISlot[] CauldronUISlots;
 
+    private static Dictionary<UISlotType, UISlot[]> UISlots;
+
     private void Awake()
     {
         Instance = this;
 
-        //When we call this function will need to change when we start swapping scenes
-        InvUISlots = CreateUISlots(UIPanelCollection[(int)PanelType.Player].Panels[0].transform,
-            Player.InventorySize, InvUIRows, InvUIColumns);
-        CauldronUISlots = CreateUISlots(UIPanelCollection[(int)PanelType.CraftingStation].Panels[0].transform,
-            CauldronInventorySlots, CauldronUIRows, CauldronUIColumns);
+        UISlots = new Dictionary<UISlotType, UISlot[]>()
+        {
+            { UISlotType.PlayerInv, CreateUISlots(UIPanelCollection[(int)PanelType.Player].Panels[0].transform,
+            Player.InventorySize, InvUIRows, InvUIColumns) },
+            { UISlotType.Cauldron, CreateUISlots(UIPanelCollection[(int)PanelType.CraftingStation].Panels[0].transform,
+            CauldronInventorySlots, CauldronUIRows, CauldronUIColumns) }
+        };
     }
 
     private UISlot[] CreateUISlots(Transform parentPanel, int numberOfSlots, int rows, int columns)
@@ -205,35 +216,38 @@ public class UIHandler : MonoBehaviour
         CurrentPanel.Obj.SetActive(true);
     }
 
-    public void FillInvUISlot(StorableIngredient ingredient)
+    public void FillUISlot(StorableIngredient ing, UISlotType slotType)
     {
-        for (int i = 0; i < InvUISlots.Length; i++)
+        UISlot[] slots = UISlots[slotType];
+
+        for (int i = 0; i < slots.Length; i++)
         {
-            if (InvUISlots[i].Filled == false)
+            if (slots[i].Filled == false)
             {
-                InvUISlots[i].Filled = true;
-                InvUISlots[i].Ing = ingredient;
-                InvUISlots[i].Image.sprite = InvImgSprites[(int)ingredient.Type];
-                InvUISlots[i].Btn.onClick.AddListener(delegate { PlayerInvUISlotClick(InvUISlots[i]); });
-                InvUISlots[i].Btn.interactable = true;
-                Debug.Log("Added InvUISlot");
+                slots[i].Filled = true;
+                slots[i].Ing = ing;
+                slots[i].Image.sprite = InvImgSprites[(int)ing.Type];
+                slots[i].Btn.onClick.AddListener(delegate { PlayerUISlotClick(slots[i]); });
+                slots[i].Btn.interactable = true;
+                slots[i].UIType = slotType;
                 break;
             }
         }
     }
 
-    public void EmptyInvUISlot(StorableIngredient ingredient)
+    public void EmptyUISlot(StorableIngredient ing, UISlotType slotType)
     {
-        for (int i = 0; i < InvUISlots.Length; i++)
+        UISlot[] slots = UISlots[slotType];
+
+        for (int i = 0; i < slots.Length; i++)
         {
-            if (InvUISlots[i].Ing == ingredient)
+            if (slots[i].Ing == ing)
             {
-                InvUISlots[i].Ing = null;
-                InvUISlots[i].Filled = false;
-                InvUISlots[i].Image.sprite = Resources.Load<Sprite>("InvImg/Empty");
-                InvUISlots[i].Btn.onClick.RemoveAllListeners();
-                InvUISlots[i].Btn.interactable = false;
-                Debug.Log("Emptied InvUISlot");
+                slots[i].Ing = null;
+                slots[i].Filled = false;
+                slots[i].Image.sprite = Resources.Load<Sprite>("InvImg/Empty");
+                slots[i].Btn.onClick.RemoveAllListeners();
+                slots[i].Btn.interactable = false;
                 break;
             }
         }
@@ -244,12 +258,26 @@ public class UIHandler : MonoBehaviour
         Player.Inv.StoreIngredientsToTable();
     }
 
-    private void PlayerInvUISlotClick(UISlot UISlot)
+    private void PlayerUISlotClick(UISlot UISlot)
     {
-        WorldObjectManager.Instance.InstantiateHoldableIngredient(UISlot.Ing);
-        Player.Inv.RemoveIngredient(UISlot.Ing);
+        switch(UISlot.UIType)
+        {
+            case UISlotType.PlayerInv:
+                WorldObjectManager.Instance.InstantiateHoldableIngredient(UISlot.Ing);
+                Player.Inv.RemoveIngredient(UISlot.Ing, UISlotType.PlayerInv);
+                ToggleUIPanel();
+                break;
 
-        ToggleUIPanel();
+            case UISlotType.Cauldron:
+                CraftingHandler.Instance.RemoveIngFromMix(UISlot.Ing);
+                Player.Inv.AddIngredient(UISlot.Ing, UISlotType.PlayerInv);
+                EmptyUISlot(UISlot.Ing, UISlot.UIType);
+                break;
+        }
+        
+
+        //1 is equal to removing 1 ingredient from the cauldron mix
+        
     }
 
     public void UpdateIngStorageTableCounters()

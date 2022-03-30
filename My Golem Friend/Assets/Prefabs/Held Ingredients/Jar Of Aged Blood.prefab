@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6706e330278e521498ff7f153e6cdd29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InterObjType: 3
+  InterObjType: 4
   HoldableProperties:
     HeldRotation: {x: 0, y: 0, z: 0}
     HeldPositionOffset: {x: 0, y: 0, z: 0}

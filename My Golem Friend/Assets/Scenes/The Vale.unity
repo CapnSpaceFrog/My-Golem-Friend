@@ -4296,7 +4296,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1338395905}
         m_TargetAssemblyTypeName: UIHandler, Assembly-CSharp
-        m_MethodName: StoreAllButtonPress
+        m_MethodName: IngTableStoreAllBtnPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5804,7 +5804,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &1338395905
 MonoBehaviour:
@@ -5836,6 +5836,9 @@ MonoBehaviour:
     - {fileID: 2132924388}
     CurrentIndex: 0
     MaxPanels: 2
+  InvSpriteSize: {x: 160, y: 160}
+  xPadding: 32
+  yPadding: 32
   InvImgSprites:
   - {fileID: 21300000, guid: 3fbdc57514bbc6e4aa2539635ad4d435, type: 3}
   - {fileID: 21300000, guid: 9e344dc22c2d11c4595b13d89f684fca, type: 3}
@@ -5851,9 +5854,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e4c3ebcbed06e08478476dc86e773853, type: 3}
   InvUIRows: 3
   InvUIColumns: 5
-  InvSpriteSize: {x: 160, y: 160}
-  xPadding: 32
-  yPadding: 32
   StorageCounters:
   - {fileID: 33549036}
   - {fileID: 23435355}

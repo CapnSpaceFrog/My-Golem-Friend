@@ -43,7 +43,22 @@ public class FPInteract : MonoBehaviour
             switch (inputType)
             {
                 case InteractInput.E:
-                    InteractButtonInput(CastInteractRay());
+                    Interactable interObj = CastInteractRay();
+                    if (interObj == null)
+                    {
+                        if (HeldObject != null)
+                        {
+                            //TODO: Prevent this from crashing later
+                            HoldableIngredient heldIng = HeldObject.GetComponent<HoldableIngredient>();
+
+                            heldIng.AddToInventory();
+                            HeldObject = null;
+                        }
+                    }
+                    else
+                    {
+                        InteractButtonInput(interObj);
+                    }
                     break;
 
                 case InteractInput.LeftClick:
@@ -111,7 +126,7 @@ public class FPInteract : MonoBehaviour
 
                 StorableIngredient newIng = Inventory.CreateStorableIng(ingType);
 
-                Player.Inv.AddIngredient(newIng);
+                Player.Inv.AddIngredient(newIng, UISlotType.PlayerInv);
                 break;
 
             case InteractableType.IngredientStorageTable:
@@ -126,15 +141,22 @@ public class FPInteract : MonoBehaviour
                 //Pressing E on a holdable object adds it to the Player's inventory
                 Holdable heldObj = hitObj.gameObject.GetComponent<Holdable>();
 
-                if (heldObj.HoldableType == HoldableType.Ingredient)
+                switch (heldObj.HoldableType)
                 {
-                    HoldableIngredient heldIng = hitObj.gameObject.GetComponent<HoldableIngredient>();
+                    case HoldableType.Ingredient:
+                        HoldableIngredient heldIng = hitObj.gameObject.GetComponent<HoldableIngredient>();
 
-                    Player.Inv.AddIngredient(heldIng.StoredIng); 
-                    WorldObjectManager.FlagObjectForDestruction(hitObj.gameObject);
-                    hitObj.gameObject.SetActive(false);
+                        heldIng.AddToInventory();
+                        break;
+
+                    case HoldableType.GolemPart:
+                        heldObj.PickedUp();
+                        break;
+
+                    case HoldableType.QuestItem:
+                        heldObj.PickedUp();
+                        break;
                 }
-                
                 break;
         }
     }

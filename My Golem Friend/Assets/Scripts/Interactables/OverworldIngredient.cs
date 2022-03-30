@@ -17,9 +17,9 @@ public class OverworldIngredient : Ingredient
 
     public void Harvest()
     {
-        StorableIngredient storedIng = Inventory.CreateStorableIng(this);
+        StorableIngredient storedIng = Inventory.CreateStorableIng(IngType);
 
-        if (Player.Inv.AddIngredient(storedIng))
+        if (Player.Inv.AddIngredient(storedIng, UISlotType.PlayerInv))
         {
             Harvested = true;
             meshFilter.mesh = HarvestedMesh;

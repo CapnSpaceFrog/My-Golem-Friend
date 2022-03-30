@@ -48,8 +48,6 @@ public class RecipeCollection
             if (PriorityQueue[i] == null)
                 continue;
 
-            Debug.Log("Priority Queue Triggered");
-
             Recipe recipe = PriorityQueue[i];
 
             for (int index = 0; index < recipe.RecipeRequirements.Length; index++)
@@ -101,22 +99,14 @@ public class RecipeCollection
 
             if (IsRecipeCompleted(recipe))
             {
-                CraftRecipe(recipe);
-                //Craft the recipe & clear its requirements
                 //Consume the required ingredients out of the pot
-                //Return out of here
+                CraftingHandler.Instance.RemoveCraftedRecipeIngredients(recipe);
                 return;
             }
             else
             {
-                //Recipe wasnt completed, lets add it to eligable recipes however
-                //We'll prioritize searching the eligable recipes to speed up the process later
-                //This is useful because we can quickly detect if the player is trying to craft a certain recipe than
-                //just always iterating through every single recipe
-
+                UpdateRecipePriority(recipe);
             }
-
-            UpdateRecipePriority(recipe);
         }
 
         SearchRemainingRecipes(MixedIngredients);
@@ -234,23 +224,19 @@ public class RecipeCollection
                     switch (toSortRecipe.SearchPriority)
                     {
                         case RecipeSearchPriority.None:
-                            Debug.Log($"Set {toSortRecipe} to None Search Priority");
                             RemainingRecipes.Add(toSortRecipe);
                             break;
 
                         case RecipeSearchPriority.Low:
                             PriorityRecipes.Enqueue(toSortRecipe);
-                            Debug.Log($"Set {toSortRecipe} to Low Search Priority");
                             break;
 
                         case RecipeSearchPriority.Medium:
                             PriorityRecipes.Enqueue(toSortRecipe);
-                            Debug.Log($"Set {toSortRecipe} to Medium Search Priority");
                             break;
 
                         case RecipeSearchPriority.High:
                             PriorityRecipes.Enqueue(toSortRecipe);
-                            Debug.Log($"Set {toSortRecipe} to High Search Priority");
                             break;
                     }
                 }
@@ -258,9 +244,54 @@ public class RecipeCollection
         }
     }
 
-    private void CraftRecipe(Recipe recipe)
+    public void ReorganizeAfterIngRemoval(Dictionary<IngredientType, int> MixedIngredients)
     {
-        Debug.Log("Recipe Crafted: " + recipe);
-    }
+        foreach (Recipe recipe in UnlockedRecipes)
+        {
+            for (int index = 0; index < recipe.RecipeRequirements.Length; index++)
+            {
+                //We only count ing reqs that are met, so if it isn't we don't need to check it
+                if (recipe.RecipeRequirements[index].IngReqMet == false)
+                    break;
 
+                //How many ingredients of the required type for the recipe do we currently have in the pot?
+                switch (MixedIngredients[recipe.RecipeRequirements[index].ReqIng])
+                {
+                    case 0:
+                        //If the Ing Req is met, but the ingredient has been totally removed, so revert to false
+                        recipe.RecipeRequirements[index].IngReqMet = false;
+                        recipe.numberOfReqMet--;
+                        break;
+
+                    case 1:
+                        //Check if the recipe req is equal to one and flag it and move on
+                        if (recipe.RecipeRequirements[index].ReqIngAmount >= 2)
+                        {
+                            recipe.RecipeRequirements[index].IngReqMet = false;
+                            recipe.numberOfReqMet--;
+                        }
+                        break;
+
+                    //Medium priorty
+                    case 2:
+                        if (recipe.RecipeRequirements[index].ReqIngAmount >= 3)
+                        {
+                            recipe.RecipeRequirements[index].IngReqMet = false;
+                            recipe.numberOfReqMet--;
+                        }
+                        break;
+
+                    //Case 3 & up is all the same
+                    case 3:
+                    default:
+                        //We still have 3 or more ingredients which always satisfies the requirement, so skip
+                        continue;
+                }
+            }
+
+            UpdateRecipePriority(recipe);
+        }
+        
+        ResortRecipes();
+    }
 }

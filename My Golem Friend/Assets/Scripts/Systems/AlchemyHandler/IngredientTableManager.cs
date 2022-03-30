@@ -43,7 +43,7 @@ public class IngredientTableManager : MonoBehaviour
 
     public void AddIngToStorage(IngredientType type)
     {
-        if (IngredientTableManager.StoredIngredients[(int)type] == 0)
+        if (StoredIngredients[(int)type] == 0)
         {
             IngredientStorageDisplays[(int)type].SetActive(true);
         }

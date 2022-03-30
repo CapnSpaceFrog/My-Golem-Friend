@@ -72,34 +72,22 @@ public class WorldObjectManager : MonoBehaviour
         return false;
     }
 
-    //Spawns Crafted Items
-    private void InstantiateObject()
+    //Spawns Crafted Item
+    public static GameObject InstantiateCraftedObject(GameObject objToSpawn)
     {
-        
+        GameObject craftedObj = Instantiate(objToSpawn);
+
+        return craftedObj;
     }
 
     public static void FlagObjectForDestruction(GameObject objToDestroy)
     {
-        for (int i = 0; i < FlaggedForDestruction.Count; i++)
-        {
-            if (FlaggedForDestruction[i] == objToDestroy)
-            {
-                FlaggedForDestruction[i] = objToDestroy;
-                break;
-            }
-        }
+        FlaggedForDestruction.Add(objToDestroy);
     }
 
     public static void ClearObjectFromDestruction(GameObject objToClear)
     {
-        for (int i = 0; i < FlaggedForDestruction.Count; i++)
-        {
-            if (FlaggedForDestruction[i] == objToClear)
-            {
-                FlaggedForDestruction[i] = null;
-                break;
-            }
-        }
+        FlaggedForDestruction.Remove(objToClear);
     }
 
     public static void PurgeFlaggedObjects()
@@ -114,10 +102,11 @@ public class WorldObjectManager : MonoBehaviour
 
     public static void IngThrownInCauldron(HoldableIngredient heldIng)
     {
-        foreach (HoldableIngredient ing in InstantiatedIngredients)
+        for (int i = 0; i < InstantiatedIngredients.Count; i++)
         {
-            if (ing.StoredIng == heldIng.StoredIng)
+            if (InstantiatedIngredients[i] == heldIng)
             {
+                InstantiatedIngredients.Remove(heldIng);
                 Destroy(heldIng.gameObject);
             }
         }
