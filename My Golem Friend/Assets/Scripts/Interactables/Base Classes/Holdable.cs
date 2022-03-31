@@ -20,7 +20,7 @@ public enum HoldableType
 
 public class Holdable : Interactable
 {
-    private Rigidbody RB;
+    protected Rigidbody RB;
 
     [Header("Held Variables")]
     public HoldableProperty HoldableProperties;
@@ -41,7 +41,7 @@ public class Holdable : Interactable
         transform.localPosition = Vector3.zero + HoldableProperties.HeldPositionOffset;
     }
 
-    public void PickedUp()
+    public void AddToHand()
     {
         Collider.enabled = false;
 
@@ -54,7 +54,7 @@ public class Holdable : Interactable
         FPInteract.HeldObject = this;
     }
 
-    public void Drop()
+    public void DropFromHand()
     {
         Collider.enabled = true;
 
@@ -67,7 +67,7 @@ public class Holdable : Interactable
         RB.AddForce(Camera.main.transform.forward * HoldableProperties.DropForce, ForceMode.Impulse);
     }
 
-    public void Throw()
+    public void ThrowFromHand()
     {
         Collider.enabled = true;
 

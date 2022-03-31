@@ -50,12 +50,6 @@ public class CraftingHandler : MonoBehaviour
         RecipeManager = new RecipeCollection();
         CauldronInventory = new Inventory(MaxCauldronCapacity);
 
-        //TODO: Remove once we find a way to give the Player proper ways to unlock recipes
-        for (int i = 0; i < Recipes.Length; i++)
-        {
-            RecipeManager.RecipeUnlocked(Recipes[i]);
-        }
-
         for (int i = 0; i < ((int) IngredientType.None); i++)
         {
             MixedIngredients.Add((IngredientType)i, 0);
@@ -79,9 +73,8 @@ public class CraftingHandler : MonoBehaviour
         }
         else
         {
-            //TODO: Spit out the ingredient that sets us over capacity
+            //TODO: Clean up this spit out process and enable an objs colliders n such
             other.gameObject.transform.position = SpitOutPoint.position;
-            //is some other object get it out of the couldron
         }
     }
 
@@ -100,8 +93,9 @@ public class CraftingHandler : MonoBehaviour
         //otherwise another function adjusts the cauldron inventory
         MixedIngredients[ingToRemove.Type] -= 1;
 
-        UIHandler.Instance.EmptyUISlot(ingToRemove, UISlotType.Cauldron);
+        CauldronInventory.RemoveIngredient(ingToRemove, UISlotType.Cauldron);
 
+        //TODO: Check this
         RecipeManager.ReorganizeAfterIngRemoval(MixedIngredients);
     }
 
@@ -141,19 +135,36 @@ public class CraftingHandler : MonoBehaviour
 
                     if (ing.ReqIng == CauldronInventory.Ingredients[i].Type)
                     {
-                        RemoveIngFromMix(CauldronInventory.Ingredients[i]);
+                        MixedIngredients[CauldronInventory.Ingredients[i].Type] -= 1;
+
+                        CauldronInventory.RemoveIngredient(CauldronInventory.Ingredients[i], UISlotType.Cauldron);
+                        break;
                     }
                 }
             }
 
-            //TODO: this will probably throw an error
             ing.IngReqMet = false;
         }
+        
+        RecipeManager.ReorganizeAfterIngRemoval(MixedIngredients);
 
         GameObject craftedObj = WorldObjectManager.InstantiateCraftedObject(recipe.CraftedObject);
         craftedObj.transform.position = SpitOutPoint.position;
+    }
 
-        RecipeManager.ReorganizeAfterIngRemoval(MixedIngredients);
+    public void FindRecipeToUnlock(GameObject unlockedObj)
+    {
+        foreach (Recipe recipe in Recipes)
+        {
+            if (recipe.CraftedObject == unlockedObj)
+            {
+                RecipeManager.AddNewRecipeToSearch(recipe);
+                break;
+                //TODO: Add the recipe to the proper UI panel
+            }
+        }
+
+        RecipeManager.SearchPriorityRecipes(MixedIngredients);
     }
 
     private void EmptyMixedIngredients()

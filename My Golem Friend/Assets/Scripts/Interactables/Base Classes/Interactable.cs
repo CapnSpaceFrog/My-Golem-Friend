@@ -8,7 +8,9 @@ public enum InteractableType
     StoredIngredient,
     IngredientStorageTable,
     CraftingStation,
-    Holdable
+    Recipe,
+    Holdable,
+    Golem
 }
 
 public class Interactable : MonoBehaviour

@@ -46,13 +46,11 @@ public class FPInteract : MonoBehaviour
                     Interactable interObj = CastInteractRay();
                     if (interObj == null)
                     {
-                        if (HeldObject != null)
+                        if (HeldObject != null && HeldObject.HoldableType == HoldableType.Ingredient)
                         {
-                            //TODO: Prevent this from crashing later
                             HoldableIngredient heldIng = HeldObject.GetComponent<HoldableIngredient>();
 
-                            heldIng.AddToInventory();
-                            HeldObject = null;
+                            heldIng.AddHoldableToPlayerInv();
                         }
                     }
                     else
@@ -64,7 +62,7 @@ public class FPInteract : MonoBehaviour
                 case InteractInput.LeftClick:
                     if (HeldObject != null)
                     {
-                        HeldObject.Throw();
+                        HeldObject.ThrowFromHand();
                     }
                     else
                     {
@@ -75,7 +73,7 @@ public class FPInteract : MonoBehaviour
                 case InteractInput.RightClick:
                     if (HeldObject != null)
                     {
-                        HeldObject.Drop();
+                        HeldObject.DropFromHand();
                     }
                     break;
             }
@@ -102,16 +100,16 @@ public class FPInteract : MonoBehaviour
     private void InteractButtonInput(Interactable hitObj)
     {
         if (hitObj == null)
-        {
             return;
-        }
 
         switch (hitObj.InterObjType)
         {
             case InteractableType.OverworldIngredient:
                 OverworldIngredient ing = hitObj.gameObject.GetComponent<OverworldIngredient>();
 
-                if (!ing.Harvested)
+                StorableIngredient storedIng = Inventory.CreateStorableIng(ing.IngType);
+
+                if (Player.Inv.AddIngredient(storedIng, UISlotType.PlayerInv))
                 {
                     ing.Harvest();
                 }
@@ -137,6 +135,13 @@ public class FPInteract : MonoBehaviour
                 OnCraftingStationInteract?.Invoke();
                 break;
 
+            case InteractableType.Recipe:
+                RecipePickup recipe = hitObj.GetComponent<RecipePickup>();
+
+                CraftingHandler.Instance.FindRecipeToUnlock(recipe.CraftedObjToUnlock);
+                Destroy(recipe.gameObject);
+                break;
+
             case InteractableType.Holdable:
                 //Pressing E on a holdable object adds it to the Player's inventory
                 Holdable heldObj = hitObj.gameObject.GetComponent<Holdable>();
@@ -146,15 +151,15 @@ public class FPInteract : MonoBehaviour
                     case HoldableType.Ingredient:
                         HoldableIngredient heldIng = hitObj.gameObject.GetComponent<HoldableIngredient>();
 
-                        heldIng.AddToInventory();
+                        heldIng.AddHoldableToPlayerInv();
                         break;
 
                     case HoldableType.GolemPart:
-                        heldObj.PickedUp();
+                        heldObj.AddToHand();
                         break;
 
                     case HoldableType.QuestItem:
-                        heldObj.PickedUp();
+                        heldObj.AddToHand();
                         break;
                 }
                 break;
@@ -164,12 +169,18 @@ public class FPInteract : MonoBehaviour
     private void LeftClickInput(Interactable hitObj)
     {
         if (hitObj == null)
-        {
             return;
-        }
 
         switch (hitObj.InterObjType)
         {
+            case InteractableType.OverworldIngredient:
+                OverworldIngredient ing = hitObj.gameObject.GetComponent<OverworldIngredient>();
+
+                WorldObjectManager.Instance.InstantiateHoldableIngredient(Inventory.CreateStorableIng(ing.IngType));
+                ing.Harvest();
+
+                break;
+
             case InteractableType.StoredIngredient:
                 //Left clicking the Ing Storage adds the item to the players hand
                 IngredientType ingType = hitObj.gameObject.GetComponent<Ingredient>().IngType;
@@ -179,11 +190,24 @@ public class FPInteract : MonoBehaviour
                 WorldObjectManager.Instance.InstantiateHoldableIngredient(Inventory.CreateStorableIng(ingType));
                 break;
 
+            case InteractableType.Recipe:
+                RecipePickup recipe = hitObj.GetComponent<RecipePickup>();
+
+                CraftingHandler.Instance.FindRecipeToUnlock(recipe.CraftedObjToUnlock);
+                Destroy(recipe.gameObject);
+                break;
+
             case InteractableType.Holdable:
                 //Left clicking a holdable object that's on the ground puts it in the Player's hand
                 Holdable heldObj = hitObj.gameObject.GetComponent<Holdable>();
 
-                heldObj.PickedUp();
+                heldObj.AddToHand();
+                break;
+
+            case InteractableType.Golem:
+                //Check the item in the Players hand and if its a part for the golem, give it to him
+                
+
                 break;
         }
     }

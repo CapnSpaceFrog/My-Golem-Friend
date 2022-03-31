@@ -189,7 +189,6 @@ public class UIHandler : MonoBehaviour
         ToggleUIPanel();
     }
 
-    //TODO: Put all the panels into one group and use the index of the panel type to find our panels
     public void RightUIPanelClick()
     {
         CurrentPanel.Obj.SetActive(false);

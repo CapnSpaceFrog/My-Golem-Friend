@@ -35,13 +35,11 @@ public class WorldObjectManager : MonoBehaviour
 
             if (FPInteract.HeldObject == null)
             {
-                Obj.GetComponent<Holdable>().PickedUp();
+                heldIng.AddToHand();
             }
             else
             {
-                Debug.Log("Instantiated: Item in hand, object thrown to floor");
-                //Put the object 2 units in front of the player
-                Obj.transform.position = Player.PlayerTransform.position + Vector3.forward * 2;
+                heldIng.DropOnFloor();
             }
         }
     }
@@ -56,7 +54,7 @@ public class WorldObjectManager : MonoBehaviour
 
                 if (FPInteract.HeldObject == null)
                 {
-                    ing.PickedUp();
+                    ing.AddToHand();
                 }
                 else
                 {

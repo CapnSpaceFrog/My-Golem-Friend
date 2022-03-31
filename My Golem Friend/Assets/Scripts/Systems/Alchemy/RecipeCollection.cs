@@ -28,16 +28,14 @@ public class RecipeCollection
         PriorityRecipes = new Queue<Recipe>(2);
     }
     
-    public void RecipeUnlocked(Recipe recipeUnlocked)
+    public void AddNewRecipeToSearch(Recipe recipeUnlocked)
     {
         UnlockedRecipes.Add(recipeUnlocked);
 
-        //Add the newly unlocked recipe to the pool of recipes
-        RemainingRecipes.Add(recipeUnlocked);
+        //Add this recipe to the queue because we may have ingredient 
+        PriorityRecipes.Enqueue(recipeUnlocked);
     }
 
-    //TODO: Included Incrementation and decrementation in the same function for sake of time
-    //This may result in performance loss, but lets find out
     public void SearchPriorityRecipes(Dictionary<IngredientType, int> MixedIngredients)
     {
         Recipe[] PriorityQueue = PriorityRecipes.ToArray();
@@ -69,7 +67,6 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
-                            break;
                         }
                         break;
 
@@ -79,18 +76,16 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
-                            break;
                         }
                         break;
 
                     //Case 3 & up is all the same
                     case 3:
                     default:
-                        if (recipe.RecipeRequirements[index].ReqIngAmount == 3)
+                        if (recipe.RecipeRequirements[index].ReqIngAmount >= 3)
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
-                            break;
                         }
                         break;
                 }
@@ -99,15 +94,18 @@ public class RecipeCollection
 
             if (IsRecipeCompleted(recipe))
             {
+                Debug.Log("Crafting: " + recipe.CraftedObject);
                 //Consume the required ingredients out of the pot
                 CraftingHandler.Instance.RemoveCraftedRecipeIngredients(recipe);
-                return;
+                ReorganizeAfterIngRemoval(MixedIngredients);
             }
             else
             {
                 UpdateRecipePriority(recipe);
             }
         }
+
+        ResortRecipesByPriority();
 
         SearchRemainingRecipes(MixedIngredients);
     }
@@ -176,11 +174,18 @@ public class RecipeCollection
             }
             //have finished iterarting through the recipes requirements
 
-            //Update the priority of our recipe
-            UpdateRecipePriority(recipe);
+            if (IsRecipeCompleted(recipe))
+            {
+                Debug.Log("Crafting: " + recipe.CraftedObject);
+                //Consume the required ingredients out of the pot
+                CraftingHandler.Instance.RemoveCraftedRecipeIngredients(recipe);
+                ReorganizeAfterIngRemoval(MixedIngredients);
+            }
+            else
+            {
+                UpdateRecipePriority(recipe);
+            }
         }
-
-        ResortRecipes();
 
         Debug.Log("Priority Queue has count of: " + PriorityRecipes.Count);
         Debug.Log("Remaining Queue has count of: " + RemainingRecipes.Count);
@@ -210,7 +215,7 @@ public class RecipeCollection
         }
     }
 
-    private void ResortRecipes()
+    private void ResortRecipesByPriority()
     {
         PriorityRecipes.Clear();
         RemainingRecipes.Clear();
@@ -265,7 +270,7 @@ public class RecipeCollection
 
                     case 1:
                         //Check if the recipe req is equal to one and flag it and move on
-                        if (recipe.RecipeRequirements[index].ReqIngAmount >= 2)
+                        if (recipe.RecipeRequirements[index].ReqIngAmount > 1)
                         {
                             recipe.RecipeRequirements[index].IngReqMet = false;
                             recipe.numberOfReqMet--;
@@ -274,7 +279,7 @@ public class RecipeCollection
 
                     //Medium priorty
                     case 2:
-                        if (recipe.RecipeRequirements[index].ReqIngAmount >= 3)
+                        if (recipe.RecipeRequirements[index].ReqIngAmount > 2)
                         {
                             recipe.RecipeRequirements[index].IngReqMet = false;
                             recipe.numberOfReqMet--;
@@ -292,6 +297,6 @@ public class RecipeCollection
             UpdateRecipePriority(recipe);
         }
         
-        ResortRecipes();
+        ResortRecipesByPriority();
     }
 }

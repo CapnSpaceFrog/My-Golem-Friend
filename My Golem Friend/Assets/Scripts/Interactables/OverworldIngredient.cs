@@ -17,19 +17,8 @@ public class OverworldIngredient : Ingredient
 
     public void Harvest()
     {
-        StorableIngredient storedIng = Inventory.CreateStorableIng(IngType);
-
-        if (Player.Inv.AddIngredient(storedIng, UISlotType.PlayerInv))
-        {
-            Harvested = true;
-            meshFilter.mesh = HarvestedMesh;
-            Collider.enabled = false;
-            return;
-        }
-        else
-        {
-            //Display something about the Player's inventory being full
-            Debug.Log("Player Inventory is full!");
-        }
+        Harvested = true;
+        meshFilter.mesh = HarvestedMesh;
+        Collider.enabled = false;
     }
 }
