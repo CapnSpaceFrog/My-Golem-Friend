@@ -50,7 +50,7 @@ public class IngredientTableManager : MonoBehaviour
 
         IngredientTableManager.StoredIngredients[(int)type] += 1;
 
-        UIHandler.Instance.UpdateIngStorageTableCounters();
+        UIHandler.Instance.UpdateStorageTableIngCounters();
     }
 
     public void RemoveIngFromStorage(IngredientType type)
@@ -66,6 +66,6 @@ public class IngredientTableManager : MonoBehaviour
             StoredIngredients[(int)type]--;
         }
 
-        UIHandler.Instance.UpdateIngStorageTableCounters();
+        UIHandler.Instance.UpdateStorageTableIngCounters();
     }
 }

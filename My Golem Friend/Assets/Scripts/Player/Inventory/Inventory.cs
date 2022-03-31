@@ -50,18 +50,15 @@ public class Inventory
         return false;
     }
 
-    public void StoreIngredientsToTable()
+    public void StoreIngredientsToTable(UISlotType slotType)
     {
         for (int i = 0; i < Ingredients.Length; i++)
         {
             if (Ingredients[i] != null)
             {
                 IngredientTableManager.Instance.AddIngToStorage(Ingredients[i].Type);
-                RemoveIngredient(Ingredients[i], UISlotType.PlayerInv);
-
+                RemoveIngredient(Ingredients[i], slotType);
             }
         }
-
-        WorldObjectManager.PurgeFlaggedObjects();
     }
 }

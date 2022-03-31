@@ -30,15 +30,16 @@ public class CraftingHandler : MonoBehaviour
 {
     public static CraftingHandler Instance;
 
+    public static Inventory CauldronInventory { get; private set; }
+
     [Header("Crafting Variables")]
     public Recipe[] Recipes;
     public int MaxCauldronCapacity;
     public Transform SpitOutPoint;
 
     private static RecipeCollection RecipeManager;
-
+    
     private static Dictionary<IngredientType, int> MixedIngredients;
-    private static Inventory CauldronInventory;
 
     private void Awake()
     {
@@ -148,6 +149,8 @@ public class CraftingHandler : MonoBehaviour
 
         GameObject craftedObj = WorldObjectManager.InstantiateCraftedObject(recipe.CraftedObject);
         craftedObj.transform.position = SpitOutPoint.position;
+
+        EmptyCauldronToTable();
     }
 
     public void FindRecipeToUnlock(GameObject unlockedObj)
@@ -164,11 +167,44 @@ public class CraftingHandler : MonoBehaviour
         }
     }
 
-    private void EmptyMixedIngredients()
+    public void EmptyCauldronToTable()
     {
-        for (int i = 0; i < MixedIngredients.Count; i++)
+        for (int i = 0; i < CauldronInventory.Ingredients.Length; i++)
         {
-            MixedIngredients[(IngredientType)i] = 0;
+            if (CauldronInventory.Ingredients[i] == null)
+                continue;
+
+            StorableIngredient storedIng = CauldronInventory.Ingredients[i];
+
+            MixedIngredients[storedIng.Type] -= 1;
+            Debug.Log($"Removed {storedIng.Type}. {MixedIngredients[storedIng.Type]} left.");
         }
+
+        CauldronInventory.StoreIngredientsToTable(UISlotType.Cauldron);
+
+        RecipeManager.ReorganizeAfterIngRemoval(MixedIngredients);
+    }
+
+    public void EmptyIngToPlayerInv()
+    {
+        for (int i = 0; i < CauldronInventory.Ingredients.Length; i++)
+        {
+            if (CauldronInventory.Ingredients[i] == null)
+                continue;
+
+            StorableIngredient storedIng = CauldronInventory.Ingredients[i];
+
+            if (Player.Inv.AddIngredient(storedIng, UISlotType.PlayerInv))
+            {
+                CauldronInventory.RemoveIngredient(storedIng, UISlotType.Cauldron);
+            }
+            else
+            {
+                Debug.Log("Did not add item because player inventory is full.");
+                break;
+            }
+        }
+
+        Debug.Log("Stopped emptying cauldorn to player inv.");
     }
 }

@@ -59,7 +59,6 @@ public class UIHandler : MonoBehaviour
     public Sprite[] InvImgSprites;
     public int InvUIRows;
     public int InvUIColumns;
-    UISlot[] InvUISlots;
 
     [Header("Ing Storage Table Panel Variables")]
     public TextMeshProUGUI[] StorageCounters;
@@ -68,7 +67,6 @@ public class UIHandler : MonoBehaviour
     public int CauldronInventorySlots;
     public int CauldronUIRows;
     public int CauldronUIColumns;
-    UISlot[] CauldronUISlots;
 
     private static Dictionary<UISlotType, UISlot[]> UISlots;
 
@@ -252,10 +250,7 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void IngTableStoreAllBtnPress()
-    {
-        Player.Inv.StoreIngredientsToTable();
-    }
+    
 
     private void PlayerUISlotClick(UISlot UISlot)
     {
@@ -273,18 +268,30 @@ public class UIHandler : MonoBehaviour
                 EmptyUISlot(UISlot.Ing, UISlot.UIType);
                 break;
         }
-        
-
-        //1 is equal to removing 1 ingredient from the cauldron mix
-        
     }
 
-    public void UpdateIngStorageTableCounters()
+    public void UpdateStorageTableIngCounters()
     {
         for (int i = 0; i < StorageCounters.Length; i++)
         {
             StorageCounters[i].text = $"{(IngredientType)i} x{IngredientTableManager.StoredIngredients[i]}";
         }
+    }
+
+    public void IngTableStoreAllBtnPress()
+    {
+        Player.Inv.StoreIngredientsToTable(UISlotType.PlayerInv);
+        WorldObjectManager.PurgeFlaggedObjects();
+    }
+
+    public void MoveIngFromCauldronToTableBtnPress()
+    {
+        CraftingHandler.Instance.EmptyCauldronToTable();
+    }
+
+    public void MoveIngFromCauldronToPlayerInvBtnPress()
+    {
+        CraftingHandler.Instance.EmptyIngToPlayerInv();
     }
 
     private void OnDisable()

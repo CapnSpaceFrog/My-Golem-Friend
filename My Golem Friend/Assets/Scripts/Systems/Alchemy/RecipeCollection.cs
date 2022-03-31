@@ -106,7 +106,7 @@ public class RecipeCollection
                 Debug.Log("Crafting: " + recipe.CraftedObject);
                 //Consume the required ingredients out of the pot
                 CraftingHandler.Instance.RemoveCraftedRecipeIngredients(recipe);
-                ReorganizeAfterIngRemoval(MixedIngredients);
+                //ReorganizeAfterIngRemoval(MixedIngredients);
                 return;
             }
             else
@@ -192,7 +192,7 @@ public class RecipeCollection
                 //Consume the required ingredients out of the pot
                 Debug.Log("Crafting: " + recipe.CraftedObject);
                 CraftingHandler.Instance.RemoveCraftedRecipeIngredients(recipe);
-                ReorganizeAfterIngRemoval(MixedIngredients);
+                //ReorganizeAfterIngRemoval(MixedIngredients);
                 return;
             }
             else
