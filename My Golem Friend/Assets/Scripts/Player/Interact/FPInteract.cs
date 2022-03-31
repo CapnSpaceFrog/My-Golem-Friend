@@ -11,6 +11,7 @@ public class FPInteract : MonoBehaviour
 
     public static event Action OnIngStorageTableInteract;
     public static event Action OnCraftingStationInteract;
+    public static event Action OnGolemInteract;
 
     [Header("Holdable Variables")]
     public static Holdable HeldObject = null;
@@ -207,8 +208,7 @@ public class FPInteract : MonoBehaviour
 
             case InteractableType.Golem:
                 //Check the item in the Players hand and if its a part for the golem, give it to him
-                
-
+                OnGolemInteract?.Invoke();
                 break;
         }
     }
