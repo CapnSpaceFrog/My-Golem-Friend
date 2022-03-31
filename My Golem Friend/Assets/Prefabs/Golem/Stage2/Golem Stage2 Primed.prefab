@@ -1434,7 +1434,9 @@ GameObject:
   - component: {fileID: 8664391360513679456}
   - component: {fileID: 5733576676654100421}
   - component: {fileID: 7526982644878170895}
-  m_Layer: 0
+  - component: {fileID: 5653801186058915881}
+  - component: {fileID: 6707162648246363884}
+  m_Layer: 6
   m_Name: Golem Stage2 Primed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1448,8 +1450,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8319778700091587290}
-  m_LocalRotation: {x: -0, y: 0.36339027, z: -0, w: 0.93163705}
-  m_LocalPosition: {x: 13.012155, y: 0.04, z: 19.173538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1460,7 +1462,7 @@ Transform:
   - {fileID: 4888192489215572750}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 42.617, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5733576676654100421
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1517,3 +1519,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5653801186058915881
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8319778700091587290}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4197819992374913313, guid: 05bec9e2aee75bb41930a68abc6a7f7d, type: 3}
+--- !u!114 &6707162648246363884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8319778700091587290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1b29bcf47e70648adad200282fe993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InterObjType: 6

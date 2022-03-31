@@ -91,6 +91,7 @@ public class CraftingHandler : MonoBehaviour
         //An ingredient can only be removed from the mix if the Player has interacted with the cauldron,
         //otherwise another function adjusts the cauldron inventory
         MixedIngredients[ingToRemove.Type] -= 1;
+        Debug.Log($"Removed {ingToRemove.Type}. {MixedIngredients[ingToRemove.Type]} left.");
 
         CauldronInventory.RemoveIngredient(ingToRemove, UISlotType.Cauldron);
 
@@ -124,27 +125,26 @@ public class CraftingHandler : MonoBehaviour
     {
         foreach (Recipe.RecipeIngredient ing in recipe.RecipeRequirements)
         {
-            for (int index = 0; index < ing.ReqIngAmount; index++)
+            int ingAmountToRemove = ing.ReqIngAmount;
+
+            for (int i = 0; ingAmountToRemove > 0; i++)
             {
-                for (int i = 0; i < CauldronInventory.Ingredients.Length; i++)
+                if (CauldronInventory.Ingredients[i] == null)
+                    continue;
+
+                if (ing.ReqIng == CauldronInventory.Ingredients[i].Type)
                 {
-                    if (CauldronInventory.Ingredients[i] == null)
-                        continue;
+                    MixedIngredients[CauldronInventory.Ingredients[i].Type] -= 1;
 
-                    if (ing.ReqIng == CauldronInventory.Ingredients[i].Type)
-                    {
-                        MixedIngredients[CauldronInventory.Ingredients[i].Type] -= 1;
-
-                        CauldronInventory.RemoveIngredient(CauldronInventory.Ingredients[i], UISlotType.Cauldron);
-                        break;
-                    }
+                    Debug.Log($"Removed {CauldronInventory.Ingredients[i].Type}. {MixedIngredients[CauldronInventory.Ingredients[i].Type]} left.");
+                    CauldronInventory.RemoveIngredient(CauldronInventory.Ingredients[i], UISlotType.Cauldron);
+                    ingAmountToRemove--;
                 }
             }
 
             ing.IngReqMet = false;
+            recipe.numberOfReqMet = 0;
         }
-        
-        RecipeManager.ReorganizeAfterIngRemoval(MixedIngredients);
 
         GameObject craftedObj = WorldObjectManager.InstantiateCraftedObject(recipe.CraftedObject);
         craftedObj.transform.position = SpitOutPoint.position;
@@ -157,12 +157,11 @@ public class CraftingHandler : MonoBehaviour
             if (recipe.CraftedObject == unlockedObj)
             {
                 RecipeManager.AddNewRecipeToSearch(recipe);
-                break;
+                RecipeManager.SearchPriorityRecipes(MixedIngredients);
+                return;
                 //TODO: Add the recipe to the proper UI panel
             }
         }
-
-        RecipeManager.SearchPriorityRecipes(MixedIngredients);
     }
 
     private void EmptyMixedIngredients()

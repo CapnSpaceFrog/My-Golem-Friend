@@ -62,6 +62,7 @@ public class FPInteract : MonoBehaviour
                     break;
 
                 case InteractInput.LeftClick:
+                    //TODO: check if the obj we're touching is a golem and to talk to it before we drop the item in our hand
                     if (HeldObject != null)
                     {
                         HeldObject.ThrowFromHand();
@@ -165,6 +166,10 @@ public class FPInteract : MonoBehaviour
                         break;
                 }
                 break;
+
+            case InteractableType.Golem:
+                OnGolemInteract?.Invoke();
+                break;
         }
     }
 
@@ -205,17 +210,12 @@ public class FPInteract : MonoBehaviour
 
                 heldObj.AddToHand();
                 break;
-
-            case InteractableType.Golem:
-                //Check the item in the Players hand and if its a part for the golem, give it to him
-                OnGolemInteract?.Invoke();
-                break;
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawRay(FPCameraController.MainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2)),
-            FPCameraController.MainCamera.transform.forward * InteractRayDistance);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawRay(FPCameraController.MainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2)),
+    //        FPCameraController.MainCamera.transform.forward * InteractRayDistance);
+    //}
 }

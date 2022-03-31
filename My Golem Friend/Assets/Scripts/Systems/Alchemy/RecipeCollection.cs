@@ -34,6 +34,8 @@ public class RecipeCollection
 
         //Add this recipe to the queue because we may have ingredient 
         PriorityRecipes.Enqueue(recipeUnlocked);
+
+        Debug.Log(recipeUnlocked.CraftedObject + ": Recipe added to Priority Queue.");
     }
 
     public void SearchPriorityRecipes(Dictionary<IngredientType, int> MixedIngredients)
@@ -42,10 +44,6 @@ public class RecipeCollection
 
         for (int i = 0; i < PriorityQueue.Length; i++)
         {
-            //Is there a recipe in this slot? Or is it empty?
-            if (PriorityQueue[i] == null)
-                continue;
-
             Recipe recipe = PriorityQueue[i];
 
             for (int index = 0; index < recipe.RecipeRequirements.Length; index++)
@@ -67,25 +65,36 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
+                            Debug.Log(recipe.CraftedObject + $": Requirement of {MixedIngredients[recipe.RecipeRequirements[index].ReqIng]}" +
+                                $" met. Recipe has {recipe.numberOfReqMet} requirements met.");
                         }
                         break;
 
                     //Medium priorty
                     case 2:
-                        if (recipe.RecipeRequirements[index].ReqIngAmount == 2)
+                        if (recipe.RecipeRequirements[index].ReqIngAmount <= 2)
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
+                            Debug.Log(recipe.CraftedObject + $": Requirement of {MixedIngredients[recipe.RecipeRequirements[index].ReqIng]}" +
+                                $" met. Recipe has {recipe.numberOfReqMet} requirements met.");
                         }
                         break;
 
                     //Case 3 & up is all the same
                     case 3:
                     default:
-                        if (recipe.RecipeRequirements[index].ReqIngAmount >= 3)
+                        if (recipe.RecipeRequirements[index].ReqIngAmount > 3)
+                        {
+                            //TODO: If we want ingredient requirements greater than 3, we'll need to do some special behavior here
+                            break;
+                        }
+                        else
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
+                            Debug.Log(recipe.CraftedObject + $": Requirement of {MixedIngredients[recipe.RecipeRequirements[index].ReqIng]}" +
+                                $" met. Recipe has {recipe.numberOfReqMet} requirements met.");
                         }
                         break;
                 }
@@ -98,14 +107,13 @@ public class RecipeCollection
                 //Consume the required ingredients out of the pot
                 CraftingHandler.Instance.RemoveCraftedRecipeIngredients(recipe);
                 ReorganizeAfterIngRemoval(MixedIngredients);
+                return;
             }
             else
             {
                 UpdateRecipePriority(recipe);
             }
         }
-
-        ResortRecipesByPriority();
 
         SearchRemainingRecipes(MixedIngredients);
     }
@@ -114,7 +122,7 @@ public class RecipeCollection
     {
         for (int i = 0; i < recipe.RecipeRequirements.Length; i++)
         {
-            if (!recipe.RecipeRequirements[i].IngReqMet)
+            if (recipe.RecipeRequirements[i].IngReqMet == false)
                 return false;
         }
 
@@ -148,6 +156,8 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
+                            Debug.Log(recipe.CraftedObject + $": Requirement of {MixedIngredients[recipe.RecipeRequirements[index].ReqIng]}" +
+                                $" met. Recipe has {recipe.numberOfReqMet} requirements met.");
                         }
                         break;
 
@@ -157,6 +167,8 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
+                            Debug.Log(recipe.CraftedObject + $": Requirement of {MixedIngredients[recipe.RecipeRequirements[index].ReqIng]}" +
+                                $" met. Recipe has {recipe.numberOfReqMet} requirements met.");
                         }
                         break;
 
@@ -167,7 +179,8 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = true;
                             recipe.numberOfReqMet++;
-                            break;
+                            Debug.Log(recipe.CraftedObject + $": Requirement of {MixedIngredients[recipe.RecipeRequirements[index].ReqIng]}" +
+                                $" met. Recipe has {recipe.numberOfReqMet} requirements met.");
                         }
                         break;
                 }
@@ -176,19 +189,17 @@ public class RecipeCollection
 
             if (IsRecipeCompleted(recipe))
             {
-                Debug.Log("Crafting: " + recipe.CraftedObject);
                 //Consume the required ingredients out of the pot
+                Debug.Log("Crafting: " + recipe.CraftedObject);
                 CraftingHandler.Instance.RemoveCraftedRecipeIngredients(recipe);
                 ReorganizeAfterIngRemoval(MixedIngredients);
+                return;
             }
             else
             {
                 UpdateRecipePriority(recipe);
             }
         }
-
-        Debug.Log("Priority Queue has count of: " + PriorityRecipes.Count);
-        Debug.Log("Remaining Queue has count of: " + RemainingRecipes.Count);
     }
 
     private void UpdateRecipePriority(Recipe recipe)
@@ -257,7 +268,7 @@ public class RecipeCollection
             {
                 //We only count ing reqs that are met, so if it isn't we don't need to check it
                 if (recipe.RecipeRequirements[index].IngReqMet == false)
-                    break;
+                    continue;
 
                 //How many ingredients of the required type for the recipe do we currently have in the pot?
                 switch (MixedIngredients[recipe.RecipeRequirements[index].ReqIng])
@@ -266,6 +277,7 @@ public class RecipeCollection
                         //If the Ing Req is met, but the ingredient has been totally removed, so revert to false
                         recipe.RecipeRequirements[index].IngReqMet = false;
                         recipe.numberOfReqMet--;
+                        Debug.Log(recipe.CraftedObject + $": Recipe Req of type {recipe.RecipeRequirements[index].ReqIng} no longer met.");
                         break;
 
                     case 1:
@@ -274,6 +286,7 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = false;
                             recipe.numberOfReqMet--;
+                            Debug.Log(recipe.CraftedObject + $": Recipe Req of type {recipe.RecipeRequirements[index].ReqIng} no longer met.");
                         }
                         break;
 
@@ -283,12 +296,14 @@ public class RecipeCollection
                         {
                             recipe.RecipeRequirements[index].IngReqMet = false;
                             recipe.numberOfReqMet--;
+                            Debug.Log(recipe.CraftedObject + $": Recipe Req of type {recipe.RecipeRequirements[index].ReqIng} no longer met.");
                         }
                         break;
 
                     //Case 3 & up is all the same
                     case 3:
                     default:
+                        Debug.Log(recipe.CraftedObject + $": Recipe Req of type {recipe.RecipeRequirements[index].ReqIng} is still met.");
                         //We still have 3 or more ingredients which always satisfies the requirement, so skip
                         continue;
                 }

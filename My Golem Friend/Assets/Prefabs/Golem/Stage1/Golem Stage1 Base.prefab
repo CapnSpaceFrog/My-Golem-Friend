@@ -1269,7 +1269,9 @@ GameObject:
   - component: {fileID: 9217241100768261794}
   - component: {fileID: 5207828473168738567}
   - component: {fileID: 8043740296400588237}
-  m_Layer: 0
+  - component: {fileID: 4916393920179001843}
+  - component: {fileID: 6259212648715475350}
+  m_Layer: 6
   m_Name: Golem Stage1 Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1283,8 +1285,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8404252773496679448}
-  m_LocalRotation: {x: 0, y: 0.042503383, z: 0, w: 0.99909633}
-  m_LocalPosition: {x: 2.1799614, y: 0.502, z: 17.552828}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1295,7 +1297,7 @@ Transform:
   - {fileID: 4900607785317739980}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 4.872, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5207828473168738567
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1346,3 +1348,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4916393920179001843
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404252773496679448}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8975115196633587299, guid: 2b9928a051db67247829c1f94e0ae62f, type: 3}
+--- !u!114 &6259212648715475350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404252773496679448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1b29bcf47e70648adad200282fe993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InterObjType: 6

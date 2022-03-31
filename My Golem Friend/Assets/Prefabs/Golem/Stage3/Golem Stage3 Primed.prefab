@@ -598,7 +598,9 @@ GameObject:
   - component: {fileID: 5309648436801683240}
   - component: {fileID: 9079382787349983373}
   - component: {fileID: 6477449239614604359}
-  m_Layer: 0
+  - component: {fileID: 7025101578034747303}
+  - component: {fileID: 5441328896309611717}
+  m_Layer: 6
   m_Name: Golem Stage3 Primed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -612,8 +614,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4820111313172030866}
-  m_LocalRotation: {x: -0, y: 0.2710024, z: -0, w: 0.9625787}
-  m_LocalPosition: {x: 7.2794037, y: 1.06, z: 20.054668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -624,7 +626,7 @@ Transform:
   - {fileID: 8234807995054761030}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 31.448, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9079382787349983373
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -682,6 +684,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7025101578034747303
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4820111313172030866}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4197819992374913313, guid: 2b2035df3ff40994f97cb236398ee865, type: 3}
+--- !u!114 &5441328896309611717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4820111313172030866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1b29bcf47e70648adad200282fe993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InterObjType: 6
 --- !u!1 &5827740976789975392
 GameObject:
   m_ObjectHideFlags: 0
