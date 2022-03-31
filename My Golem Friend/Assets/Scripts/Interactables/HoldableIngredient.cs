@@ -8,12 +8,13 @@ public class HoldableIngredient : Holdable
     {
         if (Player.Inv.AddIngredient(StoredIng, UISlotType.PlayerInv))
         {
-            WorldObjectManager.FlagObjectForDestruction(gameObject);
+            Collider.enabled = false;
 
+            WorldObjectManager.FlagObjectForDestruction(gameObject);
+            
             gameObject.SetActive(false);
 
             transform.parent = null;
-            FPInteract.HeldObject = null;
         }
     }
 
@@ -25,10 +26,8 @@ public class HoldableIngredient : Holdable
 
         transform.parent = null;
 
-        RB.constraints = RigidbodyConstraints.None;
+        transform.position = Player.PlayerTransform.position + (Player.CharacterBody.transform.forward * 0.75f);
 
-        transform.position = new Vector3(Player.PlayerTransform.position.x,
-            Player.PlayerTransform.position.y,
-            FPCameraController.MainCamera.transform.position.z + 0.5f);
+        RB.constraints = RigidbodyConstraints.None;
     }
 }

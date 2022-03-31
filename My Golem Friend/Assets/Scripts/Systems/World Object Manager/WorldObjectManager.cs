@@ -58,8 +58,7 @@ public class WorldObjectManager : MonoBehaviour
                 }
                 else
                 {
-                    //Put the object 2 units in front of the player
-                    ing.transform.position = Player.PlayerTransform.position + Vector3.forward * 2;
+                    ing.DropOnFloor();
                 }
 
                 ClearObjectFromDestruction(ing.gameObject);

@@ -31,7 +31,6 @@ public class CraftingHandler : MonoBehaviour
     public static CraftingHandler Instance;
 
     [Header("Crafting Variables")]
-    //TODO: figure out how we unlock the recipes to the player
     public Recipe[] Recipes;
     public int MaxCauldronCapacity;
     public Transform SpitOutPoint;
@@ -95,7 +94,6 @@ public class CraftingHandler : MonoBehaviour
 
         CauldronInventory.RemoveIngredient(ingToRemove, UISlotType.Cauldron);
 
-        //TODO: Check this
         RecipeManager.ReorganizeAfterIngRemoval(MixedIngredients);
     }
 

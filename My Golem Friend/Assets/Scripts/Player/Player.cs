@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
         Collider = GetComponent<CapsuleCollider>();
 
         CharacterBody = transform.Find("Body").transform;
+        
 
         Hand = CharacterBody.Find("Hand").transform;
 
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour
 
     public void Update()
     {
-
+        
     }
 
     public void FixedUpdate()

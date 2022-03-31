@@ -51,6 +51,7 @@ public class FPInteract : MonoBehaviour
                             HoldableIngredient heldIng = HeldObject.GetComponent<HoldableIngredient>();
 
                             heldIng.AddHoldableToPlayerInv();
+                            FPInteract.HeldObject = null;
                         }
                     }
                     else
