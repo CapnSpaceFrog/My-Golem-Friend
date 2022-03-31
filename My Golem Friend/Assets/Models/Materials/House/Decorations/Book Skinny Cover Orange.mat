@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: house 3
+  m_Name: Book Skinny Cover Orange
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -107,12 +107,12 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.5283019, g: 0.4774653, b: 0.4012104, a: 1}
-    - _Color: {r: 0.5283019, g: 0.4774652, b: 0.40121037, a: 1}
+    - _BaseColor: {r: 0.8584906, g: 0.59363115, b: 0.47378963, a: 1}
+    - _Color: {r: 0.8584906, g: 0.5936311, b: 0.47378957, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &8827479345186851837
+--- !u!114 &6259702741179737352
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

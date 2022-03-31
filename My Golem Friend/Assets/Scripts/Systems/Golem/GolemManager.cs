@@ -74,6 +74,12 @@ public class GolemManager : MonoBehaviour
 
     private void PrimeGolemStage()
     {
+        if (CurrentGolemState.ReqItem == GolemItemType.EssenceOfLife)
+        {
+            //TODO: Set up end game scene
+            Debug.Log("The game is over, congrajulations. you win");
+        }
+
         GameObject primedGolem = Instantiate(CurrentGolemState.PrimedStageModel);
         primedGolem.SetActive(false);
         primedGolem.transform.position = InstantiatedGolem.transform.position;
@@ -86,15 +92,7 @@ public class GolemManager : MonoBehaviour
 
     private void AdvanceStage()
     {
-        if (CurrentGolemState.ReqItem == GolemItemType.EssenceOfLife)
-        {
-            //TODO: Set up end game scene
-            Debug.Log("The game is over, congrajulations. you win");
-        }
-
         CurrentGolemState = GolemStates[(int)CurrentGolemState.ReqItem + 1];
-
-        
 
         GameObject primedGolem = Instantiate(CurrentGolemState.DefaultStageModel);
 
