@@ -6,10 +6,10 @@ using UnityEngine;
 public enum GolemItemType
 {
     Core,
-    Strength,
+    Potion,
     Scroll,
-    Chain,
-    EssenceOfLife
+    Necklace,
+    Essence
 }
 
 public class GolemManager : MonoBehaviour
@@ -74,10 +74,11 @@ public class GolemManager : MonoBehaviour
 
     private void PrimeGolemStage()
     {
-        if (CurrentGolemState.ReqItem == GolemItemType.EssenceOfLife)
+        if (CurrentGolemState.ReqItem == GolemItemType.Essence)
         {
             //TODO: Set up end game scene
             Debug.Log("The game is over, congrajulations. you win");
+            return;
         }
 
         GameObject primedGolem = Instantiate(CurrentGolemState.PrimedStageModel);

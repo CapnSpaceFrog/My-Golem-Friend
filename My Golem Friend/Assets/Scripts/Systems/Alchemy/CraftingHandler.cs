@@ -14,18 +14,18 @@ public class Recipe
         public bool IngReqMet;
     }
 
-    public GameObject CraftedObject;
+    public string RecipeName;
+
+    public GameObject ObjectToCraft;
     
     public RecipeIngredient[] RecipeRequirements;
 
     [HideInInspector]
-    public int numberOfReqMet;
-
+    public int NumberOfReqMet;
     [HideInInspector]
     public RecipeSearchPriority SearchPriority;
 }
 
-//TODO: Allow user to take ingredients out of the pot/transfer all to inv/trasnfer all to bench
 public class CraftingHandler : MonoBehaviour
 {
     public static CraftingHandler Instance;
@@ -144,25 +144,25 @@ public class CraftingHandler : MonoBehaviour
             }
 
             ing.IngReqMet = false;
-            recipe.numberOfReqMet = 0;
+            recipe.NumberOfReqMet = 0;
         }
 
-        GameObject craftedObj = WorldObjectManager.InstantiateCraftedObject(recipe.CraftedObject);
+        GameObject craftedObj = WorldObjectManager.InstantiateCraftedObject(recipe.ObjectToCraft);
         craftedObj.transform.position = SpitOutPoint.position;
 
         EmptyCauldronToTable();
     }
 
-    public void FindRecipeToUnlock(GameObject unlockedObj)
+    public void FindRecipeToUnlock(string recipeToUnlock)
     {
         foreach (Recipe recipe in Recipes)
         {
-            if (recipe.CraftedObject == unlockedObj)
+            if (recipe.RecipeName == recipeToUnlock)
             {
                 RecipeManager.AddNewRecipeToSearch(recipe);
+                UIHandler.Instance.UpdateUnlockedRecipeUI(recipeToUnlock);
                 RecipeManager.SearchPriorityRecipes(MixedIngredients);
                 return;
-                //TODO: Add the recipe to the proper UI panel
             }
         }
     }

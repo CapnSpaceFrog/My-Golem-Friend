@@ -98,8 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 4
-  CraftedObjToUnlock: {fileID: 6185724784399664521, guid: f015edbe140a5f14f96be9149069e6b5,
-    type: 3}
+  RecipeToUnlock: GolemNecklace
 --- !u!65 &841611363300876245
 BoxCollider:
   m_ObjectHideFlags: 0

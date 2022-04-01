@@ -98,8 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 4
-  CraftedObjToUnlock: {fileID: 3413801150054894653, guid: 9944135deba2ddf4a993ca48ff823cdf,
-    type: 3}
+  RecipeToUnlock: GolemPotion
 --- !u!65 &7649007966799089426
 BoxCollider:
   m_ObjectHideFlags: 0

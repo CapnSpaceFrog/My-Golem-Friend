@@ -62,7 +62,7 @@ public class FPInteract : MonoBehaviour
                     break;
 
                 case InteractInput.LeftClick:
-                    //TODO: check if the obj we're touching is a golem and to talk to it before we drop the item in our hand
+                    //TODO: Implement Dialogue Ability with golem here
                     if (HeldObject != null)
                     {
                         HeldObject.ThrowFromHand();
@@ -141,7 +141,7 @@ public class FPInteract : MonoBehaviour
             case InteractableType.Recipe:
                 RecipePickup recipe = hitObj.GetComponent<RecipePickup>();
 
-                CraftingHandler.Instance.FindRecipeToUnlock(recipe.CraftedObjToUnlock);
+                CraftingHandler.Instance.FindRecipeToUnlock(recipe.RecipeToUnlock);
                 Destroy(recipe.gameObject);
                 break;
 
@@ -200,7 +200,7 @@ public class FPInteract : MonoBehaviour
             case InteractableType.Recipe:
                 RecipePickup recipe = hitObj.GetComponent<RecipePickup>();
 
-                CraftingHandler.Instance.FindRecipeToUnlock(recipe.CraftedObjToUnlock);
+                CraftingHandler.Instance.FindRecipeToUnlock(recipe.RecipeToUnlock);
                 Destroy(recipe.gameObject);
                 break;
 

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class RecipePickup : Interactable
 {
-    public GameObject CraftedObjToUnlock;
+    public string RecipeToUnlock;
 }

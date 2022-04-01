@@ -3,16 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public struct UISlot
-{
-    public GameObject Object;
-    public RectTransform Transform;
-    public Image Image;
-    public Button Btn;
-    public bool Filled;
-    public StorableIngredient Ing;
-    public UISlotType UIType;
-}
+
 
 public enum UISlotType
 {
@@ -20,40 +11,75 @@ public enum UISlotType
     Cauldron
 }
 
-public enum PanelType
+public enum MainPanelType
 {
     Player,
     IngStorageTable,
     CraftingStation
 }
 
+public enum SubPanelType
+{
+    Recipes,
+    Ingredients,
+    None
+}
+
 public class UIHandler : MonoBehaviour
 {
     public static UIHandler Instance { get; private set; }
 
-    [Header("General Panel Variables")]
-    public GameObject MainPanel;
-    public PanelCollection[] UIPanelCollection;
-    public Vector2 InvSpriteSize;
-    public int xPadding;
-    public int yPadding;
-    ActivePanel CurrentPanel;
-    bool InMenu;
+    [System.Serializable]
+    public struct TaggableIcons
+    {
+        public Image Image;
+        public string Tag;
+    }
 
     private struct ActivePanel
     {
         public GameObject Obj;
-        public PanelType Type;
+        public MainPanelType Type;
     }
 
     [System.Serializable]
-    public struct PanelCollection
+    public struct MainPanelCollection
     {
-        public GameObject[] Panels;
+        public GameObject[] MainPanels;
         [HideInInspector]
         public int CurrentIndex;
-        public int MaxPanels;
+        public int MaxMainPanels;
+        public SubPanelCollection SubPanels;
     }
+
+    //TODO: make this usable with multiple sub panels on the same main panel
+    [System.Serializable]
+    public class SubPanelCollection
+    {
+        public GameObject[] Obj;
+        public SubPanelType SubType;
+        public int CurrentIndex;
+        public int MaxSubPanels;
+    }
+    public struct UISlot
+    {
+        public GameObject Object;
+        public RectTransform Transform;
+        public Image Image;
+        public Button Btn;
+        public bool Filled;
+        public StorableIngredient Ing;
+        public UISlotType UIType;
+    }
+
+    [Header("General Panel Variables")]
+    public GameObject MainPanel;
+    public MainPanelCollection[] UIMainPanels;
+    public Vector2 InvSpriteSize;
+    public int xPadding;
+    public int yPadding;
+    ActivePanel CurrentMainPanel;
+    bool InMenu;
 
     [Header("Player Inventory Panel Variables")]
     public Sprite[] InvImgSprites;
@@ -61,13 +87,17 @@ public class UIHandler : MonoBehaviour
     public int InvUIColumns;
 
     [Header("Ing Storage Table Panel Variables")]
+    public TaggableIcons[] StoredIngIcons;
     public TextMeshProUGUI[] StorageCounters;
 
-    [Header("Crafting Station Panel Variables")]
+    [Header("Cauldron Inventory Panel Variables")]
     public int CauldronInventorySlots;
     public int CauldronUIRows;
     public int CauldronUIColumns;
 
+    [Header("Crafting Recipe Panel Variables")]
+    public TaggableIcons[] RecipeIcons;
+    
     private static Dictionary<UISlotType, UISlot[]> UISlots;
 
     private void Awake()
@@ -76,9 +106,9 @@ public class UIHandler : MonoBehaviour
 
         UISlots = new Dictionary<UISlotType, UISlot[]>()
         {
-            { UISlotType.PlayerInv, CreateUISlots(UIPanelCollection[(int)PanelType.Player].Panels[0].transform,
+            { UISlotType.PlayerInv, CreateUISlots(UIMainPanels[(int)MainPanelType.Player].MainPanels[0].transform,
             Player.InventorySize, InvUIRows, InvUIColumns) },
-            { UISlotType.Cauldron, CreateUISlots(UIPanelCollection[(int)PanelType.CraftingStation].Panels[0].transform,
+            { UISlotType.Cauldron, CreateUISlots(UIMainPanels[(int)MainPanelType.CraftingStation].MainPanels[0].transform,
             CauldronInventorySlots, CauldronUIRows, CauldronUIColumns) }
         };
     }
@@ -144,7 +174,7 @@ public class UIHandler : MonoBehaviour
 
     private void OnMenuInput()
     {
-        CurrentPanel.Type = PanelType.Player;
+        CurrentMainPanel.Type = MainPanelType.Player;
 
         ToggleUIPanel();
     }
@@ -154,17 +184,17 @@ public class UIHandler : MonoBehaviour
         if (InMenu)
         {
             MainPanel.SetActive(false);
-            CurrentPanel.Obj.SetActive(false);
+            CurrentMainPanel.Obj.SetActive(false);
 
             InMenu = false;
             InputHandler.ExitUIMode();
         }
         else
         {
-            CurrentPanel.Obj = UIPanelCollection[(int)CurrentPanel.Type].Panels[0];
-            UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex = 0;
+            CurrentMainPanel.Obj = UIMainPanels[(int)CurrentMainPanel.Type].MainPanels[0];
+            UIMainPanels[(int)CurrentMainPanel.Type].CurrentIndex = 0;
 
-            CurrentPanel.Obj.SetActive(true);
+            CurrentMainPanel.Obj.SetActive(true);
             MainPanel.SetActive(true);
 
             InMenu = true;
@@ -175,42 +205,42 @@ public class UIHandler : MonoBehaviour
     private void HandleIngStorageTableInteract()
     {
         //Default to the first System UI Panel
-        CurrentPanel.Type = PanelType.IngStorageTable;
+        CurrentMainPanel.Type = MainPanelType.IngStorageTable;
 
         ToggleUIPanel();
     }
 
     private void HandleCraftingStationInteract()
     {
-        CurrentPanel.Type = PanelType.CraftingStation;
+        CurrentMainPanel.Type = MainPanelType.CraftingStation;
 
         ToggleUIPanel();
     }
 
     public void RightUIPanelClick()
     {
-        CurrentPanel.Obj.SetActive(false);
+        CurrentMainPanel.Obj.SetActive(false);
 
-        UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex = ++UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex 
-            % UIPanelCollection[(int)CurrentPanel.Type].MaxPanels;
+        UIMainPanels[(int)CurrentMainPanel.Type].CurrentIndex = ++UIMainPanels[(int)CurrentMainPanel.Type].CurrentIndex 
+            % UIMainPanels[(int)CurrentMainPanel.Type].MaxMainPanels;
 
-        CurrentPanel.Obj = UIPanelCollection[(int)CurrentPanel.Type].Panels[UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex];
+        CurrentMainPanel.Obj = UIMainPanels[(int)CurrentMainPanel.Type].MainPanels[UIMainPanels[(int)CurrentMainPanel.Type].CurrentIndex];
 
-        CurrentPanel.Obj.SetActive(true);
+        CurrentMainPanel.Obj.SetActive(true);
     }
 
     public void LeftUIPanelClick()
     {
-        CurrentPanel.Obj.SetActive(false);
+        CurrentMainPanel.Obj.SetActive(false);
 
-        if (UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex - 1 < 0)
+        if (UIMainPanels[(int)CurrentMainPanel.Type].CurrentIndex - 1 < 0)
         {
-            UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex = UIPanelCollection[(int)CurrentPanel.Type].MaxPanels;
+            UIMainPanels[(int)CurrentMainPanel.Type].CurrentIndex = UIMainPanels[(int)CurrentMainPanel.Type].MaxMainPanels;
         }
 
-        CurrentPanel.Obj = UIPanelCollection[(int)CurrentPanel.Type].Panels[--UIPanelCollection[(int)CurrentPanel.Type].CurrentIndex];
+        CurrentMainPanel.Obj = UIMainPanels[(int)CurrentMainPanel.Type].MainPanels[--UIMainPanels[(int)CurrentMainPanel.Type].CurrentIndex];
 
-        CurrentPanel.Obj.SetActive(true);
+        CurrentMainPanel.Obj.SetActive(true);
     }
 
     public void FillUISlot(StorableIngredient ing, UISlotType slotType)
@@ -250,7 +280,32 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    
+    public void SubMenuRightClick()
+    {
+        SubPanelCollection CurrentSubPanels = UIMainPanels[(int)CurrentMainPanel.Type].SubPanels;
+
+        CurrentSubPanels.Obj[CurrentSubPanels.CurrentIndex].SetActive(false);
+
+        CurrentSubPanels.CurrentIndex = ++CurrentSubPanels.CurrentIndex % CurrentSubPanels.MaxSubPanels;
+
+        CurrentSubPanels.Obj[CurrentSubPanels.CurrentIndex].SetActive(true);
+    }
+
+    public void SubMenuLeftClick()
+    {
+        SubPanelCollection CurrentSubPanels = UIMainPanels[(int)CurrentMainPanel.Type].SubPanels;
+
+        CurrentSubPanels.Obj[CurrentSubPanels.CurrentIndex].SetActive(false);
+
+        if (CurrentSubPanels.CurrentIndex - 1 < 0)
+        {
+            CurrentSubPanels.CurrentIndex = CurrentSubPanels.MaxSubPanels;
+        }
+
+        CurrentSubPanels.CurrentIndex = --CurrentSubPanels.CurrentIndex;
+
+        CurrentSubPanels.Obj[CurrentSubPanels.CurrentIndex].SetActive(true);
+    }
 
     private void PlayerUISlotClick(UISlot UISlot)
     {
@@ -275,6 +330,20 @@ public class UIHandler : MonoBehaviour
         for (int i = 0; i < StorageCounters.Length; i++)
         {
             StorageCounters[i].text = $"{(IngredientType)i} x{IngredientTableManager.StoredIngredients[i]}";
+        }
+    }
+
+    public void UpdateUnlockedRecipeUI(string recipeToUnlock)
+    {
+        
+        foreach(TaggableIcons icon in RecipeIcons)
+        {
+            if (icon.Tag == recipeToUnlock)
+            {
+                //The tag of the icon must match the proper sprite in the resources file else this will fail
+                icon.Image.sprite = Resources.Load<Sprite>($"UIPanels/Recipes/{icon.Tag}");
+                return;
+            }
         }
     }
 

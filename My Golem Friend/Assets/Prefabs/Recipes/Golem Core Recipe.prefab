@@ -98,8 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InterObjType: 4
-  CraftedObjToUnlock: {fileID: 6764564905790521501, guid: fd8a17ced719da64195102a6796d372f,
-    type: 3}
+  RecipeToUnlock: GolemCore
 --- !u!65 &186697174
 BoxCollider:
   m_ObjectHideFlags: 0
