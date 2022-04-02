@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class MainMenuHandler : MonoBehaviour
+public class MenuHandler : MonoBehaviour
 {
     public GameObject MainMenu;
 
@@ -10,7 +11,7 @@ public class MainMenuHandler : MonoBehaviour
 
     public void OnStartBtnPress()
     {
-
+        SceneManager.LoadScene(1);
     }
 
     public void OnTutorialBtnPress()
@@ -23,6 +24,11 @@ public class MainMenuHandler : MonoBehaviour
     public void OnQuitBtnPress()
     {
         Application.Quit();
+    }
+
+    public void OnMenuBtnPress()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void OnBackBtnPress()
