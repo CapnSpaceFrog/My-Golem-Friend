@@ -14,6 +14,8 @@ public class SceneLoader : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         anim = GetComponent<Animator>();
     }
 

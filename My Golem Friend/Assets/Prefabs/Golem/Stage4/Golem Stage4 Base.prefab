@@ -1267,7 +1267,9 @@ GameObject:
   - component: {fileID: 8822633326289545414}
   - component: {fileID: 5611363988954539875}
   - component: {fileID: 7654824797773042601}
-  m_Layer: 0
+  - component: {fileID: -4077277833552142398}
+  - component: {fileID: -1316525384595986245}
+  m_Layer: 6
   m_Name: Golem Stage4 Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1351,3 +1353,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-4077277833552142398
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159285473545728636}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4197819992374913313, guid: 2b2035df3ff40994f97cb236398ee865, type: 3}
+--- !u!114 &-1316525384595986245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159285473545728636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1b29bcf47e70648adad200282fe993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InterObjType: 6

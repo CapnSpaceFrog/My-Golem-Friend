@@ -680,7 +680,9 @@ GameObject:
   - component: {fileID: 3780421215446657550}
   - component: {fileID: 277282013378209195}
   - component: {fileID: 2611504820650217825}
-  m_Layer: 0
+  - component: {fileID: 2750406494768960899}
+  - component: {fileID: 5866209252435318674}
+  m_Layer: 6
   m_Name: Golem Stage2 Primed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -763,6 +765,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2750406494768960899
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4556817899179487412}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4197819992374913313, guid: 05bec9e2aee75bb41930a68abc6a7f7d, type: 3}
+--- !u!114 &5866209252435318674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4556817899179487412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1b29bcf47e70648adad200282fe993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InterObjType: 6
 --- !u!1 &5233248573232492403
 GameObject:
   m_ObjectHideFlags: 0

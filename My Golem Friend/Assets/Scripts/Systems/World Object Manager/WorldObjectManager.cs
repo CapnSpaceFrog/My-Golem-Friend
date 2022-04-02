@@ -74,6 +74,8 @@ public class WorldObjectManager : MonoBehaviour
     {
         GameObject craftedObj = Instantiate(objToSpawn);
 
+        craftedObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
         return craftedObj;
     }
 
