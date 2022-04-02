@@ -76,8 +76,7 @@ public class GolemManager : MonoBehaviour
     {
         if (CurrentGolemState.ReqItem == GolemItemType.Essence)
         {
-            //TODO: Set up end game scene
-            Debug.Log("The game is over, congrajulations. you win");
+            SceneLoader.Instance.LoadEndScene();
             return;
         }
 

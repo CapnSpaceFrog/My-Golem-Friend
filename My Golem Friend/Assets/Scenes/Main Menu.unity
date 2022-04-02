@@ -1521,11 +1521,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scene Loader
       objectReference: {fileID: 0}
-    - target: {fileID: 731288638839650156, guid: c05523e34cee83b4784e9fb9c99b466e,
+    - target: {fileID: 6068529940787819989, guid: c05523e34cee83b4784e9fb9c99b466e,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: MainPanel
+      value: 
+      objectReference: {fileID: 807246565}
+    - target: {fileID: 6068529940787819989, guid: c05523e34cee83b4784e9fb9c99b466e,
+        type: 3}
+      propertyPath: TutorialPanel
+      value: 
+      objectReference: {fileID: 209114022}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c05523e34cee83b4784e9fb9c99b466e, type: 3}
 --- !u!114 &4576256271337518552 stripped

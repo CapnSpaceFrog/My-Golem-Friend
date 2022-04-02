@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    public static SceneLoader Instance { get; private set; }
+
     public GameObject MainPanel;
     public GameObject TutorialPanel;
 
@@ -13,16 +15,14 @@ public class SceneLoader : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
-
-        DontDestroyOnLoad(this);
     }
+
     private IEnumerator LoadGameplayLevel(int sceneIndex)
     {
         anim.Play("SCENELOADER_FADEIN");
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
         SceneManager.LoadScene(sceneIndex);
         yield return new WaitForSeconds(1.75f);
-        anim.Play("SCENELOADER_FADEOUT");
     }
 
 

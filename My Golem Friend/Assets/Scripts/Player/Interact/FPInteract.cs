@@ -168,6 +168,10 @@ public class FPInteract : MonoBehaviour
                 break;
 
             case InteractableType.Golem:
+
+                if (HeldObject == null)
+                    return;
+
                 OnGolemInteract?.Invoke();
                 break;
         }
