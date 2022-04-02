@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-
-
 public enum UISlotType
 {
     PlayerInv,
@@ -87,7 +85,6 @@ public class UIHandler : MonoBehaviour
     public int InvUIColumns;
 
     [Header("Ing Storage Table Panel Variables")]
-    public TaggableIcons[] StoredIngIcons;
     public TextMeshProUGUI[] StorageCounters;
 
     [Header("Cauldron Inventory Panel Variables")]
@@ -329,7 +326,7 @@ public class UIHandler : MonoBehaviour
     {
         for (int i = 0; i < StorageCounters.Length; i++)
         {
-            StorageCounters[i].text = $"{(IngredientType)i} x{IngredientTableManager.StoredIngredients[i]}";
+            StorageCounters[i].text = $"x{IngredientTableManager.StoredIngredients[i]}";
         }
     }
 
