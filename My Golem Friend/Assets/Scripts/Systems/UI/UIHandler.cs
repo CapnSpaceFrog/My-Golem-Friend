@@ -71,6 +71,7 @@ public class UIHandler : MonoBehaviour
     }
 
     [Header("General Panel Variables")]
+    public GameObject CrossHair;
     public GameObject MainPanel;
     public MainPanelCollection[] UIMainPanels;
     public Vector2 InvSpriteSize;
@@ -94,7 +95,10 @@ public class UIHandler : MonoBehaviour
 
     [Header("Crafting Recipe Panel Variables")]
     public TaggableIcons[] RecipeIcons;
-    
+
+    [Header("Golem Progress Panel Variables")]
+    public Image[] GolemProgressImages;
+
     private static Dictionary<UISlotType, UISlot[]> UISlots;
 
     private void Awake()
@@ -185,6 +189,7 @@ public class UIHandler : MonoBehaviour
 
             InMenu = false;
             InputHandler.ExitUIMode();
+            CrossHair.SetActive(true);
         }
         else
         {
@@ -196,6 +201,7 @@ public class UIHandler : MonoBehaviour
 
             InMenu = true;
             InputHandler.EnterUIMode();
+            CrossHair.SetActive(false);
         }
     }
 
@@ -342,6 +348,32 @@ public class UIHandler : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void UpdateGolemProgressUI(GolemItemType type)
+    {
+        //switch (type)
+        //{
+        //    case GolemItemType.Core:
+        //        GolemProgressImages[0].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
+        //        break;
+
+        //    case GolemItemType.Potion:
+        //        GolemProgressImages[1].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
+        //        break;
+
+        //    case GolemItemType.Scroll:
+        //        GolemProgressImages[2].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
+        //        break;
+
+        //    case GolemItemType.Necklace:
+        //        GolemProgressImages[3].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
+        //        break;
+
+        //    case GolemItemType.Essence:
+        //        GolemProgressImages[0].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
+        //        break;
+        //}
     }
 
     public void IngTableStoreAllBtnPress()

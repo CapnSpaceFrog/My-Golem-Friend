@@ -12,6 +12,7 @@ public class FPInteract : MonoBehaviour
     public static event Action OnIngStorageTableInteract;
     public static event Action OnCraftingStationInteract;
     public static event Action OnGolemInteract;
+    public static event Action OnGolemDialogueInteract;
 
     [Header("Holdable Variables")]
     public static Holdable HeldObject = null;
@@ -170,7 +171,10 @@ public class FPInteract : MonoBehaviour
             case InteractableType.Golem:
 
                 if (HeldObject == null)
+                {
+                    OnGolemDialogueInteract?.Invoke();
                     return;
+                }
 
                 OnGolemInteract?.Invoke();
                 break;
@@ -213,6 +217,11 @@ public class FPInteract : MonoBehaviour
                 Holdable heldObj = hitObj.gameObject.GetComponent<Holdable>();
 
                 heldObj.AddToHand();
+                break;
+
+            case InteractableType.Golem:
+
+                OnGolemDialogueInteract?.Invoke();
                 break;
         }
     }
