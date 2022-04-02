@@ -27,6 +27,11 @@ public class FPCameraController : MonoBehaviour
 
     public void Update()
     {
+        
+    }
+
+    private void LateUpdate()
+    {
         RotateCamera();
     }
 
