@@ -142,7 +142,7 @@ public class UIHandler : MonoBehaviour
             newSlots[i].Btn.transition = Selectable.Transition.None;
             newSlots[i].Btn.interactable = false;
 
-            newSlots[i].Transform.parent = parentPanel;
+            newSlots[i].Transform.SetParent(parentPanel, false);
 
             newSlots[i].Transform.position = parentPanel.position;
 
