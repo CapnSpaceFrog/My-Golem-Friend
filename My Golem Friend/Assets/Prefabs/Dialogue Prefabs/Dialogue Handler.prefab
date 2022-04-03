@@ -48,35 +48,367 @@ MonoBehaviour:
   DisplayPanelTransform: {fileID: 0}
   DisplayTextBox: {fileID: 0}
   CurrentlyTalkingText: {fileID: 0}
-  TEXT_DISPLAY_SPEED: 0.05
+  TEXT_DISPLAY_SPEED: 0.03
+  FontAsset: {fileID: 11400000, guid: d449c4f0f6dec064d9b69ee84204fc9a, type: 2}
   GolemGenericDialogueInteractions:
-  - MainDialogueString: []
-    MainDialogueSpeaker: []
+  - MainDialogueString:
+    - Godrick only managed to help you finish one of the recipes before had had to
+      leave.
+    - He mentioned that there were places around The Vale that might have some clues
+      that could help you out.
+    - You recall seeing an old scroll in one of the Graveyard towers when you were
+      there with him last.
+    - "Maybe that\u2019s what he meant?"
+    MainDialogueSpeaker:
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    - To Yourself
     PlayerPromptTriggerPoints: 
     BranchPoints: []
+    StateReq: 0
+    Exhausted: 0
+  - MainDialogueString:
+    - You remember the first time you tried to build a golem.
+    - You hammered the core too hard and shattered the rock into pieces!
+    - "It took four months to put together the base again. You really can\u2019t
+      mess this up!"
+    MainDialogueSpeaker:
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    PlayerPromptTriggerPoints: 
+    BranchPoints: []
+    StateReq: 0
+    Exhausted: 0
+  - MainDialogueString:
+    - "You estimate there\u2019s probably about four more items that The Golem will
+      need before it\u2019s completed."
+    - "The potion is for sure the next one you need, but after that, you aren\u2019t
+      quite sure."
+    - Yes?
+    - Sorry! Just thinking.
+    MainDialogueSpeaker:
+    - To Yourself
+    - To Yourself
+    - The Golem
+    - You
+    PlayerPromptTriggerPoints: 
+    BranchPoints: []
+    StateReq: 1
     Exhausted: 0
   GolemStateSpecificInteractions:
   - MainDialogueString:
-    - HELLO
-    MainDialogueSpeaker: []
-    PlayerPromptTriggerPoints: 
-    BranchPoints: []
+    - There it is, your pride and joy.
+    - Perhaps not as glorious as you were wishing for, but none-the-less, it's a
+      start.
+    - Godrick strictly forbid you from touching the golem while he is away.
+    - "He said things like, \u201CIt\u2019s too dangerous,\u201D and \u201Cyou don\u2019t
+      know enough yet!\u201D"
+    - Something along those lines.
+    - "Of course, you don\u2019t plan on listening to him."
+    - "After all, this is a great opportunity to show Godrick just how much you\u2019ve
+      grown!"
+    - 
+    - The first order of business is getting the golem powered with a core.
+    - Godrick was helping you with a  recipe for one before he left, perhaps he left
+      it here?
+    MainDialogueSpeaker:
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    - To Yourself
+    PlayerPromptTriggerPoints: 07
+    BranchPoints:
+    - PromptChoices:
+      - I can't wait!
+      - Maybe I should wait for...
+      - Did it just blink?
+      PostPromptDialogue:
+      - Dialogue:
+        - You recall Godrick, however, telling you that getting this golem to its
+          full potential is a lot of work.
+        Speaker:
+        - To Yourself
+        - To Yourself
+        - To Yourself
+        - To Yourself
+      - Dialogue:
+        - Godrick mentioned that getting all the ingredients would require heading
+          into the graveyard and...
+        Speaker:
+        - To Yourself
+        - To Yourself
+        - To Yourself
+      - Dialogue:
+        - 'You lock eyes with the little mound of rock. '
+        Speaker:
+        - To Yourself
+        - To Yourself
+        - To Yourself
+        - To Yourself
+        - To Yourself
+        - To Yourself
+        - To Yourself
+    StateReq: 0
     Exhausted: 0
   - MainDialogueString:
+    - The core seems to have worked!
+    - Parent?
+    - Who, me?
+    - Parent?
+    - Oh dear...
+    - Mother!
+    - Nope.
+    - Father?
+    - Definitely not.
+    - Oh...
+    - "You aren\u2019t very smart, are you?"
+    - Sorry.
+    - "Oh don\u2019t go making me feel bad."
+    - "But don\u2019t you worry little buddy, I\u2019ve got some great gifts in store
+      for you."
+    - What gift?
+    - "Oh please don\u2019t start this, Godrick warned me too!"
+    - Who Godrick?
+    - My teacher.
+    - What teacher?
+    - You spend some time teaching the golem about different words.
+    - The conversation deviates almost constantly and after a while you begin to
+      feel your head spin.
+    - And that is what happened to the world.
+    - Interesting.
+    - Very! Now if you excuse me, I have some more recipes to find and ingredients
+      to harvest.
+    - "I\u2019ll be back soon, feel free to take a look around the house, but don\u2019t
+      go outside!"
+    - Come back?
     - 
-    MainDialogueSpeaker: []
-    PlayerPromptTriggerPoints: 
-    BranchPoints: []
+    MainDialogueSpeaker:
+    - To Yourself
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - 
+    - 
+    - You
+    - The Golem
+    - You
+    - You
+    - The Golem
+    - 
+    PlayerPromptTriggerPoints: 1a
+    BranchPoints:
+    - PromptChoices:
+      - Of course!
+      - I might be a while!
+      PostPromptDialogue:
+      - Dialogue:
+        - I have to eat, you know! I told you about stomachs!
+        - Ok.
+        - "I promise I\u2019ll be back soon and I can tell you allll about ladybugs
+          like you wanted."
+        - Happy.
+        Speaker:
+        - You
+        - The Golem
+        - You
+        - The Golem
+      - Dialogue:
+        - Sad.
+        - "Oh don\u2019t worry. It won\u2019t be forever!"
+        - "Why don\u2019t you try reading one of the books lying around? Kill some
+          time until I\u2019m back."
+        - Maybe.
+        - Ok, just be careful with the books! Some of the spines are falling apart!
+        - Careful. Yes.
+        - "Hey that\u2019s two words! Progress! Next time, say the yes first."
+        - Yes. Careful.
+        Speaker:
+        - The Golem
+        - You
+        - You
+        - The Golem
+        - You
+        - The Golem
+        - You
+        - The Golem
+    StateReq: 1
     Exhausted: 0
   - MainDialogueString:
+    - "I think the potion might\u2019ve been too effective."
+    - Big.
+    - Yup. You are definitely big.
+    - Like small.
+    - "It has its benefits, but you\u2019ll get used to it. "
+    - Sun big.
+    - Yes it is. Are you staring right into it?
+    - Yes.
+    - I guess you can do that since your eyes are obsidian.
+    - Warm.
+    - It is nice out today. Mind if I sit with you?
+    - No.
+    - You take a seat next to the golem, telling it about your travels around The
+      Vale today.
+    - The evening sun fills you with a drowsy feeling, causing you to doze off for
+      a while.
+    - You awake some time later, leaning up against the side of the Golem, who is
+      still enjoying the sun.
+    - You stand and stretch, wishing you could go back to sleep.
+    - Thanks for watching over me buddy.
+    - Yes.
+    - "I\u2019ve gotta get back to it, but thanks for letting me use ya as a pillow
+      for a bit."
+    - "For being a rock, you\u2019re quite comfy!"
+    - Welcome.
+    MainDialogueSpeaker:
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
     - 
-    MainDialogueSpeaker: []
+    - 
+    - 
+    - 
+    - You
+    - The Golem
+    - You
+    - You
+    - The Golem
     PlayerPromptTriggerPoints: 
     BranchPoints: []
+    StateReq: 2
     Exhausted: 0
   - MainDialogueString:
+    - Watcha up too?
+    - Squirrel.
+    - Oh yea! We have lots of those guys around here.
+    - Small. Fuzzy.
+    - That fuzz is called fur. It keeps them warm!
+    - Me want fuzz.
+    - "Well, I can\u2019t give you fuzz, but I can give you something else!"
+    - Fuzz?
+    - No, not fuzz. But something else! More about your style.
+    - Gift?
+    - "Maybe! You\u2019ll have to wait and find out!"
+    - Ok.
+    - Squirrel.
+    - The Golem points to a chubby little squirrel sitting on the tree branch. It
+      seems to be watching the two of you.
+    - Fat.
+    - "Hey! He\u2019s just a little chubby, leave him alone. And you\u2019re one
+      to talk!"
+    - Sorry.
+    - "It\u2019s okay. But be nice to the animals! They help us out every now and
+      then."
+    - Ok.
+    - "I\u2019ve got more work to do, so I\u2019ll leave you be with your new friend."
+    - Friend...
+    MainDialogueSpeaker:
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - The Golem
     - 
-    MainDialogueSpeaker: []
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
     PlayerPromptTriggerPoints: 
     BranchPoints: []
+    StateReq: 3
+    Exhausted: 0
+  - MainDialogueString:
+    - You find The Golem staring off towards the lake.
+    - He seems to be trying to find something.
+    - Whatcha lookin for?
+    - What that?
+    - 'The Golem points towards a wooden structure protruding over the lake. '
+    - "A dock! They\u2019re useful for boats, but I like to sit on them. I made it
+      a while ago when I was practicing magic. "
+    - Magic?
+    - Yea! How do you think you came about?
+    - Hmm.
+    - Go to dock?
+    - "You\u2019d like to go to the dock? "
+    - Yes.
+    - Well, I think you can take care of yourself now. That necklace will help ward
+      off any evil spirits, so sure.
+    - No.
+    - No?
+    - You come.
+    - "Oh! You\u2019d like me to come with you?"
+    - Yes.
+    - "I would love to! But I\u2019ve got to finish up one more gift for you! Is
+      that okay?"
+    - Yes.
+    - Hurry.
+    - "Alright alright, I\u2019ll go as fast as I can!"
+    MainDialogueSpeaker:
+    - To Yourself
+    - To Yourself
+    - You
+    - The Golem
+    - 
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - You
+    - The Golem
+    - The Golem
+    - You
+    PlayerPromptTriggerPoints: 
+    BranchPoints: []
+    StateReq: 4
     Exhausted: 0

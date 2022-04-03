@@ -352,28 +352,29 @@ public class UIHandler : MonoBehaviour
 
     public void UpdateGolemProgressUI(GolemItemType type)
     {
-        //switch (type)
-        //{
-        //    case GolemItemType.Core:
-        //        GolemProgressImages[0].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
-        //        break;
+        Debug.Log(type);
+        switch (type)
+        {
+            case GolemItemType.Core:
+                GolemProgressImages[0].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
 
-        //    case GolemItemType.Potion:
-        //        GolemProgressImages[1].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
-        //        break;
+            case GolemItemType.Potion:
+                GolemProgressImages[1].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
 
-        //    case GolemItemType.Scroll:
-        //        GolemProgressImages[2].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
-        //        break;
+            case GolemItemType.Scroll:
+                GolemProgressImages[2].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
 
-        //    case GolemItemType.Necklace:
-        //        GolemProgressImages[3].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
-        //        break;
+            case GolemItemType.Necklace:
+                GolemProgressImages[3].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
 
-        //    case GolemItemType.Essence:
-        //        GolemProgressImages[0].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/{type}");
-        //        break;
-        //}
+            case GolemItemType.Essence:
+                GolemProgressImages[4].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
+        }
     }
 
     public void IngTableStoreAllBtnPress()

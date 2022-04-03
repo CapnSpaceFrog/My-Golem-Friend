@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public struct DialogueCollection
 {
     public string[] Dialogue;
+    public string[] Speaker;
 }
 
 [System.Serializable]
@@ -22,11 +23,13 @@ public struct BranchingDialogue
 public class DialogueInteraction
 {
     public string[] MainDialogueString;
-    public Sprite[] MainDialogueSpeaker;
+    public string[] MainDialogueSpeaker;
 
     public byte[] PlayerPromptTriggerPoints;
 
     public BranchingDialogue[] BranchPoints;
+
+    public GolemItemType StateReq;
 
     [HideInInspector]
     public bool Exhausted;
@@ -43,13 +46,14 @@ public class DialogueHandler : MonoBehaviour
     public TextMeshProUGUI CurrentlyTalkingText;
 
     public float TEXT_DISPLAY_SPEED;
+    public TMP_FontAsset FontAsset;
 
     [Header("Golem Dialogue Variables")]
     public DialogueInteraction[] GolemGenericDialogueInteractions;
     public DialogueInteraction[] GolemStateSpecificInteractions;
 
     private const int BUTTON_PADDING = 50;
-    private const int BUTTON_OFFSET = 45;
+    private const int BUTTON_OFFSET = 85;
     private const int TEXTBOX_PADDING = 100;
 
     private bool selectedResponse = false;
@@ -65,31 +69,56 @@ public class DialogueHandler : MonoBehaviour
 
     public void StartDialogueInteraction()
     {
-        SetDialogueState(true);
-
-        //Call a function that retrieves info from the golem manager and spits out a dialogue interaction\
-
-        StartCoroutine(DialogueInteraction(GetDialogueInteraction()));
-    }
-
-    private DialogueInteraction GetDialogueInteraction()
-    {
-        if (GolemStateSpecificInteractions[GolemManager.GetGolemStateIndex()].Exhausted)
+        if (DictateDialogueInteraction())
         {
-            return GolemGenericDialogueInteractions[UnityEngine.Random.Range(0, GolemGenericDialogueInteractions.Length)];
+            SetDialogueState(true);
+            StartCoroutine(DialogueInteraction(GolemStateSpecificInteractions[GolemManager.GetGolemStateIndex()]));
         }
         else
         {
-            return GolemStateSpecificInteractions[GolemManager.GetGolemStateIndex()];
+            Debug.Log((GolemItemType)GolemManager.GetGolemStateIndex());
+            DialogueInteraction possibleInteraction = GetGenericDialogueFromState((GolemItemType)GolemManager.GetGolemStateIndex());
+            Debug.Log(possibleInteraction);
+            if (possibleInteraction == null)
+                return;
+
+            SetDialogueState(true);
+            StartCoroutine(DialogueInteraction(possibleInteraction));
+        }
+    }
+
+    private DialogueInteraction GetGenericDialogueFromState(GolemItemType type)
+    {
+        foreach (DialogueInteraction interaction in GolemGenericDialogueInteractions)
+        {
+            if (interaction.Exhausted == true)
+                continue;
+
+            if (interaction.StateReq == type)
+                return interaction;
+        }
+
+        return null;
+    }
+
+    private bool DictateDialogueInteraction()
+    {
+        if (GolemStateSpecificInteractions[GolemManager.GetGolemStateIndex()].Exhausted)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 
     private void SetDialogueState(bool changeState)
     {
         //Add box animation
-
         if (changeState)
         {
+            UIHandler.Instance.CrossHair.SetActive(false);
             InputHandler.EnterDialogueMode();
 
             DisplayPanel.SetActive(true);
@@ -98,20 +127,22 @@ public class DialogueHandler : MonoBehaviour
         {
             DisplayPanel.SetActive(false);
 
-            InputHandler.LockCursor();
             InputHandler.ExitDialogueMode();
+            UIHandler.Instance.CrossHair.SetActive(true);
         }
     }
 
     private IEnumerator DialogueInteraction(DialogueInteraction currentInteraction)
     {
-        string[] displayDialogue = currentInteraction.MainDialogueString;
+        string[] mainDialogue = currentInteraction.MainDialogueString;
+        string[] mainSpeaker = currentInteraction.MainDialogueSpeaker;
 
         PromptIndex = 0;
 
-        for (int i = 0; i < displayDialogue.Length; i++)
+        for (int i = 0; i < mainDialogue.Length; i++)
         {
-            string fullDisplayString = displayDialogue[i];
+            string fullDisplayString = mainDialogue[i];
+            string speaker = mainSpeaker[i];
 
             if (i == CheckResponseTriggerPoint(i, currentInteraction))
             {
@@ -123,9 +154,11 @@ public class DialogueHandler : MonoBehaviour
                 canContinue = false;
 
                 string[] responseDialogue = currentInteraction.BranchPoints[PromptIndex].PostPromptDialogue[chosenResponse].Dialogue;
+                string[] currentSpeaker = currentInteraction.BranchPoints[PromptIndex].PostPromptDialogue[chosenResponse].Speaker;
 
                 for (int j = 0; j < responseDialogue.Length; j++)
                 {
+                    CurrentlyTalkingText.text = currentSpeaker[j];
                     fullDisplayString = responseDialogue[j];
 
                     StartCoroutine(DisplayDialogue(fullDisplayString));
@@ -139,6 +172,7 @@ public class DialogueHandler : MonoBehaviour
             }
             else
             {
+                CurrentlyTalkingText.text = speaker;
                 StartCoroutine(DisplayDialogue(fullDisplayString));
 
                 yield return new WaitUntil(() => canContinue == true);
@@ -147,7 +181,8 @@ public class DialogueHandler : MonoBehaviour
             }
         }
 
-        FinishedDisplaying();
+        currentInteraction.Exhausted = true;
+        SetDialogueState(false);
     }
 
     private int CheckResponseTriggerPoint(int index, DialogueInteraction currentInteraction)
@@ -197,11 +232,8 @@ public class DialogueHandler : MonoBehaviour
         }
 
         yield return new WaitUntil(() => Keyboard.current.spaceKey.wasPressedThisFrame);
-    }
 
-    private void FinishedDisplaying()
-    {
-        //Close the panel, exit the dialogue state, and update the dialogue struct that it has been used
+        canContinue = true;
     }
 
     private void ResponsePressed(int index)
@@ -209,7 +241,7 @@ public class DialogueHandler : MonoBehaviour
         chosenResponse = (byte)index;
 
         InputHandler.LockCursor();
-        DisplayPanelTransform.sizeDelta = new Vector2(DisplayPanelTransform.sizeDelta.x, 200);
+        DisplayPanelTransform.sizeDelta = new Vector2(DisplayPanelTransform.sizeDelta.x, 300);
 
         selectedResponse = true;
     }
@@ -230,7 +262,7 @@ public class DialogueHandler : MonoBehaviour
             buttonTransform = buttonObject.AddComponent<RectTransform>();
             buttonObject.AddComponent<CanvasRenderer>();
             Image buttonImage = buttonObject.AddComponent<Image>();
-            buttonImage.sprite = Resources.Load<Sprite>("UI/Button");
+            buttonImage.sprite = Resources.Load<Sprite>("UIPanels/Dialogue/PromptButton");
             buttonImage.type = Image.Type.Sliced;
 
             Button btn = buttonObject.AddComponent<Button>();
@@ -243,15 +275,16 @@ public class DialogueHandler : MonoBehaviour
             HorizontalLayoutGroup buttonLayoutGroup = buttonObject.AddComponent<HorizontalLayoutGroup>();
             buttonLayoutGroup.padding.right = 15;
             buttonLayoutGroup.padding.left = 15;
-            buttonLayoutGroup.padding.top = 10;
-            buttonLayoutGroup.padding.bottom = 10;
+            buttonLayoutGroup.padding.top = 20;
+            buttonLayoutGroup.padding.bottom = 20;
             buttonLayoutGroup.childControlHeight = false;
             buttonLayoutGroup.childControlWidth = false;
             buttonLayoutGroup.childForceExpandHeight = false;
             buttonLayoutGroup.childForceExpandWidth = false;
 
             buttonTransform.SetParent(DisplayPanelTransform);
-            buttonTransform.anchoredPosition = new Vector2(DisplayPanelTransform.anchoredPosition.x, DisplayPanelTransform.anchoredPosition.y - DisplayPanelTransform.position.y);
+            buttonTransform.anchoredPosition = new Vector2(DisplayPanelTransform.anchoredPosition.x, DisplayPanelTransform.anchoredPosition.y);
+            // - DisplayPanelTransform.position.y
 
             GameObject textObject = new GameObject("TMP");
             textTransform = textObject.AddComponent<RectTransform>();
@@ -259,9 +292,13 @@ public class DialogueHandler : MonoBehaviour
             textTransform.anchoredPosition = buttonTransform.anchoredPosition;
             TextMeshProUGUI tmp = textObject.AddComponent<TextMeshProUGUI>();
 
-            tmp.fontSizeMax = 22;
-            tmp.fontSizeMin = 18;
+            tmp.font = FontAsset;
+            tmp.color = new Color32(111, 88, 69, 255);
+
+            tmp.fontSizeMax = 26;
+            tmp.fontSizeMin = 20;
             tmp.enableAutoSizing = true;
+            tmp.characterSpacing = 15;
 
             tmp.rectTransform.sizeDelta = new Vector2((DisplayPanelTransform.sizeDelta.x - TEXTBOX_PADDING), 0);
 
@@ -296,7 +333,7 @@ public class DialogueHandler : MonoBehaviour
 
         DisplayPanelTransform.sizeDelta = new Vector2(DisplayPanelTransform.sizeDelta.x, totalButtonSpace);
 
-        buttonTransforms[0].localPosition = new Vector2(0, DisplayPanelTransform.sizeDelta.y - ((buttonSpace / 2) + (BUTTON_PADDING / 2)));
+        buttonTransforms[0].localPosition = new Vector2(0, (DisplayPanelTransform.sizeDelta.y / 2) - ((buttonSpace / 2) + (BUTTON_PADDING / 2)) );
 
         float lastYPosition = buttonTransforms[0].localPosition.y;
 

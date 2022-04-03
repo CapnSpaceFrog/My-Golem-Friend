@@ -109,8 +109,6 @@ public class GolemManager : MonoBehaviour
         InstantiatedGolem.transform.position = currentGolemState.WaitingPosition.position;
     }
 
-
-
     private int CalculateV3Distance(Vector3 startingPoint, Vector3 endPoint)
     {
         int xDis = (int)startingPoint.x - (int)endPoint.x;
