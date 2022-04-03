@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4319154243353623450}
   - component: {fileID: 2023313254824431440}
   - component: {fileID: 2254264162562989102}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: dock_collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 510240325734751768}
-  m_LocalRotation: {x: -0, y: 0.8231374, z: -0, w: 0.56784236}
+  m_LocalRotation: {x: 0, y: 0.82313645, z: 0, w: 0.56784374}
   m_LocalPosition: {x: 263.02316, y: -26.21, z: 352.59775}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0

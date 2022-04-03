@@ -103,7 +103,7 @@ MonoBehaviour:
   InterObjType: 5
   HoldableProperties:
     HeldRotation: {x: 0, y: 0, z: 0}
-    HeldPositionOffset: {x: 0, y: 0, z: 0}
+    HeldPositionOffset: {x: 0, y: -0.2, z: 0}
     ThrowForce: 4
     DropForce: 1
   HoldableType: 0
