@@ -352,7 +352,6 @@ public class UIHandler : MonoBehaviour
 
     public void UpdateGolemProgressUI(GolemItemType type)
     {
-        Debug.Log(type);
         switch (type)
         {
             case GolemItemType.Core:
