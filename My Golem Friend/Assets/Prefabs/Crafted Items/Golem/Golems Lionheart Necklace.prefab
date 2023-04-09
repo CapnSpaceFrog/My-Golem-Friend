@@ -28,14 +28,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6185724784399664521}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!33 &6185724784399664517
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -131,9 +131,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InterObjType: 5
   HoldableProperties:
-    HeldRotation: {x: 0, y: 0, z: 0}
-    HeldPositionOffset: {x: 0, y: 0, z: 0}
-    ThrowForce: 0
+    HeldRotation: {x: 0, y: -90, z: 0}
+    HeldPositionOffset: {x: 0, y: -0.15, z: 0}
+    ThrowForce: 4
     DropForce: 0
   HoldableType: 1
   ItemType: 3

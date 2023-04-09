@@ -12,6 +12,7 @@ public class FPInteract : MonoBehaviour
     public static event Action OnIngStorageTableInteract;
     public static event Action OnCraftingStationInteract;
     public static event Action OnGolemInteract;
+    public static event Action OnGolemDialogueInteract;
 
     [Header("Holdable Variables")]
     public static Holdable HeldObject = null;
@@ -62,7 +63,6 @@ public class FPInteract : MonoBehaviour
                     break;
 
                 case InteractInput.LeftClick:
-                    //TODO: Implement Dialogue Ability with golem here
                     if (HeldObject != null)
                     {
                         HeldObject.ThrowFromHand();
@@ -168,6 +168,13 @@ public class FPInteract : MonoBehaviour
                 break;
 
             case InteractableType.Golem:
+
+                if (HeldObject == null)
+                {
+                    OnGolemDialogueInteract?.Invoke();
+                    return;
+                }
+
                 OnGolemInteract?.Invoke();
                 break;
         }
@@ -210,12 +217,10 @@ public class FPInteract : MonoBehaviour
 
                 heldObj.AddToHand();
                 break;
+
+            case InteractableType.Golem:
+                OnGolemDialogueInteract?.Invoke();
+                break;
         }
     }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawRay(FPCameraController.MainCamera.ScreenToWorldPoint(new Vector2(Screen.width / 2, Screen.height / 2)),
-    //        FPCameraController.MainCamera.transform.forward * InteractRayDistance);
-    //}
 }

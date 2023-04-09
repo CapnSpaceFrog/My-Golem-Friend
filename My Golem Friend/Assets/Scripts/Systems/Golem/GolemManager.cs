@@ -29,14 +29,19 @@ public class GolemManager : MonoBehaviour
 
     public GolemState[] GolemStates;
 
-    public GolemState CurrentGolemState;
+    private static GolemState currentGolemState;
 
     [Header("Golem Variables")]
-    public int MinGrowthDistance;
+    public int GrowthDistance;
+
+    public static int GetGolemStateIndex()
+    {
+        return (int)currentGolemState.ReqItem;
+    }
 
     void Awake()
     {
-        CurrentGolemState = GolemStates[0];
+        currentGolemState = GolemStates[0];
     }
 
     void OnEnable()
@@ -46,12 +51,13 @@ public class GolemManager : MonoBehaviour
 
     void Update()
     {
-        if (CurrentGolemState.IsPrimed)
+        if (currentGolemState.IsPrimed)
         {
             float distance = CalculateV3Distance(InstantiatedGolem.transform.position, Player.PlayerTransform.position);
 
-            if (distance > MinGrowthDistance)
+            if (distance > GrowthDistance)
             {
+                UIHandler.Instance.UpdateGolemProgressUI(currentGolemState.ReqItem);
                 AdvanceStage();
             }
         }
@@ -65,7 +71,7 @@ public class GolemManager : MonoBehaviour
         {
             return;
         }
-        else if (CurrentGolemState.ReqItem == item.ItemType)
+        else if (currentGolemState.ReqItem == item.ItemType)
         {
             Destroy(item.gameObject);
             PrimeGolemStage();
@@ -74,34 +80,33 @@ public class GolemManager : MonoBehaviour
 
     private void PrimeGolemStage()
     {
-        if (CurrentGolemState.ReqItem == GolemItemType.Essence)
+        if (currentGolemState.ReqItem == GolemItemType.Essence)
         {
-            //TODO: Set up end game scene
-            Debug.Log("The game is over, congrajulations. you win");
+            SceneLoader.Instance.LoadEndScene();
             return;
         }
 
-        GameObject primedGolem = Instantiate(CurrentGolemState.PrimedStageModel);
+        GameObject primedGolem = Instantiate(currentGolemState.PrimedStageModel);
         primedGolem.SetActive(false);
         primedGolem.transform.position = InstantiatedGolem.transform.position;
         InstantiatedGolem.SetActive(false);
         primedGolem.SetActive(true);
         Destroy(InstantiatedGolem);
         InstantiatedGolem = primedGolem;
-        CurrentGolemState.IsPrimed = true;
+        currentGolemState.IsPrimed = true;
     }
 
     private void AdvanceStage()
     {
-        CurrentGolemState = GolemStates[(int)CurrentGolemState.ReqItem + 1];
+        currentGolemState = GolemStates[(int)currentGolemState.ReqItem + 1];
 
-        GameObject primedGolem = Instantiate(CurrentGolemState.DefaultStageModel);
+        GameObject primedGolem = Instantiate(currentGolemState.DefaultStageModel);
 
         InstantiatedGolem.SetActive(false);
         Destroy(InstantiatedGolem);
         InstantiatedGolem = primedGolem;
 
-        InstantiatedGolem.transform.position = CurrentGolemState.WaitingPosition.position;
+        InstantiatedGolem.transform.position = currentGolemState.WaitingPosition.position;
     }
 
     private int CalculateV3Distance(Vector3 startingPoint, Vector3 endPoint)

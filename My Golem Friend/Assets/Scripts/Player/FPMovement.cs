@@ -117,7 +117,7 @@ using UnityEngine;
 
             ProcessPlayerInput();
 
-            CheckGroundNormals();
+            //CheckGroundNormals();
 
             //CheckMovement();
 
@@ -128,7 +128,14 @@ using UnityEngine;
             //SpeedScalar = EaseOutQuint(SpeedScalar);
         }
 
-        private void IsGrounded()
+    private void FixedUpdate()
+    {
+        CheckGroundNormals();
+    }
+
+
+
+    private void IsGrounded()
         {
             Vector3 position = new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z);
 
@@ -295,23 +302,25 @@ using UnityEngine;
                 RaycastHit hit;
                 Physics.Raycast(offsetPosition + (directionData[i].vector * groundCastOffset), Vector3.down, out hit, groundRayDistance, groundMask);
 
-                //Calculate whether the movement direction is valid
-                //& prevent the Player from moving in such direction
-                //Calcualte the angles from a fixed axis (PlayerBody transform)
+            //Calculate whether the movement direction is valid
+            //& prevent the Player from moving in such direction
+            //Calcualte the angles from a fixed axis (PlayerBody transform)
 
-                //Need to dynamically check each direction against a default direction vector for the proper angle
+            //Need to dynamically check each direction against a default direction vector for the proper angle
 
-                if ((Vector3.Angle(defaultStaticVectors[i], hit.normal) - 90f) > maxSlopeAngle
-                    || (Vector3.Angle(hit.normal, defaultStaticVectors[i]) - 90f) < minSlopeAngle)
-                {
-                    directionData[i].moveable = false;
-                    //Do something
-                }
-                else
-                {
-                    directionData[i].moveable = true;
-                }
-            }
+            //if ((Vector3.Angle(defaultStaticVectors[i], hit.normal) - 90f) > maxSlopeAngle
+            //    || (Vector3.Angle(hit.normal, defaultStaticVectors[i]) - 90f) < minSlopeAngle)
+            //{
+            //    directionData[i].moveable = false;
+            //    //Do something
+            //}
+            //else
+            //{
+            //    directionData[i].moveable = true;
+            //}
+
+            directionData[i].moveable = true;
+        }
 
             CheckMovement();
         }
@@ -477,47 +486,47 @@ using UnityEngine;
         }
 
 #if UNITY_EDITOR
-        private void OnDrawGizmos()
-        {
-            //XYZ Axes
-            //Gizmos.color = Color.yellow;
-            //Gizmos.DrawRay(transform.position, directionData[0].vector * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, directionData[1].vector * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, directionData[2].vector * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, directionData[3].vector * groundRayDistance);
+        //private void OnDrawGizmos()
+        //{
+        //    //XYZ Axes
+        //    Gizmos.color = Color.yellow;
+        //    Gizmos.DrawRay(transform.position, directionData[0].vector * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, directionData[1].vector * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, directionData[2].vector * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, directionData[3].vector * groundRayDistance);
 
-            ////Diagonal XYZ Axes
-            //Gizmos.color = Color.magenta;
-            //Gizmos.DrawRay(transform.position, directionData[4].vector * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, directionData[5].vector * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, directionData[6].vector * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, directionData[7].vector * groundRayDistance);
+        //    //Diagonal XYZ Axes
+        //    Gizmos.color = Color.magenta;
+        //    Gizmos.DrawRay(transform.position, directionData[4].vector * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, directionData[5].vector * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, directionData[6].vector * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, directionData[7].vector * groundRayDistance);
 
-            ////Ground Cast Rays
-            //Gizmos.color = Color.cyan;
-            //Gizmos.DrawRay(offsetPosition + (directionData[0].vector * groundCastOffset), Vector3.down * groundRayDistance);
-            //Gizmos.DrawRay(offsetPosition + (directionData[1].vector * groundCastOffset), Vector3.down * groundRayDistance);
-            //Gizmos.DrawRay(offsetPosition + (directionData[2].vector * groundCastOffset), Vector3.down * groundRayDistance);
-            //Gizmos.DrawRay(offsetPosition + (directionData[3].vector * groundCastOffset), Vector3.down * groundRayDistance);
-            //Gizmos.DrawRay(offsetPosition + (directionData[4].vector * groundCastOffset), Vector3.down * groundRayDistance);
-            //Gizmos.DrawRay(offsetPosition + (directionData[5].vector * groundCastOffset), Vector3.down * groundRayDistance);
-            //Gizmos.DrawRay(offsetPosition + (directionData[6].vector * groundCastOffset), Vector3.down * groundRayDistance);
-            //Gizmos.DrawRay(offsetPosition + (directionData[7].vector * groundCastOffset), Vector3.down * groundRayDistance);
+        //    //Ground Cast Rays
+        //    Gizmos.color = Color.cyan;
+        //    Gizmos.DrawRay(offsetPosition + (directionData[0].vector * groundCastOffset), Vector3.down * groundRayDistance);
+        //    Gizmos.DrawRay(offsetPosition + (directionData[1].vector * groundCastOffset), Vector3.down * groundRayDistance);
+        //    Gizmos.DrawRay(offsetPosition + (directionData[2].vector * groundCastOffset), Vector3.down * groundRayDistance);
+        //    Gizmos.DrawRay(offsetPosition + (directionData[3].vector * groundCastOffset), Vector3.down * groundRayDistance);
+        //    Gizmos.DrawRay(offsetPosition + (directionData[4].vector * groundCastOffset), Vector3.down * groundRayDistance);
+        //    Gizmos.DrawRay(offsetPosition + (directionData[5].vector * groundCastOffset), Vector3.down * groundRayDistance);
+        //    Gizmos.DrawRay(offsetPosition + (directionData[6].vector * groundCastOffset), Vector3.down * groundRayDistance);
+        //    Gizmos.DrawRay(offsetPosition + (directionData[7].vector * groundCastOffset), Vector3.down * groundRayDistance);
 
-            ////Static Vectors
-            //Gizmos.color = Color.red;
-            //Gizmos.DrawRay(transform.position, defaultStaticVectors[0] * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, defaultStaticVectors[1] * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, defaultStaticVectors[2] * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, defaultStaticVectors[3] * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, defaultStaticVectors[4] * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, defaultStaticVectors[5] * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, defaultStaticVectors[6] * groundRayDistance);
-            //Gizmos.DrawRay(transform.position, defaultStaticVectors[7] * groundRayDistance);
+        //    //Static Vectors
+        //    Gizmos.color = Color.red;
+        //    Gizmos.DrawRay(transform.position, defaultStaticVectors[0] * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, defaultStaticVectors[1] * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, defaultStaticVectors[2] * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, defaultStaticVectors[3] * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, defaultStaticVectors[4] * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, defaultStaticVectors[5] * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, defaultStaticVectors[6] * groundRayDistance);
+        //    Gizmos.DrawRay(transform.position, defaultStaticVectors[7] * groundRayDistance);
 
-            Gizmos.color = Color.green;
-            Vector3 position = new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z);
-            Gizmos.DrawRay(position, Vector3.down * groundRayDistance);
-        }
+        //    Gizmos.color = Color.green;
+        //    Vector3 position = new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z);
+        //    Gizmos.DrawRay(position, Vector3.down * groundRayDistance);
+        //}
 #endif
     }

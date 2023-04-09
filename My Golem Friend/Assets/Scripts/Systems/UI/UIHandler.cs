@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-
-
 public enum UISlotType
 {
     PlayerInv,
@@ -73,6 +71,7 @@ public class UIHandler : MonoBehaviour
     }
 
     [Header("General Panel Variables")]
+    public GameObject CrossHair;
     public GameObject MainPanel;
     public MainPanelCollection[] UIMainPanels;
     public Vector2 InvSpriteSize;
@@ -87,7 +86,6 @@ public class UIHandler : MonoBehaviour
     public int InvUIColumns;
 
     [Header("Ing Storage Table Panel Variables")]
-    public TaggableIcons[] StoredIngIcons;
     public TextMeshProUGUI[] StorageCounters;
 
     [Header("Cauldron Inventory Panel Variables")]
@@ -97,7 +95,10 @@ public class UIHandler : MonoBehaviour
 
     [Header("Crafting Recipe Panel Variables")]
     public TaggableIcons[] RecipeIcons;
-    
+
+    [Header("Golem Progress Panel Variables")]
+    public Image[] GolemProgressImages;
+
     private static Dictionary<UISlotType, UISlot[]> UISlots;
 
     private void Awake()
@@ -145,7 +146,7 @@ public class UIHandler : MonoBehaviour
             newSlots[i].Btn.transition = Selectable.Transition.None;
             newSlots[i].Btn.interactable = false;
 
-            newSlots[i].Transform.parent = parentPanel;
+            newSlots[i].Transform.SetParent(parentPanel, false);
 
             newSlots[i].Transform.position = parentPanel.position;
 
@@ -188,6 +189,7 @@ public class UIHandler : MonoBehaviour
 
             InMenu = false;
             InputHandler.ExitUIMode();
+            CrossHair.SetActive(true);
         }
         else
         {
@@ -199,6 +201,7 @@ public class UIHandler : MonoBehaviour
 
             InMenu = true;
             InputHandler.EnterUIMode();
+            CrossHair.SetActive(false);
         }
     }
 
@@ -329,7 +332,7 @@ public class UIHandler : MonoBehaviour
     {
         for (int i = 0; i < StorageCounters.Length; i++)
         {
-            StorageCounters[i].text = $"{(IngredientType)i} x{IngredientTableManager.StoredIngredients[i]}";
+            StorageCounters[i].text = $"x{IngredientTableManager.StoredIngredients[i]}";
         }
     }
 
@@ -344,6 +347,32 @@ public class UIHandler : MonoBehaviour
                 icon.Image.sprite = Resources.Load<Sprite>($"UIPanels/Recipes/{icon.Tag}");
                 return;
             }
+        }
+    }
+
+    public void UpdateGolemProgressUI(GolemItemType type)
+    {
+        switch (type)
+        {
+            case GolemItemType.Core:
+                GolemProgressImages[0].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
+
+            case GolemItemType.Potion:
+                GolemProgressImages[1].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
+
+            case GolemItemType.Scroll:
+                GolemProgressImages[2].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
+
+            case GolemItemType.Necklace:
+                GolemProgressImages[3].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
+
+            case GolemItemType.Essence:
+                GolemProgressImages[4].sprite = Resources.Load<Sprite>($"UIPanels/GolemProgress/Golem{type}");
+                break;
         }
     }
 

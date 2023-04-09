@@ -194,7 +194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7398652878232945202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.846, y: -0.187, z: 0.623}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -217,10 +217,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InterObjType: 5
   HoldableProperties:
-    HeldRotation: {x: 0, y: 0, z: 0}
-    HeldPositionOffset: {x: 0, y: 0, z: 0}
+    HeldRotation: {x: 0, y: -90, z: 0}
+    HeldPositionOffset: {x: 0, y: -0.325, z: 0}
     ThrowForce: 5
-    DropForce: 0
+    DropForce: 1
   HoldableType: 0
   StoredIng:
     Type: 8
